@@ -1,0 +1,22 @@
+use pm_projects;
+
+INSERT INTO Alumnos VALUES (NULL,"Javier","Garcia Ortega");
+INSERT INTO Alumnos VALUES (NULL,"Javier","Garcia Ortega");
+INSERT INTO Alumnos VALUES (NULL,"Javier","Garcia Ortega");
+INSERT INTO Alumnos VALUES (NULL,"Javier","Garcia Ortega");
+INSERT INTO Alumnos VALUES (NULL,"Javier","Garcia Ortega");
+INSERT INTO Alumnos VALUES (NULL,"Javier","Garcia Ortega");
+INSERT INTO Alumnos VALUES (NULL,"Javier","Garcia Ortega");
+INSERT INTO Alumnos VALUES (NULL,"Javier","Garcia Ortega");
+INSERT INTO Alumnos VALUES (NULL,"Javier","Garcia Ortega");
+INSERT INTO Alumnos VALUES (NULL,"Javier","Garcia Ortega");
+INSERT INTO Alumnos VALUES (NULL,"Javier","Garcia Ortega");
+INSERT INTO Alumnos VALUES (NULL,"Javier","Garcia Ortega");
+INSERT INTO Alumnos VALUES (NULL,"Javier","Garcia Ortega");
+INSERT INTO Alumnos VALUES (NULL,"Javier","Garcia Ortega");
+INSERT INTO Alumnos VALUES (NULL,"Javier","Garcia Ortega");
+INSERT INTO Alumnos VALUES (NULL,"Javier","Garcia Ortega");
+INSERT INTO Alumnos VALUES (NULL,"Javier","Garcia Ortega");
+INSERT INTO Alumnos VALUES (NULL,"Javier","Garcia Ortega");
+INSERT INTO Alumnos VALUES (NULL,"Javier","Garcia Ortega");
+INSERT INTO Alumnos VALUES (NULL,"Javier","Garcia Ortega");
