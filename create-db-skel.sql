@@ -12,8 +12,12 @@ create database pm_projects;
 drop user if exists pm_manager;
 flush privileges;
 
-CREATE USER 'pm_manager'@'%' IDENTIFIED BY 'Covid-19';
+CREATE USER 'pm_manager'@'%' IDENTIFIED WITH mysql_native_password BY 'Covid-19';
 GRANT ALL PRIVILEGES ON pm_projects.* TO 'pm_manager'@'%' WITH GRANT OPTION;
+
+ALTER USER 'pm_manager'@'localhost' IDENTIFIED WITH mysql_native_password BY 'Covid-19';
+
+FLUSH PRIVILEGES;
 
 
 use pm_projects;
@@ -56,5 +60,4 @@ Create table TecnologiasProyecto (
 	id_tecnologia INT NOT NULL,
 	PRIMARY KEY (id_proyecto , id_tecnologia)
 );
-
 

@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/aberlanas/node-project-manager/issues"
   },
-  "homepage": "https://github.com/aberlanas/node-project-manager#readme"
+  "homepage": "https://github.com/aberlanas/node-project-manager#readme",
+  "dependencies": {
+    "mysql": "^2.18.1"
+  }
 }
