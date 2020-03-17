@@ -1,5 +1,4 @@
-# node-project-manager
-
+# Node Project Manager
 A Simple NodeJS + MySQL + Project Manager
 
 
