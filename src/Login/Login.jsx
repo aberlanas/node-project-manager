@@ -4,42 +4,34 @@ import { UserOutlined } from "@ant-design/icons";
 import { GiPadlock } from "react-icons/gi";
 import "antd/dist/antd.css";
 import "./Login.css";
-import { withRouter } from "react-router-dom";
 
 const Login = () => {
+    const [userName, setUserName] = useState("");
+    const [password, setPassword] = useState("");
+
+    const handleSignIn = async () => {
+        
+    };
+
     return (
         <div className="login">
             <div className="title">
                 <h3>Login</h3>
-                <GiPadlock
-                    style={{
-                        color: 'white',
-                        fontSize: '2em',
-                        marginBottom: '30px'
-                    }} 
-                />
+                <GiPadlock className="iconLogin" />
             </div>
             <Input
                 size="large"
                 placeholder="Introduce un usuario"
                 prefix={<UserOutlined />}
+                onBlur={e => setUserName(e.target.value)}
             />
             <Input.Password
                 size="large"
                 placeholder="Introuce una contraseña"
-                style={{
-                    marginTop: "30px"
-                }}
+                className="inputPassword"
+                onBlur={e => setPassword(e.target.value)}
             />
-            <Button
-                color="default"
-                style={{
-                    backgroundColor: "#1FFF00",
-                    color: "white",
-                    border: "none",
-                    marginTop: "30px"
-                }}
-            >
+            <Button onClick={handleSignIn} className="btnLogin">
                 Entrar
             </Button>
         </div>
