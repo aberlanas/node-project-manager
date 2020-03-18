@@ -1,3 +1,4 @@
+// Login JS library.
 
 function testUser(){
     let usuario=document.querySelector('input[name="usuario"]').value;
@@ -12,6 +13,5 @@ function loadListeners(){
 function init(){
     loadListeners();
 }
-
 
 window.onload=init;
