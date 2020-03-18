@@ -10,6 +10,5 @@ module.exports.getConnection=function(){
         insecureAuth : true
     };
 
-    let connection = mysql.createConnection(config);
-    return connection;
+    return mysql.createConnection(config);
 }
