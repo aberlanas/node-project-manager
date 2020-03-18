@@ -4,7 +4,8 @@
   "description": "A simple project Manager with NodeJS + MySQL (for now)",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
   },
   "repository": {
     "type": "git",
@@ -21,6 +22,9 @@
   },
   "homepage": "https://github.com/aberlanas/node-project-manager#readme",
   "dependencies": {
-    "mysql": "^2.18.1"
+    "expres": "0.0.5",
+    "express": "^4.17.1",
+    "mysql": "^2.18.1",
+    "nodemon": "^2.0.2"
   }
 }

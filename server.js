@@ -1,26 +1,19 @@
+const mysql = require('mysql');
+const config = require('./db/connect.js');
+const express = require('express');
+const path = require('path');
 
-let mysql = require('mysql');
- 
-let connection = mysql.createConnection({
-    host     : 'localhost',
-    user     : 'pm_manager',
-    password : 'Covid-19',
-    database : 'pm_projects',
-    insecureAuth : true
+const app = express();
+
+// Paginas publicas (estaticas)
+app.use(express.static(path.join(__dirname, 'public')));
+
+
+// Require Puntuaciones routes
+app.use("/api",require('./app/routes/users.routes.js'));
+
+
+// Escuchemos en un puerto
+app.listen(3000,() => {
+    console.log(" * Miniserver UP and Running en http://localhost:3000");
 });
-
-connection.connect((err) => {
-      if(!err){
-          console.log(' La Base de Datos esta conectada !');
-          let sql = `SELECT * FROM Alumnos`;
-          connection.query(sql, (error, results, fields) => {
-            if (error) {
-              return console.error(error.message);
-            }
-            console.log(results);
-          });
-          connection.end(); 
-      }
-      else
-          console.log('Database connectie niet gelukt!  : '+ JSON.stringify(err, undefined,2));
-  });
