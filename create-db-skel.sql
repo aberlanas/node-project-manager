@@ -20,8 +20,7 @@ ALTER USER 'pm_manager'@'localhost' IDENTIFIED WITH mysql_native_password BY 'Co
 FLUSH PRIVILEGES;
 
 -- Usar la BBDD 
-
-USER pm_projects;
+USE pm_projects;
 
 Create table Alumnos ( 
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
