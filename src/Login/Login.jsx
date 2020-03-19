@@ -19,6 +19,14 @@ const Login = () => {
             `${HOST}/api/users/isValidUser`
         );
         console.log(data);
+
+        
+        const verifyToken = await Http.post(
+            { token: data.token },
+            `${HOST}/api/users/isValidToken`
+        );
+
+        console.log(verifyToken);
     };
 
     return (

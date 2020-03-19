@@ -59,3 +59,10 @@ exports.isValidUser = async (req, res) => {
     console.log(user);
     //res.send(user);
 };
+
+
+exports.isValidToken = async (req, res) => {
+    console.log(req.body.token);
+    console.log("hola");
+    res.send({token:true});
+};
