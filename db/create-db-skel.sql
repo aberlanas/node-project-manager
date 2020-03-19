@@ -33,22 +33,31 @@ Create table Usuarios (
 );
 
 
-/*
-Create table Profesores ( 
+CREATE TABLE Perfiles (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	nombre VARCHAR(255),
-	apellidos VARCHAR(255)
+	leer BOOLEAN NOT NULL DEFAULT 1,
+	modificar BOOLEAN NOT NULL DEFAULT 0,
+	borrar BOOLEAN NOT NULL DEFAULT 0,
+	comentar BOOLEAN NOT NULL DEFAULT 0,
+	evaluar BOOLEAN NOT NULL DEFAULT 0
 );
-*/
 
+CREATE TABLE PerfilesProyecto(
+	id_perfil INT NOT NULL,
+	id_usuario INT NOT NULL,
+	id_proyecto INT NOT NULL,
+	
+	PRIMARY KEY (id_perfil , id_usuario,id_proyecto)
+);
 
-Create table Cursos ( 
+CREATE TABLE  Cursos ( 
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	nombre VARCHAR(255)
 );
 
 
-Create table Proyecto ( 
+CREATE TABLE  Proyecto ( 
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	nombre VARCHAR(255),
 	id_profesor INT NOT NULL,
@@ -56,14 +65,14 @@ Create table Proyecto (
 	id_curso INT NOT NULL
 );
 
-Create table Tecnologia ( 
+CREATE TABLE  Tecnologia ( 
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	nombre VARCHAR(255),
 	version VARCHAR(255)
 );
 
 
-Create table TecnologiasProyecto ( 
+CREATE TABLE TecnologiasProyecto ( 
 	id_proyecto INT NOT NULL ,
 	id_tecnologia INT NOT NULL,
 	PRIMARY KEY (id_proyecto , id_tecnologia)
