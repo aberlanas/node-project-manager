@@ -10,7 +10,7 @@ create database pm_projects;
 
 -- Creamos usuario
 drop user if exists pm_manager;
-flush privileges;
+FLUSH privileges;
 
 CREATE USER 'pm_manager'@'%' IDENTIFIED WITH mysql_native_password BY 'Covid-19';
 GRANT ALL PRIVILEGES ON pm_projects.* TO 'pm_manager'@'%' WITH GRANT OPTION;
