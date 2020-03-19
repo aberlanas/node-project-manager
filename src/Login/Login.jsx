@@ -15,7 +15,7 @@ const Login = () => {
 
     const handleSignIn = async () => {
         const data = await Http.post(
-            { userName, password },
+            { nickname:userName, password },
             `${HOST}/api/users/isValidUser`
         );
         console.log(data);

@@ -22,18 +22,25 @@ FLUSH PRIVILEGES;
 -- Usar la BBDD 
 USE pm_projects;
 
-Create table Alumnos ( 
+Create table Usuarios ( 
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	nombre VARCHAR(255),
-	apellidos VARCHAR(255)
+	nickname VARCHAR(255) NOT NULL UNIQUE,
+	password VARCHAR(255) NOT NULL,
+	nombre VARCHAR(255) NOT NULL,
+	apellidos VARCHAR(255) NOT NULL,
+	admin BOOLEAN NOT NULL DEFAULT 0,
+	avatar VARCHAR(255) DEFAULT "default.png"
 );
 
 
+/*
 Create table Profesores ( 
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	nombre VARCHAR(255),
 	apellidos VARCHAR(255)
 );
+*/
+
 
 Create table Cursos ( 
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,

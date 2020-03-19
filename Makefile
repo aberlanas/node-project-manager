@@ -2,8 +2,10 @@
 
 node-path = /home/aberlanas/bin/node/bin
 
+
+
 run:
 	@echo " Starting with nodemon "
-	$(node-path)/npm run start
+	$(node-path)/npm run dev
 
 
