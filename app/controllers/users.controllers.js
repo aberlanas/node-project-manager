@@ -64,6 +64,10 @@ exports.isValidToken = async (req, res) => {
     console.log({token:req.body.token});
 
     const isValid = model.verifyToken(req.body.token);
-
-    res.send({token:isValid});
+    if(isValid){
+        res.send({auth:true});
+    }else{
+        res.send({auth:false});
+    }
+    
 };

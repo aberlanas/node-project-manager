@@ -9,7 +9,6 @@ import Http from "../Utils/Http";
 import Cookies from 'js-cookie';
 
 const HOST = "http://localhost:3000";
-const HOSTWEB = "http://localhost:3001";
 
 const Login = ({ setValidToken, hasValidToken, createToken }) => {
     const [userName, setUserName] = useState("");
@@ -20,14 +19,13 @@ const Login = ({ setValidToken, hasValidToken, createToken }) => {
             { nickname:userName, password },
             `${HOST}/api/users/isValidUser`
         );
-        console.log(data);
         
         const verifyToken = await Http.post(
             { token: data.token },
             `${HOST}/api/users/isValidToken`
         );
 
-        if (verifyToken.token) {
+        if (verifyToken.auth) {
             // save token with cookies
             createToken(data.token);
         }
@@ -35,17 +33,12 @@ const Login = ({ setValidToken, hasValidToken, createToken }) => {
 
     const isAuth = async () => {
         const token = Cookies.get('token');
-        const data  = Http.post(
-            { token },
-            `${HOST}/api/users/isValidToken`
-        );
-        if (data.token) {
-            // redirect to succes because it's logged already
-            setValidToken(true);
-        }
-        else {
-            
-            setValidToken(false);
+        if (token !== undefined) {
+            const data  = Http.post(
+                { token },
+                `${HOST}/api/users/isValidToken`
+            );
+            setValidToken(data.auth);
         }
     }
 
