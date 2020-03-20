@@ -1,37 +1,55 @@
-import React, {useState} from "react";
+import React, { useState, useEffect } from "react";
 import Login from "./Login/Login";
 import Succes from "./Succes/Succes";
-import Cookies from 'js-cookie'; 
-import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
+import { saveToken, getStoredToken } from "./Helpers/auth-helpers";
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Redirect
+} from "react-router-dom";
+import { getAuth } from "./Helpers/auth-helpers";
 import "./App.css";
-
-const HOST = 'http://localhost:3000';
+import Http from "./Helpers/Http";
 
 function App() {
-    const [hasValidToken, setHasValidToken] = useState(false);
-    const [token, setToken] = useState("");
+    const [user, setUser] = useState(null);
 
-    const createToken = (token) => {
-        Cookies.set('token', token);
-        setHasValidToken(true);
-        setToken(token);
-    }
+    const getUser = async (id) => await Http.get(`/api/users/whoAmI/${id}`);
 
-    const setValidToken = (valid) => {
-        setHasValidToken(valid);
-    }
+    const handleSetUser = async (token, userId) => {
+        saveToken(token);
+        const user = await getUser(userId);
+        setUser(user);
+    };
+
+    useEffect(() => {
+        (async () => {
+            const res = await getAuth();
+            if (res.auth) {
+                const user = await getUser(res.data.id);
+                setUser(user);
+            } else {
+                setUser(null);
+            }
+        })();
+    }, []);
 
     return (
         <Router>
             <div className="App">
                 <Switch>
-                    <Route path="/">
-                        <Login setValidToken={setValidToken} hasValidToken={hasValidToken} createToken={createToken} />
+                    <Route path="/" exact>
+                        {user ? (
+                            <Redirect to="/succes" />
+                        ) : (
+                            <Login handleSetUser={handleSetUser} user={user} />
+                        )}
                     </Route>
                 </Switch>
                 <Switch>
                     <Route path="/succes">
-                        <Succes hasValidToken={hasValidToken} />}
+                        {!user ? <Redirect to="/" /> : <Succes user={user} />}
                     </Route>
                 </Switch>
             </div>
