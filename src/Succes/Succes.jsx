@@ -1,27 +1,24 @@
-import React, {useEffect } from "react";
+import React, { useEffect } from "react";
 import { List, Avatar } from "antd";
 import "antd/dist/antd.css";
 import "./Succes.css";
-import { UserOutlined } from '@ant-design/icons';
 
-
-const Succes = (props) => {
-    const data = ["Nombre completo: "+props.user.nombre+" "+props.user.apellidos,"Nombre de usuario: "+props.user.nickname];
-    const icon = require( `../img/${props.user.avatar}`);
-
+const Succes = ({ user, logout }) => {
+    const { nombre, apellidos, nickname, avatar } = user;
+    const data = [
+        `Nombre completo: ${nombre} ${apellidos}`,
+        `Nombre de usuario: ${nickname}`
+    ];
+    const icon = require(`../img/${avatar}`);
 
     return (
         <div className="succes">
             <List
-                header={<div>{props.user.nickname}</div>}
+                header={<div>{nickname}</div>}
                 footer={<Avatar size="large" src={icon} />}
                 bordered
                 dataSource={data}
-                renderItem={item => (
-                    <List.Item>
-                        {item}
-                    </List.Item>
-                )}
+                renderItem={item => <List.Item>{item}</List.Item>}
             />
         </div>
     );
