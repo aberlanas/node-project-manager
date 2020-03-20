@@ -8,8 +8,9 @@ import "../Utils/Http";
 import Http from "../Utils/Http";
 
 const HOST = "http://localhost:3000";
+const HOSTWEB = "http://localhost:3001";
 
-const Login = () => {
+const Login = (props) => {
     const [userName, setUserName] = useState("");
     const [password, setPassword] = useState("");
 
@@ -26,7 +27,9 @@ const Login = () => {
             `${HOST}/api/users/isValidToken`
         );
 
-        console.log(verifyToken);
+        if(verifyToken){
+            props.logUser(data);
+        }
     };
 
     return (
