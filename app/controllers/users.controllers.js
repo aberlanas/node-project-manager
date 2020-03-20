@@ -25,7 +25,7 @@ exports.isValidUser = async (req, res) => {
 
                         // Creamos el objeto usuario 
                         // uno de los campos del usuario es el token
-                        let usuario ={
+                        let usuario = {
                             id:results[0].id,
                             nombre:results[0].nombre,
                             apellidos:results[0].apellidos,
@@ -34,10 +34,9 @@ exports.isValidUser = async (req, res) => {
                             admin:results[0].admin,
                             token:webToken
                         }
-
                         res.send(usuario);
                     }
-                    res.send(results);
+
                 }else{
                     res.send({msg:"Usuario no valido"});
                 }
@@ -62,7 +61,9 @@ exports.isValidUser = async (req, res) => {
 
 
 exports.isValidToken = async (req, res) => {
-    console.log(req.body.token);
-    console.log("hola");
-    res.send({token:true});
+    console.log({token:req.body.token});
+
+    const isValid = model.verifyToken(req.body.token);
+
+    res.send({token:isValid});
 };

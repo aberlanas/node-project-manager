@@ -33,7 +33,15 @@ module.exports.isCorrectPassword = async function(myPlaintextPassword,hash){
 
 module.exports.createWebToken = (id) => {
     const jwt = require('jsonwebtoken');
+    /* It's Magic! */
     return jwt.sign( id  , 'dawdiw', {
         expiresIn: 60 * 60 * 24
     });
+}
+
+module.exports.verifyToken = (token) => {
+    const jwt = require('jsonwebtoken');
+    return jwt.verify(token, 'dawdiw', function(err, decoded) {
+        return (decoded);
+        });
 }

@@ -12,7 +12,6 @@ const Succes = (props) => {
 
     return (
         <div className="succes">
-            {console.log(icon)}
             <List
                 header={<div>{props.user.nickname}</div>}
                 footer={<Avatar size="large" src={icon} />}
