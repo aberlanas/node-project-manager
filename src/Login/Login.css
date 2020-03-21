@@ -7,13 +7,17 @@
     height: 30%;
     padding: 2%;
     min-width: 400px;
-    min-height: 300px;
+    min-height: 400px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     border-radius: 10px;
     background-color: rgba(0, 0, 0, 0.5);
+}
+
+.errorMsg{
+    margin-bottom: 10px;
 }
 
 .title {
@@ -30,7 +34,7 @@ h3 {
 .iconLogin {
     color: white;
     font-size: 2em;
-    margin-bottom: 30px
+    margin-bottom: 10px
 }
 
 .inputPassword {

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Login from "./Login/Login";
-import Succes from "./Succes/Succes";
+import Profile from "./Profile/Profile";
 import { saveToken, getStoredToken } from "./Helpers/auth-helpers";
 import {
     BrowserRouter as Router,
@@ -8,12 +8,14 @@ import {
     Route,
     Redirect
 } from "react-router-dom";
-import { getAuth } from "./Helpers/auth-helpers";
+import { getAuth,removeToken } from "./Helpers/auth-helpers";
 import "./App.css";
 import Http from "./Helpers/Http";
+import { Spin } from 'antd';
 
 function App() {
     const [user, setUser] = useState(null);
+    const [loading,setLoading] = useState(true);
 
     const getUser = async (id) => await Http.get(`/api/users/whoAmI/${id}`);
 
@@ -23,7 +25,16 @@ function App() {
         setUser(user);
     };
 
+    const logOutUser = () =>{
+        removeToken();
+        setUser(null);
+    }
+
     useEffect(() => {
+
+        // Wait for loading data user
+        setLoading(true);
+
         (async () => {
             const res = await getAuth();
             if (res.auth) {
@@ -32,28 +43,36 @@ function App() {
             } else {
                 setUser(null);
             }
+
+            setLoading(false);
         })();
+
     }, []);
 
     return (
+        (!loading) ? (
         <Router>
             <div className="App">
+            
                 <Switch>
-                    <Route path="/" exact>
+                    <Route path="/login" exact>
                         {user ? (
-                            <Redirect to="/succes" />
+                            <Redirect to="/" />
                         ) : (
                             <Login handleSetUser={handleSetUser} user={user} />
                         )}
                     </Route>
                 </Switch>
                 <Switch>
-                    <Route path="/succes">
-                        {!user ? <Redirect to="/" /> : <Succes user={user} />}
+                    <Route path="/">
+                        {!user ? <Redirect to="/login" /> : <Profile logOutUser={logOutUser} user={user} />}
                     </Route>
                 </Switch>
             </div>
         </Router>
+        
+        ): <Spin size="large" className="Spin"/>
+         
     );
 }
 

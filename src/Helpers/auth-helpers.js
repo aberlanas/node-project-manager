@@ -17,6 +17,10 @@ export function saveToken(token) {
     Cookies.set('jwt-token', token);
 }
 
+export function removeToken(){
+    Cookies.remove('jwt-token');
+}
+
 /**
  * Tener esto separado ayuda a hacer cambios mucho mas rápidos.
  * Ej: Ahora no queremos que se almacene en Cookies sino que lo queremos tener en el LocalStorage

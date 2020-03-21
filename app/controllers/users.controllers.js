@@ -18,7 +18,8 @@ exports.isValidUser = async (req, res) => {
             if (error) {
                 return console.error(error.message);
             }
-            
+            console.log(nickname,password);
+            console.log(results);
             if (!results.length) {
                 return res.send({ msg: "Usuario no valido" });
             }
@@ -35,16 +36,13 @@ exports.isValidUser = async (req, res) => {
 
                 // Creamos el objeto usuario
                 // uno de los campos del usuario es el token
-                let usuario = {
-                    id: results[0].id,
-                    nombre: results[0].nombre,
-                    apellidos: results[0].apellidos,
-                    nickname: results[0].nickname,
-                    avatar: results[0].avatar,
-                    admin: results[0].admin,
-                    token: webToken
-                };
-                return res.send(usuario);
+                const user = parseUser(results);
+                user.token=webToken;
+                
+                return res.send(user);
+            }else{
+                console.log({ msg: "Usuario no valido" })
+                return res.send({ msg: "Usuario no valido" }); 
             }
         });
     });
