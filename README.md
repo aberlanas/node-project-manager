@@ -1,13 +1,13 @@
 # Node Project Manager
-A Simple NodeJS + MySQL + Project Manager
+
+Este proyecto trata de generar una aplicación utilizando NodeJS y React + MySQL para la gestión de proyectos de FCTs. En general se trata de un `CRUD` que nos permite poner en práctica todo lo aprendido y muestra una serie de buenas prácticas.
+
+Todo el código está siendo realizado con una intención puramente didáctica, sabemos que hay mejores formas de programar y muchas soluciones más óptimas que las presentadas, pero dentro de un contexto educativo, puede ser una buena solución.
 
 
-## Scripts
+# Infraestructura
 
-* `mysql -u root -p < create-db-skel.sql`
-* `mysql -u root -p < populate-alumnos.sql`
+Toda la infraestructura está basada en las siguientes tecnologías:
 
-## Node Scripts
+* `mysql-server`: 8.0
 
-* `npm run start - to run react scripts`
-* `npm run dev - to run node/express`

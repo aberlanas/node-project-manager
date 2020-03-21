@@ -2,10 +2,18 @@
 body, #root {
     width: 100%;
     height: 100vh;
+    background-color: #0E2064;
 }
 
 .App {
     width: 100%;
     height: 100vh;
     background-color: #0E2064;
+}
+
+.Spin{
+    height: 100vh;
+    position: absolute;
+    left: 50%;
+    top:50%;
 }
