@@ -11,3 +11,6 @@ Toda la infraestructura está basada en las siguientes tecnologías:
 
 * `mysql-server`: 8.0
 
+
+# Metemos un fetch
+
