@@ -6,8 +6,8 @@ const getConnection = () => {
 
     let config = {
         host: "localhost",
-        user: "pm_manager",
-        password: "Covid-19",
+        user: "root",
+        password: "",
         database: "pm_projects",
         insecureAuth: true
     };
