@@ -1,50 +1,31 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Input, Button } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { GiPadlock } from "react-icons/gi";
 import "antd/dist/antd.css";
 import "./Login.css";
-import "../Utils/Http";
-import Http from "../Utils/Http"; 
-import Cookies from 'js-cookie';
+import Http from "../Helpers/Http"; 
+import { getAuth, saveToken } from '../Helpers/auth-helpers';
 
-const HOST = "http://localhost:3000";
-
-const Login = ({ setValidToken, hasValidToken, createToken }) => {
-    const [userName, setUserName] = useState("");
-    const [password, setPassword] = useState("");
+const Login = ({ handleSetUser, user }) => {
+    const [userName, setUserName] = useState("admin");
+    const [password, setPassword] = useState("admin");
 
     const handleSignIn = async () => {
         const data = await Http.post(
-            { nickname:userName, password },
-            `${HOST}/api/users/isValidUser`
-        );
-        
-        const verifyToken = await Http.post(
-            { token: data.token },
-            `${HOST}/api/users/isValidToken`
+            { nickname: userName, password },
+            '/api/users/isValidUser'
         );
 
-        if (verifyToken.auth) {
-            // save token with cookies
-            createToken(data.token);
+        if (data.token) {
+            saveToken(data.token);
+            const res = await getAuth();
+            
+            if (res.auth) {
+                handleSetUser(data.token, res.data.id);
+            }
         }
     };
-
-    const isAuth = async () => {
-        const token = Cookies.get('token');
-        if (token !== undefined) {
-            const data  = Http.post(
-                { token },
-                `${HOST}/api/users/isValidToken`
-            );
-            setValidToken(data.auth);
-        }
-    }
-
-    useEffect(() => {
-        isAuth();
-    }, []);
 
     return (
         <div className="login">
