@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Login from "./Login/Login";
-import Profile from "./Profile/Profile";
+import Home from "./Home/Home";
 import { saveToken, getStoredToken } from "./Helpers/auth-helpers";
 import {
     BrowserRouter as Router,
@@ -65,7 +65,7 @@ function App() {
                 </Switch>
                 <Switch>
                     <Route path="/">
-                        {!user ? <Redirect to="/login" /> : <Profile logOutUser={logOutUser} user={user} />}
+                        {!user ? <Redirect to="/login" /> : <Home logOutUser={logOutUser} user={user} />}
                     </Route>
                 </Switch>
             </div>
