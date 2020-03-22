@@ -39,7 +39,11 @@ exports.isValidUser = async (req, res) => {
                 const user = parseUser(results);
                 user.token=webToken;
                 
-                return res.send(user);
+                // Creamos el objeto cookie httponly 
+                res.setHeader('x-auth-token', webToken);
+                res.send(user);
+        
+                //return res.send(user);
             }else{
                 console.log({ msg: "Usuario no valido" })
                 return res.send({ msg: "Usuario no valido" }); 
@@ -50,6 +54,7 @@ exports.isValidUser = async (req, res) => {
 
 exports.isValidToken = (req, res) => {
     const data = model.verifyToken(req.body.token);
+    console.log(req);
     res.send({ 
         auth: data !== undefined,
         data

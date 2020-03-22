@@ -16,6 +16,7 @@ export default class Http {
     static post = async (body, url) => {
         const request = this.getRequest(body, url, 'POST');
         const res = await fetch(request);
+        console.log(res.headers.get('x-auth-token'));
         return await res.json();
     };
 

@@ -1,3 +1,10 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto|Roboto+Mono&display=swap');
+
+@import url('https://fonts.googleapis.com/css?family=Sen&display=swap');
+
+* {
+    font-family: 'Sen','Times New Roman', Times, serif, sans-serif;
+}
 
 body, #root {
     width: 100%;

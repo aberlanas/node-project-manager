@@ -19,6 +19,7 @@ const Login = ({ handleSetUser, user }) => {
         );
         
         if (data.token) {
+            
             saveToken(data.token);
             const res = await getAuth();
             
