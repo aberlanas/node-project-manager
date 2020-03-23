@@ -1,8 +1,9 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-const getConnection = () => {
-    const mysql = require("mysql");
+const getConnection = async () => {
+
+    const mysql = require("mysql2/promise");
 
     let config = {
         host: "localhost",
@@ -12,7 +13,7 @@ const getConnection = () => {
         insecureAuth: true
     };
 
-    return mysql.createConnection(config);
+    return await mysql.createConnection(config);
 };
 
 const getEnCrypted = (str) => {
