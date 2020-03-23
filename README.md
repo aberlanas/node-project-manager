@@ -7,10 +7,16 @@ Todo el código está siendo realizado con una intención puramente didáctica, 
 
 # Infraestructura
 
-Toda la infraestructura está basada en las siguientes tecnologías:
+Toda la infraestructura está basada en las siguientes tecnologías (entre otras):
 
 * `mysql-server`: 8.0
+* `nodejs`: v13.8.0
+* `npm`: 6.13.6
+* `React`: 16.13.0
+* `jsonwebtoken`: 8.5.1
+
+Para más información visualiza el fichero `package.json`.
 
 
-# Metemos un fetch
+
 
