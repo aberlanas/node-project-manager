@@ -5,7 +5,7 @@ import { GiPadlock } from "react-icons/gi";
 import "antd/dist/antd.css";
 import "./Login.css";
 import Http from "../Helpers/Http"; 
-import { getAuth, saveToken } from '../Helpers/auth-helpers';
+import { saveToken,getTokenAuth } from '../Helpers/auth-helpers';
 
 const Login = ({ handleSetUser, user }) => {
     const [userName, setUserName] = useState("");
@@ -20,9 +20,11 @@ const Login = ({ handleSetUser, user }) => {
         
         if (data.token) {
             
+            console.log(data);
             saveToken(data.token);
-            const res = await getAuth();
+            const res = await getTokenAuth();
             
+            console.log(res);
             if (res.auth) {
                 handleSetUser(data.token, res.data.id);
             }

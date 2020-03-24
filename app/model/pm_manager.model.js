@@ -25,9 +25,9 @@ const isCorrectPassword = (myPlaintextPassword, hash) => {
     return bcrypt.compareSync(myPlaintextPassword, hash);
 };
 
-const createWebToken = id => {
+const createWebToken = payload => {
     /* It's Magic! */
-    return jwt.sign(id, "dawdiw", {
+    return jwt.sign(payload, "dawdiw", {
         expiresIn: 60 * 60 * 24
     });
 };

@@ -10,6 +10,16 @@ exports.findByNickname = async nickname => {
   return false;
 };
 
+exports.findById = async id => {
+  const connection = await model.getConnection();
+  const [rows] = await connection.execute('SELECT * FROM `Usuarios` WHERE `id` = ?',[id]);
+  if (rows.length){ 
+    const user=parseUser(rows);
+    return(user);
+  }
+  return false;
+};
+
 exports.isValidUser = async (req, res) => {
   const connection = model.getConnection();
 
@@ -67,18 +77,14 @@ exports.isValidToken = (req, res) => {
   });
 };
 
-exports.whoAmI = (req, res) => {
-  const connection = model.getConnection();
-  connection.connect(err => {
-    if (err) {
-      return res.status(404).send({ msg: "Resource do not found" });
-    }
-    let sql = `SELECT id, nombre, apellidos, nickname, avatar, admin FROM Usuarios WHERE ID = '${req.params.id}'`;
-    connection.query(sql, (err, results) => {
-      const user = parseUser(results);
-      return res.send(user);
-    });
-  });
+exports.whoAmI = async (req, res) => {
+
+  const connection = await model.getConnection();
+  const [rows] = await connection.execute('SELECT id, nombre, apellidos, nickname, avatar, admin FROM `Usuarios` WHERE `id` = ?',[req.params.id]);
+  if (rows.length){ 
+    const user=parseUser(rows);
+    res.send(user);
+  }
 };
 
 const parseUser = results => {
@@ -91,3 +97,4 @@ const parseUser = results => {
     admin: results[0].admin
   };
 };
+

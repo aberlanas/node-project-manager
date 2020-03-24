@@ -3,6 +3,8 @@ const path      = require("path");
 const cors       = require("cors");
 const passport   = require('passport');
 const session    = require('express-session');
+const cookieParser = require('cookie-parser');
+
 const app = express();
 
 // Middleware for passport
@@ -12,6 +14,9 @@ require('./config/passport');
 // Middlewares
 app.use(express.json());
 app.use(cors());
+
+// Raul
+app.use(cookieParser());
 
 // Para enviar un FORM a traves de req. tal.
 // Para que solo puedas pasar archivos texto plano 

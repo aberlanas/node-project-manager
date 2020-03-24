@@ -8,10 +8,20 @@ export function getStoredToken() {
 export async function getAuth() {
     const res = await Http.post(
         { token: getStoredToken() },
-        '/api/users/isValidToken'
+        '/api/users/profile'
     );
     return res;
 }
+
+export async function getTokenAuth() {
+    
+    const res = await Http.get(
+        '/api/users/profile'
+    );
+    console.log("GetTokenAuth",res);
+    return res;
+}
+
 
 export function saveToken(token) {
     Cookies.set('jwt-token', token);

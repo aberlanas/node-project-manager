@@ -33,7 +33,7 @@ function App() {
     useEffect(() => {
 
         // Wait for loading data user
-        setLoading(true);
+        setLoading(false);
 
         (async () => {
             const res = await getAuth();
