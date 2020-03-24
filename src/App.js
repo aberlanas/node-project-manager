@@ -8,7 +8,7 @@ import {
     Route,
     Redirect
 } from "react-router-dom";
-import { getAuth,removeToken } from "./Helpers/auth-helpers";
+import {  } from "./Helpers/auth-helpers";
 import "./App.css";
 import { Spin } from 'antd';
 
@@ -16,24 +16,26 @@ function App() {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    const handleLogoutUser = () =>{
-        logout();
+    const handleLogoutUser = async () => {
+        await logout();
+        setUser(null);
     }
 
-    const handleSignIn = () => {
-        // Retrieve the user
-
-    }
+    const saveUser = (user) => setUser(user);
 
     useEffect(() => {
 
         // Wait for loading data user
-        setLoading(false);
+        setLoading(true);
 
         (async () => {
-
-            
-
+            const data = await whoAmI();
+            if (data.auth) {
+                setUser(data.user);
+            }
+            else {
+                setUser(null);
+            }
             setLoading(false);
         })();
 
@@ -49,13 +51,13 @@ function App() {
                         {user ? (
                             <Redirect to="/" />
                         ) : (
-                            <Login signIn={handleSignIn} handleLogoutUser={handleLogoutUser} />
+                            <Login saveUser={saveUser} handleLogoutUser={handleLogoutUser} />
                         )}
                     </Route>
                 </Switch>
                 <Switch>
                     <Route path="/">
-                        {!user ? <Redirect to="/login" /> : <Home handleLogoutUser={handleLogoutUser} user={user} />}
+                        {!user ? <Redirect to="/login" /> : <Home logOutUser={handleLogoutUser} user={user} />}
                     </Route>
                 </Switch>
             </div>

@@ -35,7 +35,7 @@ router.get('/users/getAuth', passport.authenticate('jwt', { session: false }), (
 router.get('/users/profile', (req, res) => {
 	passport.authenticate('jwt', { session: false }, (err, user, info) => {
 		if (err || !user) {
-			return res.status(401).send({ auth: false });
+			return res.status(401).send({ auth: false, message: 'No valid token' });
 		}
 		res.status(200).send({
 			auth: true,
@@ -43,5 +43,10 @@ router.get('/users/profile', (req, res) => {
 		})
 	})(req, res)
 });
+
+router.get('/users/logOut', (req, res) => {
+	res.clearCookie('jwt');
+	return res.status(200).send({ logOut: true });
+})
 
 module.exports = router

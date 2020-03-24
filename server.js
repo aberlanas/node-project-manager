@@ -12,7 +12,7 @@ require('./config/passport');
 
 // Middlewares
 app.use(express.json());
-app.use(cors());
+app.use(cors({credentials: true, origin: 'http://localhost:3001'}));
 app.use(cookieParser());
 
 // Para enviar un FORM a traves de req. tal.

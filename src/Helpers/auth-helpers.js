@@ -14,7 +14,9 @@ export async function whoAmI() {
 }
 
 export async function logout() {
-
+    return await Http.get(
+        '/api/users/logOut'
+    );
 }
 
 /**

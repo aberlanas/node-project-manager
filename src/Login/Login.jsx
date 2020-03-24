@@ -6,7 +6,7 @@ import "antd/dist/antd.css";
 import "./Login.css";
 import { logIn, whoAmI } from '../Helpers/auth-helpers';
 
-const Login = ({ signIn }) => {
+const Login = ({ saveUser }) => {
     const [userName, setUserName] = useState("");
     const [password, setPassword] = useState("");
     const [errorMsg, setErrorMsg] = useState(null);
@@ -17,11 +17,11 @@ const Login = ({ signIn }) => {
             password: password
         });
 
-        console.log(data);
         if (data.succes) {
-            const user = await whoAmI();
-            console.log(user); 
-            if (user.auth) {
+            const data = await whoAmI();
+            console.log(data.user); 
+            if (data.auth) {
+                saveUser(data.user);
                 console.log('autorized');
             }
         }
