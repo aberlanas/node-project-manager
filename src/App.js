@@ -1,49 +1,41 @@
 import React, { useState, useEffect } from "react";
 import Login from "./Login/Login";
 import Home from "./Home/Home";
-import { saveToken, getStoredToken } from "./Helpers/auth-helpers";
+import { whoAmI, logout } from "./Helpers/auth-helpers";
 import {
     BrowserRouter as Router,
     Switch,
     Route,
     Redirect
 } from "react-router-dom";
-import { getAuth,removeToken } from "./Helpers/auth-helpers";
+import {  } from "./Helpers/auth-helpers";
 import "./App.css";
-import Http from "./Helpers/Http";
 import { Spin } from 'antd';
 
 function App() {
     const [user, setUser] = useState(null);
-    const [loading,setLoading] = useState(true);
+    const [loading, setLoading] = useState(true);
 
-    const getUser = async (id) => await Http.get(`/api/users/whoAmI/${id}`);
-
-    const handleSetUser = async (token, userId) => {
-        saveToken(token);
-        const user = await getUser(userId);
-        setUser(user);
-    };
-
-    const logOutUser = () =>{
-        removeToken();
+    const handleLogoutUser = async () => {
+        await logout();
         setUser(null);
     }
+
+    const saveUser = (user) => setUser(user);
 
     useEffect(() => {
 
         // Wait for loading data user
-        setLoading(false);
+        setLoading(true);
 
         (async () => {
-            const res = await getAuth();
-            if (res.auth) {
-                const user = await getUser(res.data.id);
-                setUser(user);
-            } else {
+            const data = await whoAmI();
+            if (data.auth) {
+                setUser(data.user);
+            }
+            else {
                 setUser(null);
             }
-
             setLoading(false);
         })();
 
@@ -59,13 +51,13 @@ function App() {
                         {user ? (
                             <Redirect to="/" />
                         ) : (
-                            <Login handleSetUser={handleSetUser} user={user} />
+                            <Login saveUser={saveUser} handleLogoutUser={handleLogoutUser} />
                         )}
                     </Route>
                 </Switch>
                 <Switch>
                     <Route path="/">
-                        {!user ? <Redirect to="/login" /> : <Home logOutUser={logOutUser} user={user} />}
+                        {!user ? <Redirect to="/login" /> : <Home logOutUser={handleLogoutUser} user={user} />}
                     </Route>
                 </Switch>
             </div>
