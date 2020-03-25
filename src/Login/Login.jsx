@@ -5,8 +5,10 @@ import { GiPadlock } from "react-icons/gi";
 import "antd/dist/antd.css";
 import "./Login.css";
 import { logIn, whoAmI } from '../Helpers/auth-helpers';
+import { connect } from 'react-redux';
+import { logUser } from '../Redux/Actions/UserActions';
 
-const Login = ({ saveUser }) => {
+const Login = ({logUser}) => {
     const [userName, setUserName] = useState("");
     const [password, setPassword] = useState("");
     const [errorMsg, setErrorMsg] = useState(null);
@@ -21,7 +23,7 @@ const Login = ({ saveUser }) => {
             const data = await whoAmI();
             console.log(data.user); 
             if (data.auth) {
-                saveUser(data.user);
+                logUser(data.user);
                 console.log('autorized');
             }
         }
@@ -72,4 +74,6 @@ const Login = ({ saveUser }) => {
     );
 };
 
-export default Login;
+export default connect(null,{logUser})(Login);
+
+

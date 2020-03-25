@@ -8,20 +8,17 @@ import {
     Route,
     Redirect
 } from "react-router-dom";
-import {  } from "./Helpers/auth-helpers";
+
 import "./App.css";
 import { Spin } from 'antd';
+import { connect } from 'react-redux';
+import { readUser} from './Redux/Reducers/UserReducer';
+import { logUser } from './Redux/Actions/UserActions';
 
-function App() {
-    const [user, setUser] = useState(null);
+
+function App({user,logUser}) {
+    
     const [loading, setLoading] = useState(true);
-
-    const handleLogoutUser = async () => {
-        await logout();
-        setUser(null);
-    }
-
-    const saveUser = (user) => setUser(user);
 
     useEffect(() => {
 
@@ -31,10 +28,7 @@ function App() {
         (async () => {
             const data = await whoAmI();
             if (data.auth) {
-                setUser(data.user);
-            }
-            else {
-                setUser(null);
+                logUser(data.user);
             }
             setLoading(false);
         })();
@@ -51,13 +45,13 @@ function App() {
                         {user ? (
                             <Redirect to="/" />
                         ) : (
-                            <Login saveUser={saveUser} handleLogoutUser={handleLogoutUser} />
+                            <Login/>
                         )}
                     </Route>
                 </Switch>
                 <Switch>
                     <Route path="/">
-                        {!user ? <Redirect to="/login" /> : <Home logOutUser={handleLogoutUser} user={user} />}
+                        {!user ? <Redirect to="/login" /> : <Home/>}
                     </Route>
                 </Switch>
             </div>
@@ -68,4 +62,8 @@ function App() {
     );
 }
 
-export default App;
+const mapStateToProps = (state) =>{
+    return {user:readUser(state)};
+}
+
+export default connect(mapStateToProps,{logUser})(App);
