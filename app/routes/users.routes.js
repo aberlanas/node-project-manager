@@ -15,16 +15,14 @@ router.post("/users/logIn", (req, res, next) => {
 
     passport.authenticate("local-login", { session: false }, (error, user, info) => {
         if (error || !user) {
-
-            return res.send({ message: 'Problemas internos ' })
+            return res.status(400).send(info)
         }
         req.logIn(user, error => {
             const token = Model.createWebToken({
                 id: user.id,
-                nickname: user.nickname
             })
 			res.cookie("jwt", token, optsCookie)
-            res.send({ succes: true, message: 'User has been logged' })
+            res.status(200).send(info)
         })
     })(req, res, next)
 })
@@ -36,8 +34,6 @@ router.get('/users/getAuth', passport.authenticate('jwt', { session: false }), (
 router.get('/users/profile', (req, res) => {
 	passport.authenticate('jwt', { session: false }, (err, user, info) => {
 		if (err || !user) {
-			console.log("user",user)
-			console.log(err);
 			return res.status(401).send({ auth: false, message: 'No valid token' });
 		}
 		res.status(200).send({

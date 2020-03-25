@@ -11,12 +11,10 @@ exports.findByNickname = async nickname => {
 };
 
 exports.findById = async id => {
-  console.log("Consultando usuarios : ",id);
   const connection = await model.getConnection();
   const [rows] = await connection.execute('SELECT * FROM `Usuarios` WHERE `id` = ?',[id]);
-  console.log(rows);
   if (rows.length){ 
-    const user=parseUser(rows);
+    const user = parseUser(rows);
     return(user);
   }
   return false;
@@ -95,6 +93,7 @@ const parseUser = results => {
     nombre: results[0].nombre,
     apellidos: results[0].apellidos,
     nickname: results[0].nickname,
+    password: results[0].password,
     avatar: results[0].avatar,
     admin: results[0].admin
   };

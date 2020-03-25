@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import Login from "./Login/Login";
-import Home from "./Home/Home";
-import { whoAmI, logout } from "./Helpers/auth-helpers";
+import Login from "./Components/Login/Login";
+import Home from "./Components/Home/Home";
+import { whoAmI } from "./Helpers/auth-helpers";
 import {
     BrowserRouter as Router,
     Switch,

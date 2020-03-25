@@ -1,7 +1,7 @@
 import React from "react";
 import Profile from "../Profile/Profile";
 import "./Home.css";
-import icon from "../img/icon.png";
+import icon from "../../img/icon.png";
 
 const Home = ({ logOutUser, user }) => {
 
