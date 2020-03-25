@@ -24,6 +24,7 @@ export default class Http {
 
     static get = async url => {
         const res = await fetch(`${HOST}${url}`, {
+            
             credentials: "include",
         })
         return await res.json()

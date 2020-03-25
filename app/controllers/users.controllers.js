@@ -11,8 +11,10 @@ exports.findByNickname = async nickname => {
 };
 
 exports.findById = async id => {
+  console.log("Consultando usuarios : ",id);
   const connection = await model.getConnection();
   const [rows] = await connection.execute('SELECT * FROM `Usuarios` WHERE `id` = ?',[id]);
+  console.log(rows);
   if (rows.length){ 
     const user=parseUser(rows);
     return(user);
