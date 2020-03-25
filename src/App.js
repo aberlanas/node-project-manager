@@ -1,34 +1,24 @@
 import React, { useState, useEffect } from "react";
 import Login from "./Login/Login";
-import Profile from "./Profile/Profile";
-import { saveToken, getStoredToken } from "./Helpers/auth-helpers";
+import Home from "./Home/Home";
+import { whoAmI, logout } from "./Helpers/auth-helpers";
 import {
     BrowserRouter as Router,
     Switch,
     Route,
     Redirect
 } from "react-router-dom";
-import { getAuth,removeToken } from "./Helpers/auth-helpers";
+
 import "./App.css";
-import Http from "./Helpers/Http";
 import { Spin } from 'antd';
+import { connect } from 'react-redux';
+import { readUser} from './Redux/Reducers/UserReducer';
+import { logUser } from './Redux/Actions/UserActions';
 
-function App() {
-    const [user, setUser] = useState(null);
-    const [loading,setLoading] = useState(true);
 
-    const getUser = async (id) => await Http.get(`/api/users/whoAmI/${id}`);
-
-    const handleSetUser = async (token, userId) => {
-        saveToken(token);
-        const user = await getUser(userId);
-        setUser(user);
-    };
-
-    const logOutUser = () =>{
-        removeToken();
-        setUser(null);
-    }
+function App({user,logUser}) {
+    
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
 
@@ -36,14 +26,10 @@ function App() {
         setLoading(true);
 
         (async () => {
-            const res = await getAuth();
-            if (res.auth) {
-                const user = await getUser(res.data.id);
-                setUser(user);
-            } else {
-                setUser(null);
+            const data = await whoAmI();
+            if (data.auth) {
+                logUser(data.user);
             }
-
             setLoading(false);
         })();
 
@@ -59,13 +45,13 @@ function App() {
                         {user ? (
                             <Redirect to="/" />
                         ) : (
-                            <Login handleSetUser={handleSetUser} user={user} />
+                            <Login/>
                         )}
                     </Route>
                 </Switch>
                 <Switch>
                     <Route path="/">
-                        {!user ? <Redirect to="/login" /> : <Profile logOutUser={logOutUser} user={user} />}
+                        {!user ? <Redirect to="/login" /> : <Home/>}
                     </Route>
                 </Switch>
             </div>
@@ -76,4 +62,8 @@ function App() {
     );
 }
 
-export default App;
+const mapStateToProps = (state) =>{
+    return {user:readUser(state)};
+}
+
+export default connect(mapStateToProps,{logUser})(App);

@@ -4,48 +4,40 @@ import { UserOutlined } from "@ant-design/icons";
 import { GiPadlock } from "react-icons/gi";
 import "antd/dist/antd.css";
 import "./Login.css";
-import Http from "../Helpers/Http"; 
-import { getAuth, saveToken } from '../Helpers/auth-helpers';
+import { logIn, whoAmI } from '../Helpers/auth-helpers';
+import { connect } from 'react-redux';
+import { logUser } from '../Redux/Actions/UserActions';
 
-const Login = ({ handleSetUser, user }) => {
+const Login = ({logUser}) => {
     const [userName, setUserName] = useState("");
     const [password, setPassword] = useState("");
     const [errorMsg, setErrorMsg] = useState(null);
 
     const handleSignIn = async () => {
-        const data = await Http.post(
-            { nickname: userName, password },
-            '/api/users/isValidUser'
-        );
-        
-        if (data.token) {
-            saveToken(data.token);
-            const res = await getAuth();
-            
-            if (res.auth) {
-                handleSetUser(data.token, res.data.id);
+        const data = await logIn({ 
+            nickname: userName, 
+            password: password
+        });
+
+        if (data.succes) {
+            const data = await whoAmI();
+            console.log(data.user); 
+            if (data.auth) {
+                logUser(data.user);
+                console.log('autorized');
             }
-        }else{
-            console.log(data);
-            setErrorMsg(data.msg);
+        }
+        else {
+            setErrorMsg(data.message);
         }
         
     };
 
     const enterPressed = (event) => {
         if(event.key === "Enter"){
-            console.log("Handle : "+event.key);
-            console.log(handleSignIn);
             handleSignIn();
         }
     }
-/*
-    useEffect(()=>{
-        window.addEventListener("keydown",enterPressed)
-        return () => {
-            window.removeEventListener("keydown",enterPressed);
-        }
-    },[]);*/
 
     return (
         <div className="login" >
@@ -82,4 +74,6 @@ const Login = ({ handleSetUser, user }) => {
     );
 };
 
-export default Login;
+export default connect(null,{logUser})(Login);
+
+

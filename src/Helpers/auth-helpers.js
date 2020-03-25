@@ -1,24 +1,22 @@
 import Http from "../Helpers/Http";
-import Cookies from 'js-cookie';
 
-export function getStoredToken() {
-    return Cookies.get('jwt-token');
-}
-
-export async function getAuth() {
-    const res = await Http.post(
-        { token: getStoredToken() },
-        '/api/users/isValidToken'
+export async function logIn(body) {
+    return await Http.post(
+        body,
+        '/api/users/logIn'
     );
-    return res;
 }
 
-export function saveToken(token) {
-    Cookies.set('jwt-token', token);
+export async function whoAmI() {
+    return await Http.get(
+        '/api/users/profile'
+    );
 }
 
-export function removeToken(){
-    Cookies.remove('jwt-token');
+export async function logout() {
+    return await Http.get(
+        '/api/users/logOut'
+    );
 }
 
 /**
