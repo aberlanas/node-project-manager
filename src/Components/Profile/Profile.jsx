@@ -1,20 +1,20 @@
-import React, { useEffect } from "react";
-import { List, Avatar } from "antd";
+import React from "react";
+import { Avatar } from "antd";
 import "antd/dist/antd.css";
 import { Button } from 'antd';
 import { PoweroffOutlined } from '@ant-design/icons';
 import "./Profile.css";
 import { connect } from 'react-redux';
-import { readUser } from '../Redux/Reducers/UserReducer';
-import { logOutUser} from '../Redux/Actions/UserActions';
-import { logout as deleteCookie } from '../Helpers/auth-helpers';
+import { readUser } from '../../Redux/Reducers/UserReducer';
+import { logOutUser} from '../../Redux/Actions/UserActions';
+import { logout as deleteCookie } from '../../Helpers/auth-helpers';
 
-const Profile = ({ user,logOutUser }) => {
+const Profile = ({ user, logOutUser }) => {
     const { nombre, apellidos, nickname, avatar } = user;
     const data = [
         `${nombre} ${apellidos}`,
     ];
-    const icon = require(`../img/${avatar}`);
+    const icon = require(`../../img/${avatar}`);
 
     const logOutUserAndRemoveCookie = () =>{
         logOutUser();

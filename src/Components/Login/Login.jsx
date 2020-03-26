@@ -1,12 +1,12 @@
-import React, { useState,useEffect } from "react";
+import React, { useState } from "react";
 import { Input, Button, Alert } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { GiPadlock } from "react-icons/gi";
 import "antd/dist/antd.css";
 import "./Login.css";
-import { logIn, whoAmI } from '../Helpers/auth-helpers';
+import { logIn, whoAmI } from '../../Helpers/auth-helpers';
 import { connect } from 'react-redux';
-import { logUser } from '../Redux/Actions/UserActions';
+import { logUser } from '../../Redux/Actions/UserActions';
 
 const Login = ({logUser}) => {
     const [userName, setUserName] = useState("");
@@ -58,7 +58,7 @@ const Login = ({logUser}) => {
                 size="large"
                 placeholder="Introduce un usuario"
                 prefix={<UserOutlined />}
-                onChange={e => setUserName(e.target.value)}
+                onChange={e => setUserName(e.target.value.trim())}
             />
             <Input.Password
                 size="large"
