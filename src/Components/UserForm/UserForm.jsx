@@ -1,12 +1,14 @@
 import React from "react";
 import { Form, Input, Button, Switch } from 'antd';
+import Http from "../../Helpers/Http";
 
 
 import "./UserForm.css";
 
 const UserForm = () => {
-    const onFinish = (values) => {
-        console.log("Heee");
+    const onFinish = async (values) => {
+        const result = await Http.post(values,'/api/users/createUser');
+        console.log(result);
     }
 
 
@@ -39,13 +41,13 @@ const UserForm = () => {
             name={['user', 'password']}
             label="Password"
             rules={[
-              {
-                type: 'password',
-              },
+                {
+                    required: true,
+                  },
             ]}
            
           >
-            <Input />
+            <Input.Password />
             </Form.Item>
 
 
@@ -54,6 +56,7 @@ const UserForm = () => {
             label="Email"
             rules={[
               {
+                required: true,
                 type: 'email',
               },
             ]}
@@ -61,10 +64,21 @@ const UserForm = () => {
             <Input />
           </Form.Item>
     
-          <Form.Item name={['user', 'Nombre']} label="Nombre">
+          <Form.Item name={['user', 'Nombre']} label="Nombre"
+          rules={[
+            {
+                required: true,
+              },
+            ]}
+          >
             <Input />
           </Form.Item>
-          <Form.Item name={['user', 'Apellidos']} label="Apellidos">
+          <Form.Item name={['user', 'Apellidos']} label="Apellidos" 
+          rules={[
+                {
+                    required: true,
+                  },
+            ]}>
             <Input />
           </Form.Item>
 

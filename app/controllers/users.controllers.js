@@ -23,6 +23,15 @@ exports.findById = async id => {
 };
 
 
+exports.createUser = async (req,res) =>{
+  const connection = await model.getConnection();
+  const user = parseUser(req.body.user);
+  //INSERT INTO Usuarios VALUES (NULL,"jagaroc","$2b$13$F6K3EoRuYyu5XWz04UXzh.TnXu4gVxkMCywC1hDbCd/h6qRbQwTCu","javier@ieslasenia.org","Javier","Garcia Ortega",0,"javi.png");
+  const [rows] = await connection.execute('INSERT INTO `Usuarios` VALUES (NULL,`?`,`?`,`?`,`?`,`?`',[user.nickname,user.password,use]);
+  connection.end();
+}
+
+
 exports.findAllUsers = async (req,res)  => {
 
   console.log("Find all Users");
@@ -34,6 +43,7 @@ exports.findAllUsers = async (req,res)  => {
                                   apellidos: row.apellidos,
                                   nickname: row.nickname,
                                   password: row.password,
+                                  email:row.email,
                                   avatar: row.avatar,
                                   admin: row.admin}));
   res.send(users);
@@ -58,6 +68,7 @@ const parseUser = results => {
     nickname: results[0].nickname,
     password: results[0].password,
     avatar: results[0].avatar,
+    email:results[0].email,
     admin: results[0].admin
   };
 };

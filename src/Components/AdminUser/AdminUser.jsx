@@ -19,15 +19,20 @@ const AdminUser = () => {
 
   const columns = [
     {
+      title: "ID",
+      dataIndex: "id",
+      key: "id"
+    },
+    {
       title: "Nickname",
       dataIndex: "nickname",
       key: "nickname",
       render: text => <a>{text}</a>
     },
     {
-      title: "ID",
-      dataIndex: "id",
-      key: "id"
+      title: "Correo",
+      dataIndex: "email",
+      key: "email"
     },
     {
       title: "Nombre completo",
