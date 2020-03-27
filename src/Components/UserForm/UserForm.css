@@ -1,0 +1,8 @@
+.userForm{
+    margin-top: 20px;
+}
+
+.ant-form-item-label > label {
+    color:white;
+    margin-right: 10px;
+}

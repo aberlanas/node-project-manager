@@ -3,6 +3,7 @@ const router   = express.Router()
 const passport = require("passport")
 
 const Model = require("../model/pm_manager.model")
+const {findAllUsers} = require("../controllers/users.controllers");
 
 const optsCookie = {
 	expires: new Date(Date.now() + 3600000),
@@ -47,5 +48,8 @@ router.get('/users/logOut', (req, res) => {
 	res.clearCookie('jwt');
 	return res.status(200).send({ logOut: true });
 })
+
+router.get('/users/getAllUsers',passport.authenticate('jwt', { session: false }), findAllUsers )
+
 
 module.exports = router

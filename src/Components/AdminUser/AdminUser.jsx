@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect,useState} from "react";
 import Profile from "../Profile/Profile";
 import "./AdminUser.css";
 import { connect } from "react-redux";
@@ -6,11 +6,17 @@ import { Link } from "react-router-dom";
 import { readUser } from "../../Redux/Reducers/UserReducer";
 import { logOutUser } from "../../Redux/Actions/UserActions";
 import { logout as deleteCookie } from "../../Helpers/auth-helpers";
+import Http from "../../Helpers/Http";
 import Header from "../Header/Header";
+import UserForm from "../UserForm/UserForm";
 import { Table, Tag } from "antd";
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 
+
 const AdminUser = () => {
+
+  const [data,setData] = useState([]);
+
   const columns = [
     {
       title: "Nickname",
@@ -30,11 +36,12 @@ const AdminUser = () => {
     },
     {
       title: "Permisos",
-      key: "permissions",
-      dataIndex: "permissions",
+      key: "admin",
+      dataIndex: "admin",
       render: tags => (
         <span>
-        </span>
+          {tags ? <Tag color="blue">Admin</Tag>:<Tag color="grey">User</Tag>}
+          </span>
       )
     },
     {
@@ -49,33 +56,31 @@ const AdminUser = () => {
     }
   ];
 
-  const data = [
-    {
-      key: "1",
-      nickname: "John Brown",
-      id: 32,
-      nameSurname: "New York No. 1 Lake Park",
-      permissions: ["nice", "developer"]
-    },
-    {
-      key: "2",
-      name: "Jim Green",
-      age: 42,
-      address: "London No. 1 Lake Park",
-      tags: ["loser"]
-    },
-    {
-      key: "3",
-      name: "Joe Black",
-      age: 32,
-      address: "Sidney No. 1 Lake Park",
-      tags: ["cool", "teacher"]
-    }
-  ];
+  useEffect(() => {
+
+    // Wait for loading data user
+    //setLoading(true);
+
+    (async () => {
+        const dataSource = await Http.get("/api/users/getAllUsers");
+        console.log(dataSource);
+        setData(dataSource.map( item => {
+          item.key=item.id;
+          item.nameSurname=item.nombre + " " + item.apellidos;
+          return item;
+        }));
+        //setLoading(false);
+    })();
+
+}, []);
+    
   return (
     <div>
       <Header />
       <div className="adminUserBody">
+       
+        <UserForm/>
+
         <Table columns={columns} dataSource={data} />
       </div>
     </div>
