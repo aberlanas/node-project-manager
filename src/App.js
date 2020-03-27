@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Login from "./Components/Login/Login";
 import Home from "./Components/Home/Home";
+import AdminUser from "./Components/AdminUser/AdminUser";
 import { whoAmI } from "./Helpers/auth-helpers";
 import {
     BrowserRouter as Router,
@@ -48,10 +49,11 @@ function App({user,logUser}) {
                             <Login/>
                         )}
                     </Route>
-                </Switch>
-                <Switch>
-                    <Route path="/">
+                    <Route path="/" exact>
                         {!user ? <Redirect to="/login" /> : <Home/>}
+                    </Route>
+                    <Route path="/AdminUser" exact>
+                       {user&&user.admin?(<AdminUser/>):(<Redirect to="/login"/>)} 
                     </Route>
                 </Switch>
             </div>

@@ -1,0 +1,16 @@
+.profileTitle {
+    font-size: xx-large;
+    color: white;
+}
+
+.profileIcon img {
+    height: 150px;
+}
+
+.homeTitle {
+    width: 100%;
+    height: 150px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
