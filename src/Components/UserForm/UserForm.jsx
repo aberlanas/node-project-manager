@@ -22,10 +22,10 @@ const UserForm = ({createUser}) => {
     const layout = {
 
         labelCol: {
-          span: 7,
+          span: 5,
         },
         wrapperCol: {
-          span: 10,
+          span: 20,
         },
       };
    
@@ -94,7 +94,7 @@ const UserForm = ({createUser}) => {
           </Form.Item>
           <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
             <Button type="primary" htmlType="submit">
-              Crear Usuario
+              Crear y Seguir Creando
             </Button>
           </Form.Item>
         </Form>

@@ -9,7 +9,7 @@ import { logout as deleteCookie } from "../../Helpers/auth-helpers";
 import Http from "../../Helpers/Http";
 import Header from "../Header/Header";
 import UserForm from "../UserForm/UserForm";
-import { Table, Tag, Button } from "antd";
+import { Table, Tag, Button, Modal } from "antd";
 import Animate from "rc-animate";
 import {
   DeleteOutlined,
@@ -96,13 +96,29 @@ const AdminUser = ({ users, getAllUsers }) => {
           icon={<UserAddOutlined />}
           onClick={() => {
             setShowUserForm(!showUserForm);
+            //Modal.info({title:"Crear usuarios",content:(<UserForm/>),onOk(){}})
           }}
         >
           Añadir Usuarios
         </Button>
-        <Animate transitionName="fade" transitionAppear>
-          {showUserForm ? <UserForm /> : null}
-        </Animate>
+
+          
+        <Modal
+          title="Crear Usuarios"
+          visible={showUserForm}
+          okText="Salir"
+          onOk={() => {
+            setShowUserForm(!showUserForm);
+          }}
+          cancelText="Cancelar"
+          onCancel={() => {
+            setShowUserForm(!showUserForm);
+          }}
+        >
+          <UserForm />
+        </Modal>
+
+      
         <Table className="tablaUsuarios" columns={columns} dataSource={users} />
       </div>
     </div>
