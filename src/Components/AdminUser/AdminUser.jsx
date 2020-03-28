@@ -1,21 +1,24 @@
-import React, {useEffect,useState} from "react";
+import React, { useEffect, useState } from "react";
 import Profile from "../Profile/Profile";
 import "./AdminUser.css";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { readUser } from "../../Redux/Reducers/UserReducer";
-import { logOutUser } from "../../Redux/Actions/UserActions";
+import { readAllUsers } from "../../Redux/Reducers/UserReducer";
+import { getAllUsers, createUser } from "../../Redux/Actions/UserActions";
 import { logout as deleteCookie } from "../../Helpers/auth-helpers";
 import Http from "../../Helpers/Http";
 import Header from "../Header/Header";
 import UserForm from "../UserForm/UserForm";
-import { Table, Tag } from "antd";
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { Table, Tag, Button } from "antd";
+import Animate from "rc-animate";
+import {
+  DeleteOutlined,
+  EditOutlined,
+  UserAddOutlined
+} from "@ant-design/icons";
 
-
-const AdminUser = () => {
-
-  const [data,setData] = useState([]);
+const AdminUser = ({ users, getAllUsers }) => {
+  const [showUserForm, setShowUserForm] = useState(false);
 
   const columns = [
     {
@@ -35,9 +38,14 @@ const AdminUser = () => {
       key: "email"
     },
     {
-      title: "Nombre completo",
-      dataIndex: "nameSurname",
-      key: "nameSurname"
+      title: "Nombre",
+      dataIndex: "nombre",
+      key: "nombre"
+    },
+    {
+      title: "Apellidos",
+      dataIndex: "apellidos",
+      key: "apellidos"
     },
     {
       title: "Permisos",
@@ -45,8 +53,8 @@ const AdminUser = () => {
       dataIndex: "admin",
       render: tags => (
         <span>
-          {tags ? <Tag color="blue">Admin</Tag>:<Tag color="grey">User</Tag>}
-          </span>
+          {tags ? <Tag color="blue">Admin</Tag> : <Tag color="grey">User</Tag>}
+        </span>
       )
     },
     {
@@ -54,42 +62,55 @@ const AdminUser = () => {
       key: "action",
       render: (text, record) => (
         <span>
-          <EditOutlined style={{ marginRight: 16 }}/>
-          <DeleteOutlined style={{ color:'red'}}/>
+          <EditOutlined style={{ marginRight: 16 }} />
+          <DeleteOutlined style={{ color: "red" }} />
         </span>
       )
     }
   ];
 
   useEffect(() => {
-
     // Wait for loading data user
     //setLoading(true);
 
     (async () => {
-        const dataSource = await Http.get("/api/users/getAllUsers");
-        console.log(dataSource);
-        setData(dataSource.map( item => {
-          item.key=item.id;
-          item.nameSurname=item.nombre + " " + item.apellidos;
+      const dataSource = await Http.get("/api/users/getAllUsers");
+      console.log(dataSource);
+      getAllUsers(
+        dataSource.map(item => {
+          item.key = item.id;
           return item;
-        }));
-        //setLoading(false);
+        })
+      );
+      //setLoading(false);
     })();
+  }, []);
 
-}, []);
-    
   return (
     <div>
       <Header />
       <div className="adminUserBody">
-       
-        <UserForm/>
-
-        <Table columns={columns} dataSource={data} />
+        <Button
+          className="addUserButton"
+          size="large"
+          icon={<UserAddOutlined />}
+          onClick={() => {
+            setShowUserForm(!showUserForm);
+          }}
+        >
+          Añadir Usuarios
+        </Button>
+        <Animate transitionName="fade" transitionAppear>
+          {showUserForm ? <UserForm /> : null}
+        </Animate>
+        <Table className="tablaUsuarios" columns={columns} dataSource={users} />
       </div>
     </div>
   );
 };
 
-export default AdminUser;
+const mapStateToProps = state => {
+  return { users: readAllUsers(state) };
+};
+
+export default connect(mapStateToProps, { createUser, getAllUsers })(AdminUser);

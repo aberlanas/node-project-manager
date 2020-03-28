@@ -38,6 +38,7 @@
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
+    "rc-animate": "^2.10.3",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "react-icons": "^3.9.0",

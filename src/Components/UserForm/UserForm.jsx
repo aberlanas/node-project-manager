@@ -1,14 +1,21 @@
 import React from "react";
+import { connect } from "react-redux";
 import { Form, Input, Button, Switch } from 'antd';
 import Http from "../../Helpers/Http";
+import { createUser } from "../../Redux/Actions/UserActions";
 
 
 import "./UserForm.css";
 
-const UserForm = () => {
+const UserForm = ({createUser}) => {
     const onFinish = async (values) => {
         const result = await Http.post(values,'/api/users/createUser');
-        console.log(result);
+        if(result){
+          // TODO
+          // Arreglar esto cuando se pueda
+          result.key=result.id;
+          createUser(result);
+        }
     }
 
 
@@ -26,7 +33,7 @@ const UserForm = () => {
         <div className="userForm">
         <Form {...layout} name="nest-messages" onFinish={onFinish}>
           <Form.Item
-            name={['user', 'name']}
+            name={['user', 'nickname']}
             label="Nickname"
             rules={[
               {
@@ -64,7 +71,7 @@ const UserForm = () => {
             <Input />
           </Form.Item>
     
-          <Form.Item name={['user', 'Nombre']} label="Nombre"
+          <Form.Item name={['user', 'nombre']} label="Nombre"
           rules={[
             {
                 required: true,
@@ -73,7 +80,7 @@ const UserForm = () => {
           >
             <Input />
           </Form.Item>
-          <Form.Item name={['user', 'Apellidos']} label="Apellidos" 
+          <Form.Item name={['user', 'apellidos']} label="Apellidos" 
           rules={[
                 {
                     required: true,
@@ -87,7 +94,7 @@ const UserForm = () => {
           </Form.Item>
           <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
             <Button type="primary" htmlType="submit">
-              Submit
+              Crear Usuario
             </Button>
           </Form.Item>
         </Form>
@@ -95,4 +102,6 @@ const UserForm = () => {
       );
 };
 
-export default UserForm;
+
+export default connect(null,{createUser})(UserForm);
+

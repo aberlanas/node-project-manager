@@ -1,4 +1,15 @@
 .adminUserBody {
     color:white;
     margin-top:10px;
+    
+}
+
+.tablaUsuarios{
+    margin:10px;
+    
+    transition-duration: 1s;
+}
+
+.addUserButton{
+    margin-left: 10px;
 }

@@ -5,7 +5,7 @@ exports.findByNickname = async nickname => {
   const [rows] = await connection.execute('SELECT * FROM `Usuarios` WHERE `nickname` = ?',[nickname]);
   connection.end();
   if (rows.length){ 
-    const user=parseUser(rows);
+    const user=parseUser(rows[0]);
     return(user);
   }
   return false;
@@ -16,7 +16,7 @@ exports.findById = async id => {
   const [rows] = await connection.execute('SELECT * FROM `Usuarios` WHERE `id` = ?',[id]);
   connection.end();
   if (rows.length){ 
-    const user = parseUser(rows);
+    const user = parseUser(rows[0]);
     return(user);
   }
   return false;
@@ -24,17 +24,20 @@ exports.findById = async id => {
 
 
 exports.createUser = async (req,res) =>{
+  
   const connection = await model.getConnection();
   const user = parseUser(req.body.user);
-  //INSERT INTO Usuarios VALUES (NULL,"jagaroc","$2b$13$F6K3EoRuYyu5XWz04UXzh.TnXu4gVxkMCywC1hDbCd/h6qRbQwTCu","javier@ieslasenia.org","Javier","Garcia Ortega",0,"javi.png");
-  const [rows] = await connection.execute('INSERT INTO `Usuarios` VALUES (NULL,`?`,`?`,`?`,`?`,`?`',[user.nickname,user.password,use]);
+  const [rows] = await connection.execute('INSERT INTO `Usuarios` VALUES (NULL,?,?,?,?,?,?,?)',
+                      [user.nickname,user.password,user.email,user.nombre,user.apellidos,user.admin,'default.png']);
+  
   connection.end();
+  user.id=rows.insertId;
+  delete user.password;
+  res.status(200).send(user);
 }
 
 
 exports.findAllUsers = async (req,res)  => {
-
-  console.log("Find all Users");
   const connection = await model.getConnection();
   const [rows] = await connection.execute('SELECT * FROM `Usuarios` ORDER BY id DESC');
   connection.end();
@@ -42,13 +45,10 @@ exports.findAllUsers = async (req,res)  => {
                                   nombre: row.nombre,
                                   apellidos: row.apellidos,
                                   nickname: row.nickname,
-                                  password: row.password,
                                   email:row.email,
                                   avatar: row.avatar,
                                   admin: row.admin}));
   res.send(users);
-  
-
 };
 
 exports.isValidToken = (req, res) => {
@@ -60,16 +60,19 @@ exports.isValidToken = (req, res) => {
   });
 };
 
+
+
 const parseUser = results => {
+  results.admin = (results.admin) ? 1:0;
   return {
-    id: results[0].id,
-    nombre: results[0].nombre,
-    apellidos: results[0].apellidos,
-    nickname: results[0].nickname,
-    password: results[0].password,
-    avatar: results[0].avatar,
-    email:results[0].email,
-    admin: results[0].admin
+    id: results.id,
+    nombre: results.nombre,
+    apellidos: results.apellidos,
+    nickname: results.nickname,
+    password: results.password,
+    avatar: results.avatar,
+    email:results.email,
+    admin: results.admin
   };
 };
 
