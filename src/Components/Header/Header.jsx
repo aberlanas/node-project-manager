@@ -9,7 +9,7 @@ const Header = () => {
     <React.Fragment>
         <div className="homeTitle">
       <div className="profileIcon">
-        <img src={icon} />
+        <img alt="" src={icon} />
       </div>
       <div className="profileTitle">FCT Project Manager</div>
       <div className="profileHome">

@@ -94,7 +94,7 @@ const UserForm = ({createUser}) => {
           </Form.Item>
           <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
             <Button type="primary" htmlType="submit">
-              Crear y Seguir Creando
+              Crear y Continuar
             </Button>
           </Form.Item>
         </Form>

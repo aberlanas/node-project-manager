@@ -1,16 +1,14 @@
-import React, { useEffect, useState } from "react";
-import Profile from "../Profile/Profile";
+import React, { useEffect, useState,useCallback } from "react";
 import "./AdminUser.css";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
 import { readAllUsers } from "../../Redux/Reducers/UserReducer";
 import { getAllUsers, createUser } from "../../Redux/Actions/UserActions";
-import { logout as deleteCookie } from "../../Helpers/auth-helpers";
 import Http from "../../Helpers/Http";
 import Header from "../Header/Header";
 import UserForm from "../UserForm/UserForm";
+
 import { Table, Tag, Button, Modal } from "antd";
-import Animate from "rc-animate";
+
 import {
   DeleteOutlined,
   EditOutlined,
@@ -19,6 +17,22 @@ import {
 
 const AdminUser = ({ users, getAllUsers }) => {
   const [showUserForm, setShowUserForm] = useState(false);
+
+  const deleteUser = async (id) => {
+    console.log(id);
+    const data = await Http.delete("/api/users/deleteUser/"+id);
+    console.log(data);
+  };
+
+  const replenishTable = useCallback(async () => {
+    const dataSource = await Http.get("/api/users/getAllUsers");
+    getAllUsers(
+      dataSource.map(item => {
+        item.key = item.id;
+        return item;
+      })
+    );
+  },[getAllUsers]);
 
   const columns = [
     {
@@ -30,7 +44,7 @@ const AdminUser = ({ users, getAllUsers }) => {
       title: "Nickname",
       dataIndex: "nickname",
       key: "nickname",
-      render: text => <a>{text}</a>
+      render: text => <span>{text}</span>
     },
     {
       title: "Correo",
@@ -63,7 +77,12 @@ const AdminUser = ({ users, getAllUsers }) => {
       render: (text, record) => (
         <span>
           <EditOutlined style={{ marginRight: 16 }} />
-          <DeleteOutlined style={{ color: "red" }} />
+          <DeleteOutlined
+            style={{ color: "red" }}
+            onClick={() => {
+              deleteUser(record.id);
+            }}
+          />
         </span>
       )
     }
@@ -73,18 +92,9 @@ const AdminUser = ({ users, getAllUsers }) => {
     // Wait for loading data user
     //setLoading(true);
 
-    (async () => {
-      const dataSource = await Http.get("/api/users/getAllUsers");
-      console.log(dataSource);
-      getAllUsers(
-        dataSource.map(item => {
-          item.key = item.id;
-          return item;
-        })
-      );
-      //setLoading(false);
-    })();
-  }, []);
+    replenishTable();
+    //setLoading(false);
+  },[replenishTable]);
 
   return (
     <div>
@@ -102,7 +112,6 @@ const AdminUser = ({ users, getAllUsers }) => {
           Añadir Usuarios
         </Button>
 
-          
         <Modal
           title="Crear Usuarios"
           visible={showUserForm}
@@ -118,7 +127,6 @@ const AdminUser = ({ users, getAllUsers }) => {
           <UserForm />
         </Modal>
 
-      
         <Table className="tablaUsuarios" columns={columns} dataSource={users} />
       </div>
     </div>

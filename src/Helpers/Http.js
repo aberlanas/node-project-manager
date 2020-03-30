@@ -29,4 +29,13 @@ export default class Http {
         })
         return await res.json()
     }
+
+    static delete = async url => {
+        const res = await fetch(`${HOST}${url}`, {
+            
+            credentials: "include",
+            method: "DELETE"
+        })
+        return await res.json()
+    }
 }

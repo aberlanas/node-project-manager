@@ -1,5 +1,4 @@
 import React from "react";
-import Profile from "../Profile/Profile";
 import "./Nav.css";
 import { Menu } from "antd";
 import {
@@ -11,7 +10,7 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { readUser } from "../../Redux/Reducers/UserReducer";
 import { logOutUser } from "../../Redux/Actions/UserActions";
-import { logout as deleteCookie } from "../../Helpers/auth-helpers";
+
 
 const { SubMenu } = Menu;
 /*

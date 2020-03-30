@@ -3,7 +3,7 @@ const router   = express.Router()
 const passport = require("passport")
 
 const Model = require("../model/pm_manager.model")
-const {findAllUsers, createUser} = require("../controllers/users.controllers");
+const {findAllUsers, createUser, deleteUser} = require("../controllers/users.controllers");
 
 const optsCookie = {
 	expires: new Date(Date.now() + 3600000),
@@ -52,5 +52,7 @@ router.get('/users/logOut', (req, res) => {
 router.get('/users/getAllUsers',passport.authenticate('jwt', { session: false }), findAllUsers )
 
 router.post('/users/createUser',passport.authenticate('jwt', { session: false }), createUser )
+
+router.delete('/users/deleteUser/:id',passport.authenticate('jwt', { session: false }), deleteUser )
 
 module.exports = router
