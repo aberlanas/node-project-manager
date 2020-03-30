@@ -32,21 +32,9 @@ exports.findById = async id => {
 exports.createUser = async (req, res) => {
   const connection = await model.getConnection();
   const user = parseUser(req.body.user);
-  const [
-    rows
-  ] = await connection.execute(
-    "INSERT INTO `Usuarios` VALUES (NULL,?,?,?,?,?,?,?)",
-    [
-      user.nickname,
-      user.password,
-      user.email,
-      user.nombre,
-      user.apellidos,
-      user.admin,
-      "default.png"
-    ]
-  );
-
+  console.log(user)
+  const [rows] = await connection.execute("INSERT INTO `Usuarios` VALUES (NULL,?,?,?,?,?,?,?)",[user.nickname,user.password,user.email,user.nombre,user.apellidos,user.admin,"default.png"]);
+  console.log(rows);
   connection.end();
   user.id = rows.insertId;
   delete user.password;
@@ -70,6 +58,30 @@ exports.deleteUser = async (req, res) => {
   }
   user = rows;
   res.status(200).send(user);
+};
+
+exports.getUserById = async (req,res) => {
+  const user = await this.findById(req.params.id);
+  delete user.password;
+  res.status(200).send(user);
+
+}
+
+exports.updateUser = async (req, res) => {
+  const connection = await model.getConnection();
+
+  let { id } = req.params;
+  console.log(id);
+  let rows = [];
+  const user = req.body.user;
+  if (id != "1") {
+    rows = await connection.execute("UPDATE `Usuarios` set nickname =  ?, email = ?, nombre = ?, apellidos = ?, admin = ? WHERE `id` = ?",
+                                    [user.nickname,user.email,user.nombre,user.apellidos,user.admin,id]);
+    connection.end();
+  } else {
+    res.status(200).send({ msg: "No tienes poder aqui" });
+  }
+  res.status(200).send({affectedRows:rows[0].affectedRows});
 };
 
 exports.findAllUsers = async (req, res) => {
