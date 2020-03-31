@@ -1,12 +1,17 @@
-import React, { useEffect, useState,useCallback } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import "./AdminUser.css";
 import { connect } from "react-redux";
 import { readAllUsers } from "../../Redux/Reducers/UserReducer";
-import { getAllUsers, createUser, removeUser, userEdit } from "../../Redux/Actions/UserActions";
+import {
+  getAllUsers,
+  createUser,
+  removeUser,
+  userEdit
+} from "../../Redux/Actions/UserActions";
 import Http from "../../Helpers/Http";
 import Header from "../Header/Header";
 import UserForm from "../UserForm/UserForm";
-import UserEditForm from '../UserEditForm/UserEditForm';
+import UserEditForm from "../UserEditForm/UserEditForm";
 
 import { Table, Tag, Button, Modal } from "antd";
 
@@ -20,10 +25,10 @@ const AdminUser = ({ users, getAllUsers, removeUser, userEdit }) => {
   const [showUserForm, setShowUserForm] = useState(false);
   const [showUserEditForm, setShowUserEditForm] = useState(false);
 
-  const deleteUser = async (id) => {
+  const deleteUser = async id => {
     console.log(id);
-    const data = await Http.delete("/api/users/deleteUser/"+id);
-    if(!data.msg) removeUser(id)
+    const data = await Http.delete("/api/users/deleteUser/" + id);
+    if (!data.msg) removeUser(id);
   };
 
   const replenishTable = useCallback(async () => {
@@ -34,7 +39,7 @@ const AdminUser = ({ users, getAllUsers, removeUser, userEdit }) => {
         return item;
       })
     );
-  },[getAllUsers]);
+  }, [getAllUsers]);
 
   const columns = [
     {
@@ -78,10 +83,13 @@ const AdminUser = ({ users, getAllUsers, removeUser, userEdit }) => {
       key: "action",
       render: (text, record) => (
         <span>
-          <EditOutlined style={{ marginRight: 16 }} onClick={()=>{
-            userEdit(record.id);
-            setShowUserEditForm(!showUserEditForm);
-            }} />
+          <EditOutlined
+            style={{ marginRight: 16 }}
+            onClick={() => {
+              userEdit(record.id);
+              setShowUserEditForm(!showUserEditForm);
+            }}
+          />
           <DeleteOutlined
             style={{ color: "red" }}
             onClick={() => {
@@ -99,7 +107,7 @@ const AdminUser = ({ users, getAllUsers, removeUser, userEdit }) => {
 
     replenishTable();
     //setLoading(false);
-  },[replenishTable]);
+  }, [replenishTable]);
 
   return (
     <div>
@@ -121,6 +129,7 @@ const AdminUser = ({ users, getAllUsers, removeUser, userEdit }) => {
           title="Crear Usuarios"
           visible={showUserForm}
           okText="Salir"
+          destroyOnClose={true}
           onOk={() => {
             setShowUserForm(!showUserForm);
           }}
@@ -134,6 +143,7 @@ const AdminUser = ({ users, getAllUsers, removeUser, userEdit }) => {
         <Modal
           title="Editar Usuarios"
           visible={showUserEditForm}
+          destroyOnClose={true}
           okText="Salir"
           onOk={() => {
             setShowUserEditForm(!showUserEditForm);
@@ -143,7 +153,7 @@ const AdminUser = ({ users, getAllUsers, removeUser, userEdit }) => {
             setShowUserEditForm(!showUserEditForm);
           }}
         >
-          <UserEditForm/>
+          <UserEditForm />
         </Modal>
 
         <Table className="tablaUsuarios" columns={columns} dataSource={users} />
@@ -156,4 +166,9 @@ const mapStateToProps = state => {
   return { users: readAllUsers(state) };
 };
 
-export default connect(mapStateToProps, { createUser, getAllUsers,removeUser,userEdit })(AdminUser);
+export default connect(mapStateToProps, {
+  createUser,
+  getAllUsers,
+  removeUser,
+  userEdit
+})(AdminUser);

@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Form, Input, Button, Checkbox } from 'antd';
+import { Form, Input, InputNumber, Button, Switch, Checkbox } from 'antd';
 import Http from "../../Helpers/Http";
 import { editUser } from "../../Redux/Actions/UserActions";
 
@@ -9,6 +9,7 @@ import "./UserEditForm.css";
 import { readUserById } from "../../Redux/Reducers/UserReducer";
 
 const UserForm = ({editUser, user}) => {
+
   const onFinish = async (values) => {
     console.log(user.id);
       const result = await Http.put(values,'/api/users/updateUser/'+user.id);
@@ -75,9 +76,9 @@ const UserForm = ({editUser, user}) => {
             ]}>
             <Input />
           </Form.Item>
-
+            
           <Form.Item name={['user', 'admin']} label="Administrador">
-            <Checkbox checked={Boolean(user.admin)} />
+            <InputNumber  />
           </Form.Item>
           <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
             <Button type="primary" htmlType="submit">
@@ -90,6 +91,7 @@ const UserForm = ({editUser, user}) => {
 };
 
 const mapStateToProps = state => {
+  console.log(readUserById(state));
   return { user: readUserById(state) };
 };
 
