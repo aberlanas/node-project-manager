@@ -22,6 +22,12 @@ export default class Http {
         return await res.json()
     }
 
+    static put = async (body, url) => {
+        const request = this.getRequest(body, url, "PUT")
+        const res = await fetch(request)
+        return await res.json()
+    }
+
     static get = async url => {
         const res = await fetch(`${HOST}${url}`, {
             
