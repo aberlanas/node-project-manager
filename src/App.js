@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import Login from "./Components/Login/Login";
 import Home from "./Components/Home/Home";
 import AdminUser from "./Components/AdminUser/AdminUser";
+import Tecnologias from "./Components/Tecnologias/Tecnologias";
 import { whoAmI } from "./Helpers/auth-helpers";
 import {
   BrowserRouter as Router,
@@ -42,6 +43,9 @@ function App({ user, logUser }) {
           </Route>
           <Route path="/" exact>
             {!user ? <Redirect to="/login" /> : <Home />}
+          </Route>
+          <Route path="/Tecnologias" exact>
+            {!user ? <Redirect to="/login" /> : <Tecnologias />}
           </Route>
           <Route path="/AdminUser" exact>
             {user && user.admin ? <AdminUser /> : <Redirect to="/login" />}

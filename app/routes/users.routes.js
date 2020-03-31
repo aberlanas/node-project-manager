@@ -11,7 +11,7 @@ const optsCookie = {
 	httpOnly: true
 }
 
-router.post("/users/logIn", (req, res, next) => {
+router.post("/logIn", (req, res, next) => {
 	// TODO verify user data
 
     passport.authenticate("local-login", { session: false }, (error, user, info) => {
@@ -28,11 +28,11 @@ router.post("/users/logIn", (req, res, next) => {
     })(req, res, next)
 })
 
-router.get('/users/getAuth', passport.authenticate('jwt', { session: false }), (req, res) => {
+router.get('/getAuth', passport.authenticate('jwt', { session: false }), (req, res) => {
 	res.status(200).send({ auth: true });
 })
 
-router.get('/users/profile', (req, res) => {
+router.get('/profile', (req, res) => {
 	passport.authenticate('jwt', { session: false }, (err, user, info) => {
 		if (err || !user) {
 			return res.status(401).send({ auth: false, message: 'No valid token' });
@@ -44,21 +44,21 @@ router.get('/users/profile', (req, res) => {
 	})(req, res)
 });
 
-router.get('/users/logOut', (req, res) => {
+router.get('/logOut', (req, res) => {
 	res.clearCookie('jwt');
 	return res.status(200).send({ logOut: true });
 })
 
-router.get('/users/getAllUsers',passport.authenticate('jwt', { session: false }), findAllUsers )
+router.get('/getAllUsers',passport.authenticate('jwt', { session: false }), findAllUsers )
 
-router.post('/users/createUser',passport.authenticate('jwt', { session: false }), createUser )
+router.post('/createUser',passport.authenticate('jwt', { session: false }), createUser )
 
-router.delete('/users/deleteUser/:id',passport.authenticate('jwt', { session: false }), deleteUser )
+router.delete('/deleteUser/:id',passport.authenticate('jwt', { session: false }), deleteUser )
 
-router.put('/users/updateUser/:id',passport.authenticate('jwt', { session: false }), updateUser )
+router.put('/updateUser/:id',passport.authenticate('jwt', { session: false }), updateUser )
 
-router.get('/users/getUserById/:id',passport.authenticate('jwt', { session: false }), getUserById )
-// router.get('/users/getUserById/:id', getUserById )
+router.get('/getUserById/:id',passport.authenticate('jwt', { session: false }), getUserById )
+// router.get('/getUserById/:id', getUserById )
 
 
 module.exports = router

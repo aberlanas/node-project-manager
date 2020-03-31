@@ -58,7 +58,7 @@ CREATE TABLE  Cursos (
 );
 
 
-CREATE TABLE  Proyecto ( 
+CREATE TABLE  Proyectos ( 
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	nombre VARCHAR(255),
 	id_profesor INT NOT NULL,
@@ -66,9 +66,11 @@ CREATE TABLE  Proyecto (
 	id_curso INT NOT NULL
 );
 
-CREATE TABLE  Tecnologia ( 
+CREATE TABLE  Tecnologias ( 
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	nombre VARCHAR(255),
+	descripcion TEXT,
+	logo VARCHAR(255),
 	version VARCHAR(255)
 );
 

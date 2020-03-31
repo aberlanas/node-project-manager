@@ -18,5 +18,6 @@ populate-db:
 	@echo " * [ DB ] : Populate Users "
 	sudo mysql -u root -p < db/populate-usuarios.sql 
 	sudo mysql -u root -p < db/populate-permisos.sql 
+	sudo mysql -u root -p < db/populate-tecnologias.sql 
 
 

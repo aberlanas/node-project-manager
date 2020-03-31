@@ -24,6 +24,7 @@ exports.findById = async id => {
   connection.end();
   if (rows.length) {
     const user = parseUser(rows[0]);
+    //console.log(user);
     return user;
   }
   return false;
@@ -97,7 +98,7 @@ exports.findAllUsers = async (req, res) => {
     nickname: row.nickname,
     email: row.email,
     avatar: row.avatar,
-    admin: row.admin
+    admin: Boolean(row.admin)
   }));
   res.send(users);
 };
@@ -112,7 +113,7 @@ exports.isValidToken = (req, res) => {
 };
 
 const parseUser = results => {
-  results.admin = results.admin ? 1 : 0;
+  results.admin = results.admin ? true : false;
   return {
     id: results.id,
     nombre: results.nombre,
@@ -121,6 +122,6 @@ const parseUser = results => {
     password: results.password,
     avatar: results.avatar,
     email: results.email,
-    admin: results.admin
+    admin: Boolean(results.admin)
   };
 };

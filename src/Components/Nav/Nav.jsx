@@ -39,30 +39,21 @@ const Nav = ({ user }) => {
   console.log(user);
   return (
     <Menu mode="horizontal" className="navUsers">
-      <Menu.Item key="mail">
-        Inicio
+      <Menu.Item>
+      <Link to='/'>
+            Inicio
+        </Link>
       </Menu.Item>
       <Menu.Item key="app">
         <AppstoreOutlined />
         Proyectos
       </Menu.Item>
-      <SubMenu
-        title={
-          <span className="submenu-title-wrapper">
+      <Menu.Item >
+      <Link to='/Tecnologias'>
             <SettingOutlined />
             Tecnologías
-          </span>
-        }
-      >
-        <Menu.ItemGroup title="DAW">
-          <Menu.Item key="setting:1">Lenguajes</Menu.Item>
-          <Menu.Item key="setting:2">Bases de Datos</Menu.Item>
-        </Menu.ItemGroup>
-        <Menu.ItemGroup title="AFI">
-          <Menu.Item key="setting:3">ERM</Menu.Item>
-          <Menu.Item key="setting:4">Ofimática</Menu.Item>
-        </Menu.ItemGroup>
-      </SubMenu>
+        </Link>
+            </Menu.Item>
       <Menu.Item key="alipay">
           <MailOutlined/>Foro</Menu.Item>
       <Menu.Item>Calificaciones</Menu.Item>

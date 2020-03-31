@@ -78,8 +78,10 @@ const UserForm = ({editUser, user}) => {
           </Form.Item>
             
           <Form.Item name={['user', 'admin']} label="Administrador">
-            <InputNumber  />
+            <Switch defaultChecked={user.admin}  />
           </Form.Item>
+
+          {console.log("patata",user)}
           <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
             <Button type="primary" htmlType="submit">
               Editar
