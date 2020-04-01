@@ -1,27 +1,42 @@
 import React, { useEffect, useState, useCallback } from "react";
-import Profile from "../Profile/Profile";
+import TechDetails from "../TechDetails/TechDetails";
 import Header from "../Header/Header";
-import { List, Avatar, Button, Skeleton } from "antd";
+
+import { List, Avatar, Button, Skeleton, Card } from "antd";
 import "./Tecnologias.css";
 import Http from "../../Helpers/Http";
 
+import { connect } from "react-redux";
+import { readAllTechs } from "../../Redux/Reducers/TechReducer";
+import {
+  getAllTechs,
+  selectedTech,
+  createTech,
+  removeTech,
+  techEdit
+} from "../../Redux/Actions/TechActions";
 
-const getAllTechs = () =>{
+
+const findAllTechs = () =>{
   return [];
 }
 
 const dataSource = [];
 
-const Tecnologias = () => {
+const Tecnologias = ({ techs,getAllTechs,selectedTech }) => {
+
   const replenishTable = useCallback(async () => {
-    const dataSource = await Http.get("/api/techs/getAllTechs");
+    const dataSource = await Http.get("/api/techs/findAllTechs");
     console.log(dataSource);
+    
     getAllTechs(
       dataSource.map(item => {
         item.key = item.id;
+        item.icon = require(`../../img/techs/${item.logo}`);
         return item;
       })
     );
+    selectedTech(dataSource[0]);
   }, [getAllTechs]);
 
   useEffect(() => {
@@ -35,33 +50,43 @@ const Tecnologias = () => {
   return (
     <React.Fragment>
       <Header />
+
+    
       <List
-        itemLayout="horizontal"
-        dataSource={dataSource}
+        grid={{ gutter: 16, column: 4 }}
+        
+        dataSource={techs}
+        className="itemList"
         renderItem={item => (
-          <List.Item
-            actions={[
-              <a key="list-loadmore-edit">edit</a>,
-              <a key="list-loadmore-more">more</a>
-            ]}
-          >
-            <Skeleton avatar title={false} loading={item.loading} active>
-              <List.Item.Meta
-                avatar={
-                  <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-                }
-                title={<a href="https://ant.design">{item.name.last}</a>}
-                description="Ant Design, a design language for background applications, is refined by Ant UED Team"
-              />
-              <div>content</div>
-            </Skeleton>
+          <List.Item>
+            
+            <Card title={<span><Avatar src={item.icon}></Avatar> {item.nombre}</span>}
+            onClick={()=>{selectedTech(item)}}>
+              
+              Versión:{item.version}
+              <br/>
+              Dado de alta por :{item.creador}
+              
+              </Card>
+             
+  
           </List.Item>
         )}
       />
+  
+          <TechDetails/>
+      
+
     </React.Fragment>
   );
 };
 
-export default Tecnologias;
+const mapStateToProps = state => {
+  return { techs: readAllTechs(state) };
+};
 
 
+export default connect(mapStateToProps, {
+  getAllTechs,
+  selectedTech
+})(Tecnologias);

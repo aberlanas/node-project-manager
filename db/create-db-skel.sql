@@ -71,6 +71,7 @@ CREATE TABLE  Tecnologias (
 	nombre VARCHAR(255),
 	descripcion TEXT,
 	logo VARCHAR(255),
+	creador INT NOT NULL,
 	version VARCHAR(255)
 );
 
