@@ -1,0 +1,12 @@
+/*.itemList, .itemList * , .itemList a{
+    color: white;
+}*/
+
+.itemList{
+    /*background-color: whitesmoke;*/
+    margin:10px;
+    padding: 10px;
+    width: 50%;
+    float:left;
+}
+

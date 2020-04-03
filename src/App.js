@@ -11,6 +11,7 @@ import {
   Redirect
 } from "react-router-dom";
 
+import Http from './Helpers/Http';
 import "./App.css";
 import { Spin } from "antd";
 import { connect } from "react-redux";
@@ -33,6 +34,8 @@ function App({ user, logUser }) {
     setLoading(true);
     replenishUser();
   },[replenishUser]);
+
+
 
   return !loading ? (
     <Router>

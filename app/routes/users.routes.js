@@ -58,7 +58,6 @@ router.delete('/deleteUser/:id',passport.authenticate('jwt', { session: false })
 router.put('/updateUser/:id',passport.authenticate('jwt', { session: false }), updateUser )
 
 router.get('/getUserById/:id',passport.authenticate('jwt', { session: false }), getUserById )
-// router.get('/getUserById/:id', getUserById )
 
 
 module.exports = router

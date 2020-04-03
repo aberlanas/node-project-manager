@@ -5,6 +5,7 @@ import { PoweroffOutlined } from '@ant-design/icons';
 import { connect } from 'react-redux';
 import { readTech } from "../../Redux/Reducers/TechReducer";
 import "./TechDetails.css";
+import UserPopUpDetails from '../UserPopUpDetails/UserPopUpDetails';
 
 
 const TechDetails = ({tech}) => {
@@ -17,9 +18,9 @@ const TechDetails = ({tech}) => {
                 <hr/>
                 Versión: {tech.version}
                 <hr/>
-                Creado por : {tech.creador}
+                Creado por : <UserPopUpDetails/>
                 <hr/>
-                Usado por : "undefined"
+                Usado por : 
 
             </Card>
 

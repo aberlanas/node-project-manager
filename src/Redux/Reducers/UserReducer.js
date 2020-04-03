@@ -1,6 +1,5 @@
 const initialState = {user:null,users:[],editUserId:-1};
 
-
 const reducer = (state=initialState,action) => {
     switch(action.type){
         case "LOG_USER":
@@ -52,6 +51,11 @@ const reducer = (state=initialState,action) => {
 
 export const readUser = (state) => {
     return state.UserReducer.user;
+}
+
+export const readUserTech = (state) => {
+    console.log(state.UserReducer);
+    return state.UserReducer.users.filter(user=>user.id===state.TechReducer.tech.creador);
 }
 
 export const readAllUsers = (state) => {

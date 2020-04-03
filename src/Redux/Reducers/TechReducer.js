@@ -1,4 +1,4 @@
-const initialState = {tech:{nombre:"Loading"}, techs: [], editTechId: -1 };
+const initialState = {tech:{nombre:"Loading",creador:1,user:{avatar:"icon.png"}}, techs: [], editTechId: -1 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
