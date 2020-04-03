@@ -3,9 +3,10 @@ const initialState = {tech:{nombre:"Loading"}, techs: [], editTechId: -1 };
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case "CREATE_TECH":
+      console.log(state.techs);
       return {
         ...state,
-        techs: [action.tech].concat(state.techs)
+        techs: [state.techs[0]].concat(action.tech).concat(state.techs.slice(1,state.techs.length))
       };
     case "SELECTED_TECH":
       return {

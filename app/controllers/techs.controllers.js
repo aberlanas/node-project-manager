@@ -17,3 +17,25 @@ exports.findAllTechs = async (req, res) => {
     console.log(techs);
     res.send(techs);
   };
+
+  exports.createTech = async (req, res) => {
+    const connection = await model.getConnection();
+    const tech = parseTech(req.body.tech);
+    tech.creador = (req.user.id) ? req.user.id : 1;
+    const [rows] = await connection.execute("INSERT INTO `Tecnologias` VALUES (NULL,?,?,?,?,?)",[tech.nombre,tech.descripcion,"js.png",tech.creador,tech.version]);
+    connection.end();
+    tech.id = rows.insertId;
+    res.status(200).send(tech);
+  };
+
+  const parseTech = results => {
+    return {
+      id: results.id,
+      nombre: results.nombre,
+      descripcion: results.descripcion,
+      version: results.version,
+      logo:results.logo,
+      creador: results.creador
+    };
+  };
+  
