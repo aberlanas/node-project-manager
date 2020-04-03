@@ -20,12 +20,11 @@ import {
   removeTech,
   techEdit
 } from "../../Redux/Actions/TechActions";
-import TecnologiasListas from "../TecnologiasListas/TecnologiasListas";
 
 
 const dataSource = [];
 
-const Tecnologias = ({ getAllTechs, selectedTech }) => {
+const Tecnologias = ({ techs, getAllTechs, selectedTech }) => {
 
   const [showTechForm, setShowTechForm] = useState(false);
 
@@ -48,7 +47,7 @@ const Tecnologias = ({ getAllTechs, selectedTech }) => {
       })
     );
     selectedTech(dataSource[1]);
-  }, []);
+  }, [getAllTechs]);
 
   useEffect(() => {
     // Wait for loading data user
@@ -60,11 +59,58 @@ const Tecnologias = ({ getAllTechs, selectedTech }) => {
 
   return (
     <React.Fragment>
-      <Header />
+      <List
+        grid={{ gutter: 16, column: 4 }}
+        dataSource={techs}
+        className="itemList"
+        renderItem={item => (
+          <List.Item>
+            {item.id === "add" ? (
+              <Card
+                title="Añadir"
+                onClick={() => {
+                  setShowTechForm(!showTechForm);
+                }}
+              >
+                <span>
+                   <PlusCircleOutlined style={{fontSize:"73px",margin:"0 auto"}}/>
+                  </span>
+              </Card>
+            ) : (
+              <Card
+                title={
+                  <span>
+                    <Avatar src={item.icon}></Avatar> {item.nombre}
+                  </span>
+                }
+                onClick={() => {
+                  selectedTech(item);
+                }}
+              >
+                {item.version}
+                <br />
+                Creador :{item.user.nombre}
+              </Card>
+            )}
+          </List.Item>
+        )}
+      />
 
-      <TecnologiasListas />
-
-      <TechDetails />
+      <Modal
+          title="Crear Tecnologia"
+          visible={showTechForm}
+          okText="Salir"
+          destroyOnClose={true}
+          onOk={() => {
+            setShowTechForm(!showTechForm);
+          }}
+          cancelText="Cancelar"
+          onCancel={() => {
+            setShowTechForm(!showTechForm);
+          }}
+        >
+          <TechForm />
+        </Modal>
     </React.Fragment>
   );
 };

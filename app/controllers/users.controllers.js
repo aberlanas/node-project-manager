@@ -18,9 +18,7 @@ exports.findByNickname = async nickname => {
 
 exports.findById = async id => {
   const connection = await model.getConnection();
-  const [
-    rows
-  ] = await connection.execute("SELECT * FROM `Usuarios` WHERE `id` = ?", [id]);
+  const [rows] = await connection.execute("SELECT * FROM `Usuarios` WHERE `id` = ?", [id]);
   connection.end();
   if (rows.length) {
     const user = parseUser(rows[0]);
@@ -62,8 +60,10 @@ exports.deleteUser = async (req, res) => {
 };
 
 exports.getUserById = async (req,res) => {
+  console.log("Aqui");
   const user = await this.findById(req.params.id);
   delete user.password;
+  console.log(user,"Devuelvo");
   res.status(200).send(user);
 
 }
