@@ -18,7 +18,8 @@ const TechDetails = ({tech}) => {
                 Versión: {tech.version}
                 <hr/>
                 Creado por : {tech.creador}
-
+                <hr/>
+                Usado por : "undefined"
 
             </Card>
 

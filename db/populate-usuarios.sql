@@ -10,5 +10,6 @@ INSERT INTO Usuarios VALUES (NULL,"raul.gomez","$2b$13$U7kld3mcyhdw4ge1XQi5jePCN
 INSERT INTO Usuarios VALUES (NULL,"ruben.saiz","$2b$13$U7kld3mcyhdw4ge1XQi5jePCNWsPLf9XHevKwFQkCwayaqowREYsa","ruben.saiz@ieslasenia.org","Rubén","Saiz Serrano",0,"daw.png");
 INSERT INTO Usuarios VALUES (NULL,"adrian.nuñez","$2b$13$U7kld3mcyhdw4ge1XQi5jePCNWsPLf9XHevKwFQkCwayaqowREYsa","adrian.nunyez@ieslasenia.org","Adrián","Nuñez Pedroche",0,"daw.png");
 INSERT INTO Usuarios VALUES (NULL,"carlos.anguix","$2b$13$U7kld3mcyhdw4ge1XQi5jePCNWsPLf9XHevKwFQkCwayaqowREYsa","carlos.anguix@ieslasenia.org","Carlos","Anguix Genoves",0,"daw.png");
+INSERT INTO Usuarios VALUES (NULL,"aberlanas","$2b$13$U7kld3mcyhdw4ge1XQi5jePCNWsPLf9XHevKwFQkCwayaqowREYsa","angel.berlanas@ieslasenia.org","Angel","Berlanas",0,"admin.png");
 
 

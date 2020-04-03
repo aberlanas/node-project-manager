@@ -61,10 +61,9 @@ CREATE TABLE  Cursos (
 CREATE TABLE  Proyectos ( 
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	nombre VARCHAR(255),
-	id_profesor INT NOT NULL,
-	id_alumno INT NOT NULL,
-	id_curso INT NOT NULL
+    descripcion TEXT
 );
+
 
 CREATE TABLE  Tecnologias ( 
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,

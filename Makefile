@@ -20,6 +20,8 @@ populate-db:
 	sudo mysql -u root -p < db/populate-usuarios.sql 
 	sudo mysql -u root -p < db/populate-permisos.sql 
 	sudo mysql -u root -p < db/populate-tecnologias.sql 
+	sudo mysql -u root -p < db/populate-projects.sql 
+	
 
 install-dep: 
 	@echo " * NPM Installing dependence "

@@ -18,6 +18,8 @@ const TechForm = ({createTech}) => {
   const [imgRef, setImgRef] = useState(null);
   const [crop, setCrop] = useState({ unit: '%', width: 30, aspect: 16 / 9 });
   const [previewUrl, setPreviewUrl] = useState();
+  const [imgSrc,setImgSrc] = useState(null);
+  
 
   const onSelectFile = e => {
     if (e.target.files && e.target.files.length > 0) {
@@ -63,8 +65,9 @@ const TechForm = ({createTech}) => {
           reject(new Error('Canvas is empty'));
           return;
         }
+        setImgSrc(canvas.toDataURL('image/jpeg',1.0));
         blob.name = fileName;
-
+        
         console.log(blob);
         window.URL.revokeObjectURL(previewUrl);
         setPreviewUrl(window.URL.createObjectURL(blob));
@@ -77,6 +80,8 @@ const TechForm = ({createTech}) => {
 
 
     const onFinish = async (values) => {
+        console.log(values);
+        values.tech.logo=imgSrc;
         const result = await Http.post(values,'/api/techs/createTech');
         if(result){
           // TODO
@@ -146,8 +151,18 @@ const TechForm = ({createTech}) => {
         onChange={c => setCrop(c)}
         onComplete={makeClientCrop}
       />
-      {previewUrl && <img alt="Crop preview" src={previewUrl} />}
 
+
+      <Form.Item name={['tech', 'logo']} label="Logo"
+      rules={[
+        {
+            required: false,
+          },
+        ]}
+      >
+        {previewUrl && <img alt="Crop preview" src={previewUrl} />}
+        {/*previewUrl && console.log(previewUrl)*/}
+        </Form.Item>
 
           <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
             <Button type="primary" htmlType="submit">
