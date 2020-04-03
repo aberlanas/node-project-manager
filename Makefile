@@ -2,6 +2,7 @@
 
 node-path = /home/aberlanas/bin/node/bin
 
+
 run:
 	@echo " Starting with nodemon "
 	$(node-path)/npm run dev
@@ -20,4 +21,7 @@ populate-db:
 	sudo mysql -u root -p < db/populate-permisos.sql 
 	sudo mysql -u root -p < db/populate-tecnologias.sql 
 
+install-dep: 
+	@echo " * NPM Installing dependence "
+	$(node-path)/npm install $(ARGS) --save
 
