@@ -34,7 +34,7 @@ const Tecnologias = ({ techs, getAllTechs, selectedTech }) => {
       id: "add",
       nombre: "Add",
       logo: "js.png",
-      descripcion: "Añade technologia",
+      descripcion: "Añade tecnología",
       version: "",
       creador: ""
     });
@@ -67,6 +67,7 @@ const Tecnologias = ({ techs, getAllTechs, selectedTech }) => {
           <List.Item>
             {item.id === "add" ? (
               <Card
+              className="techCardAdd"
                 title="Añadir"
                 onClick={() => {
                   setShowTechForm(!showTechForm);
@@ -78,6 +79,7 @@ const Tecnologias = ({ techs, getAllTechs, selectedTech }) => {
               </Card>
             ) : (
               <Card
+              className="techCard"
                 title={
                   <span>
                     <Avatar src={item.icon}></Avatar> {item.nombre}
@@ -89,8 +91,9 @@ const Tecnologias = ({ techs, getAllTechs, selectedTech }) => {
               >
                 {item.version}
                 <br />
-                Creador :{item.user.nombre}
-              </Card>
+                {item.descripcion.substring(0,15)}
+                {(item.descripcion.length < 15) ? "" : " ..."}
+              </Card> 
             )}
           </List.Item>
         )}

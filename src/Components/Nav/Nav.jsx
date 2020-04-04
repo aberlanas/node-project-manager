@@ -11,30 +11,6 @@ import { Link } from "react-router-dom";
 import { readUser } from "../../Redux/Reducers/UserReducer";
 import { logOutUser } from "../../Redux/Actions/UserActions";
 
-
-const { SubMenu } = Menu;
-/*
-
-[Todos]
-
-* Inicio
-* Proyectos
-* Tecnologias
-   - > Odoo
-   - > ContaPlus
-   - > Que proyectos la usan.
-* Foro
-
-[Alumnos y profesores]
-
-* Calificaciones 
-
-[Administrador]
-
-* Usuarios
-
-*/
-
 const Nav = ({ user }) => {
   console.log(user);
   return (

@@ -1,10 +1,10 @@
 const model = require("../model/pm_manager.model");
-const {findById} = require("./users.controllers");
+const {findById, parseUserExported:parseUser} = require("./users.controllers");
 
 exports.findAllTechs = async (req, res) => {
   const connection = await model.getConnection();
   const [rows] = await connection.execute(
-    "SELECT tecnologias.*, usuarios.id idUser, usuarios.nombre nombreUser, usuarios.nickname, usuarios.email, usuarios.apellidos, usuarios.avatar, usuarios.admin FROM `tecnologias` INNER JOIN usuarios ON tecnologias.creador=usuarios.id ORDER BY id DESC"
+    "SELECT Tecnologias.*, Usuarios.id idUser, Usuarios.nombre nombreUser, Usuarios.nickname, Usuarios.email, Usuarios.apellidos, Usuarios.avatar, Usuarios.admin FROM `Tecnologias` INNER JOIN `Usuarios` ON Tecnologias.creador=Usuarios.id ORDER BY id DESC"
   );
   connection.end();
   const techs = rows.map(row => {
@@ -60,6 +60,7 @@ exports.createTech = async (req, res) => {
   );
   connection.end();
   tech.id = rows.insertId;
+  tech.user = req.user;
   res.status(200).send(tech);
 };
 
@@ -99,4 +100,16 @@ exports.getTechById = async (req, res) => {
     version: row.version
   }));
   res.send(techs[0]);
+};
+
+exports.getProjectsUsersTechs = async (req,res) =>{
+  const connection = await model.getConnection();
+  const {id} = req.params;
+  //Creemos que la línea de abajo devolverá los usuarios que usan una tecnología en concreto, tengan fe. Se ha decidido filtrar sólo por los usuarios que sean estudiantes en un proyecto.
+  const [rows] = await connection.execute("SELECT DISTINCT u.*  FROM `Usuarios` u INNER JOIN `PerfilesProyecto` profProj INNER JOIN `TecnologiasProyecto` techProj ON u.id = profProj.id_usuario AND techProj.id_proyecto = profProj.id_proyecto WHERE techProj.id_tecnologia = ? AND profProj.id_perfil = 3",[id]);
+  connection.end();
+  //console.log(parseUser(rows[0]));
+  const users = rows.map(user => parseUser(user));
+  users.map(user =>{delete user.password});
+  res.send(users);
 };

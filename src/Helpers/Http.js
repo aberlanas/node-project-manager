@@ -19,6 +19,10 @@ export default class Http {
     static post = async (body, url) => {
         const request = this.getRequest(body, url, "POST")
         const res = await fetch(request)
+        console.log(res);
+        if (res.status !== 200){
+            return ({message:"DB Problem: No puedes pasar!"});
+        }
         return await res.json()
     }
 

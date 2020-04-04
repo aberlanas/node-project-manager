@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { readTech } from "../../Redux/Reducers/TechReducer";
 import "./TechDetails.css";
 import UserPopUpDetails from '../UserPopUpDetails/UserPopUpDetails';
+import PopUpList from "../PopUpList/PopUpList";
 
 
 const TechDetails = ({tech}) => {
@@ -20,7 +21,7 @@ const TechDetails = ({tech}) => {
                 <hr/>
                 Creado por : <UserPopUpDetails/>
                 <hr/>
-                Usado por : 
+                Usado por : <PopUpList/>
 
             </Card>
 

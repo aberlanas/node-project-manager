@@ -125,3 +125,5 @@ const parseUser = results => {
     admin: Boolean(results.admin)
   };
 };
+
+exports.parseUserExported = parseUser;
