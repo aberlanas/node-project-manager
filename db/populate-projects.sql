@@ -21,26 +21,26 @@ TRUNCATE TABLE PerfilesProyecto;
 --  ID PERFIL, ID USARIO , ID PROYECTO
 
 
-INSERT INTO PerfilesProyecto VALUES (3,2,4);
-INSERT INTO PerfilesProyecto VALUES (4,7,4);
+INSERT INTO PerfilesProyecto VALUES (3,3,4);
+INSERT INTO PerfilesProyecto VALUES (4,2,4);
 
-INSERT INTO PerfilesProyecto VALUES (3,3,2);
-INSERT INTO PerfilesProyecto VALUES (4,7,2);
+INSERT INTO PerfilesProyecto VALUES (3,4,2);
+INSERT INTO PerfilesProyecto VALUES (4,2,2);
 
-INSERT INTO PerfilesProyecto VALUES (3,4,1);
-INSERT INTO PerfilesProyecto VALUES (4,7,1);
+INSERT INTO PerfilesProyecto VALUES (3,5,1);
+INSERT INTO PerfilesProyecto VALUES (4,2,1);
 
 INSERT INTO PerfilesProyecto VALUES (3,6,3);
-INSERT INTO PerfilesProyecto VALUES (4,7,3);
+INSERT INTO PerfilesProyecto VALUES (4,2,3);
 
-INSERT INTO PerfilesProyecto VALUES (3,5,5);
-INSERT INTO PerfilesProyecto VALUES (4,7,5);
+INSERT INTO PerfilesProyecto VALUES (3,7,5);
+INSERT INTO PerfilesProyecto VALUES (4,2,5);
 
-INSERT INTO PerfilesProyecto VALUES (3,6,6);
-INSERT INTO PerfilesProyecto VALUES (4,7,6);
+INSERT INTO PerfilesProyecto VALUES (3,8,6);
+INSERT INTO PerfilesProyecto VALUES (4,2,6);
 
-INSERT INTO PerfilesProyecto VALUES (3,1,7);
-INSERT INTO PerfilesProyecto VALUES (4,7,7);
+INSERT INTO PerfilesProyecto VALUES (3,9,7);
+INSERT INTO PerfilesProyecto VALUES (4,2,7);
 
 TRUNCATE TABLE TecnologiasProyecto;
 
