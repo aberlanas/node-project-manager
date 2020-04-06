@@ -3,6 +3,7 @@ import Login from "./Components/Login/Login";
 import Home from "./Components/Home/Home";
 import AdminUser from "./Components/AdminUser/AdminUser";
 import Tecnologias from "./Components/Tecnologias/Tecnologias";
+import Projects from "./Components/Projects/Projects";
 import { whoAmI } from "./Helpers/auth-helpers";
 import {
   BrowserRouter as Router,
@@ -45,6 +46,9 @@ function App({ user, logUser }) {
           </Route>
           <Route path="/" exact>
             {!user ? <Redirect to="/login" /> : <Home />}
+          </Route>
+          <Route path="/Projects" exact>
+            {!user ? <Redirect to="/login" /> : <Projects />}
           </Route>
           <Route path="/Tecnologias" exact>
             {!user ? <Redirect to="/login" /> : <Tecnologias />}

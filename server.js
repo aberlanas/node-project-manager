@@ -34,6 +34,8 @@ app.use(express.static(path.join(__dirname, "public")));
 // Require Users routes
 app.use("/api/users", require("./app/routes/users.routes.js"));
 app.use("/api/techs", require("./app/routes/techs.routes.js"));
+app.use("/api/projects", require("./app/routes/projects.routes.js"));
+
 app.listen(3000, () => {
     console.log(" * Miniserver UP and Running en http://localhost:3000");
 });

@@ -12,8 +12,6 @@ const optsCookie = {
 }
 
 router.post("/logIn", (req, res, next) => {
-	// TODO verify user data
-
     passport.authenticate("local-login", { session: false }, (error, user, info) => {
         if (error || !user) {
             return res.status(400).send(info)
@@ -22,7 +20,7 @@ router.post("/logIn", (req, res, next) => {
             const token = Model.createWebToken({
                 id: user.id,
             })
-			res.cookie("jwt", token, optsCookie)
+			res.cookie("jwt", token, optsCookie);
             res.status(200).send(info)
         })
     })(req, res, next)

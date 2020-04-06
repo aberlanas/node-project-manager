@@ -2,7 +2,7 @@ import React, { useEffect, useCallback } from "react";
 import TechDetails from "../TechDetails/TechDetails";
 import Header from "../Header/Header";
 
-import "./Tecnologias.css";
+import "./Projects.css";
 import Http from "../../Helpers/Http";
 
 import { connect } from "react-redux";
@@ -11,9 +11,11 @@ import {
   getAllTechs,
   selectedTech
 } from "../../Redux/Actions/TechActions";
-import TecnologiasListas from "../TecnologiasListas/TecnologiasListas";
+import ProjectMenu from "../ProjectMenu/ProjectMenu";
 
-const Tecnologias = ({ getAllTechs, selectedTech }) => {
+
+
+const Projects = ({ getAllTechs, selectedTech }) => {
 
   const replenishTable = useCallback(async () => {
     const dataSource = await Http.get("/api/techs/findAllTechs");
@@ -48,9 +50,9 @@ const Tecnologias = ({ getAllTechs, selectedTech }) => {
     <React.Fragment>
       <Header />
 
-      <TecnologiasListas />
+      <ProjectMenu className="projectMenu"/>
 
-      <TechDetails />
+      
     </React.Fragment>
   );
 };
@@ -62,4 +64,4 @@ const mapStateToProps = state => {
 export default connect(mapStateToProps, {
   getAllTechs,
   selectedTech
-})(Tecnologias);
+})(Projects);

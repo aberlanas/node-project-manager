@@ -21,10 +21,8 @@ const Login = ({logUser}) => {
 
         if (data.succes) {
             const data = await whoAmI();
-            console.log(data.user); 
             if (data.auth) {
                 logUser(data.user);
-                console.log('autorized');
             }
         }
         else {
