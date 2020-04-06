@@ -28,7 +28,7 @@ const reducer = (state=initialState,action) => {
                 editProjectId:action.id
             }
         case "EDIT_PROJECT":
-            console.log(action)
+            //console.log(action)
             return{
                 ...state,
                 projects:state.projects.map( project =>{
@@ -48,7 +48,7 @@ export const readProject = (state) => {
 }
 
 export const readProjectUser = (state) => {
-    console.log(state.ProjectReducer);
+    //console.log(state.ProjectReducer);
     return state.ProjectReducer.projects.filter(project=>project.id===state.UserReducer.user.id);
 }
 
