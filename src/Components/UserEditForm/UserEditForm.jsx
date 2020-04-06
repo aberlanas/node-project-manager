@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Form, Input, InputNumber, Button, Switch, Checkbox } from 'antd';
+import { Form, Input, Button, Switch } from 'antd';
 import Http from "../../Helpers/Http";
 import { editUser } from "../../Redux/Actions/UserActions";
 

@@ -1,6 +1,6 @@
 import React, {useState, useCallback} from "react";
 import { connect } from "react-redux";
-import { Form, Input, Button, Switch } from 'antd';
+import { Form, Input, Button } from 'antd';
 import Http from "../../Helpers/Http";
 import { createTech } from "../../Redux/Actions/TechActions";
 

@@ -1,7 +1,6 @@
 import React from "react";
 import "antd/dist/antd.css";
-import { Button, Card,Avatar } from 'antd';
-import { PoweroffOutlined } from '@ant-design/icons';
+import { Card,Avatar } from 'antd';
 import { connect } from 'react-redux';
 import { readTech } from "../../Redux/Reducers/TechReducer";
 import "./TechDetails.css";

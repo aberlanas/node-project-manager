@@ -1,9 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
-import TechDetails from "../TechDetails/TechDetails";
-import Header from "../Header/Header";
 import TechForm from "../TechForm/TechForm";
 
-import { List, Avatar, Button, Skeleton, Card, Modal } from "antd";
+import { List, Avatar,Card, Modal } from "antd";
 import {
   PlusCircleOutlined
 } from "@ant-design/icons";
@@ -16,13 +14,7 @@ import { readAllTechs } from "../../Redux/Reducers/TechReducer";
 import {
   getAllTechs,
   selectedTech,
-  createTech,
-  removeTech,
-  techEdit
 } from "../../Redux/Actions/TechActions";
-
-
-const dataSource = [];
 
 const Tecnologias = ({ techs, getAllTechs, selectedTech }) => {
 
@@ -47,7 +39,7 @@ const Tecnologias = ({ techs, getAllTechs, selectedTech }) => {
       })
     );
     selectedTech(dataSource[1]);
-  }, [getAllTechs]);
+  }, [getAllTechs,selectedTech]);
 
   useEffect(() => {
     // Wait for loading data user

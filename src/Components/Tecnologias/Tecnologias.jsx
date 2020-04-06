@@ -1,12 +1,6 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useCallback } from "react";
 import TechDetails from "../TechDetails/TechDetails";
 import Header from "../Header/Header";
-import TechForm from "../TechForm/TechForm";
-
-import { List, Avatar, Button, Skeleton, Card, Modal } from "antd";
-import {
-  PlusCircleOutlined
-} from "@ant-design/icons";
 
 import "./Tecnologias.css";
 import Http from "../../Helpers/Http";
@@ -15,19 +9,13 @@ import { connect } from "react-redux";
 import { readAllTechs } from "../../Redux/Reducers/TechReducer";
 import {
   getAllTechs,
-  selectedTech,
-  createTech,
-  removeTech,
-  techEdit
+  selectedTech
 } from "../../Redux/Actions/TechActions";
 import TecnologiasListas from "../TecnologiasListas/TecnologiasListas";
 
 
-const dataSource = [];
 
 const Tecnologias = ({ getAllTechs, selectedTech }) => {
-
-  const [showTechForm, setShowTechForm] = useState(false);
 
   const replenishTable = useCallback(async () => {
     const dataSource = await Http.get("/api/techs/findAllTechs");
@@ -48,7 +36,7 @@ const Tecnologias = ({ getAllTechs, selectedTech }) => {
       })
     );
     selectedTech(dataSource[1]);
-  }, []);
+  }, [getAllTechs,selectedTech]);
 
   useEffect(() => {
     // Wait for loading data user

@@ -25,7 +25,7 @@ const PopUpList = ({ tech }) => {
     // Wait for loading data user
     //setLoading(true);
 
-    usersUseTechs(tech.id);
+    usersUseTechs();
     //setLoading(false);
   }, [usersUseTechs]);
   return (

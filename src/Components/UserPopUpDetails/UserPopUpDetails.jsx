@@ -1,7 +1,5 @@
-import React,{useEffect, useState} from 'react';
+import React from 'react';
 import { Popover, Avatar } from 'antd';
-import Http from '../../Helpers/Http';
-import { useCallback } from 'react';
 import { connect } from 'react-redux';
 import { readTech } from "../../Redux/Reducers/TechReducer";
 
