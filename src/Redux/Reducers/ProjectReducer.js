@@ -1,4 +1,4 @@
-const initialState = {project:null,projects:[],editProjectId:-1};
+const initialState = {project:{nombre:""},projects:[],editProjectId:-1};
 
 const reducer = (state=initialState,action) => {
     switch(action.type){
@@ -15,13 +15,14 @@ const reducer = (state=initialState,action) => {
         case "SELECTED_PROJECT":
                     return {
                       ...state,
-                      project: action.project
+                      project: state.projects.filter(project=>project.id==action.id)[0]
                     };
         case "REMOVE_PROJECT":
             return{
                 ...state,
                 projects:state.projects.filter(project=>project.id!==action.id)
             }
+        
         case "EDITING_PROJECT":
             return{
                 ...state,

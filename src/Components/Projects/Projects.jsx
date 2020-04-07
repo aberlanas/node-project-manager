@@ -12,6 +12,7 @@ import {
   selectedTech
 } from "../../Redux/Actions/TechActions";
 import ProjectMenu from "../ProjectMenu/ProjectMenu";
+import ProjectWorkspace from "../ProjectWorkspace/ProjectWorkspace";
 
 
 
@@ -51,7 +52,7 @@ const Projects = ({ getAllTechs, selectedTech }) => {
       <Header />
 
       <ProjectMenu className="projectMenu"/>
-
+      <ProjectWorkspace></ProjectWorkspace>
       
     </React.Fragment>
   );

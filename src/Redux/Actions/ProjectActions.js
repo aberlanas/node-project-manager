@@ -6,8 +6,8 @@ export const getAllProjects = (projects) =>{
     return {type:"GET_ALL_PROJECTS",projects}
 }
 
-export const selectedProject = (project) => {
-    return {type:"SELECTED_PROJECT",project}
+export const selectedProject = (id) => {
+    return {type:"SELECTED_PROJECT",id}
 }
 
 

@@ -5,6 +5,8 @@ import {
   MailOutlined,
   AppstoreOutlined,
   SettingOutlined,
+  UserOutlined,
+  HomeOutlined
 } from "@ant-design/icons";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
@@ -15,6 +17,7 @@ const Nav = ({ user }) => {
   return (
     <Menu mode="horizontal" className="navUsers">
       <Menu.Item>
+      <HomeOutlined />
         <Link to="/">Inicio</Link>
       </Menu.Item>
       <Menu.Item key="app">
@@ -29,13 +32,9 @@ const Nav = ({ user }) => {
           Tecnologías
         </Link>
       </Menu.Item>
-      <Menu.Item key="alipay">
-        <MailOutlined />
-        Foro
-      </Menu.Item>
-      <Menu.Item>Calificaciones</Menu.Item>
       {user.admin ? (
         <Menu.Item>
+          <UserOutlined />
           <Link to="/AdminUser">Usuarios</Link>
         </Menu.Item>
       ) : null}

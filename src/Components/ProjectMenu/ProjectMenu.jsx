@@ -9,6 +9,8 @@ import {
   selectedProject
 } from "../../Redux/Actions/ProjectActions";
 
+import "./ProjectMenu.css";
+
 
 const ProjectMenu = ({projects, getAllProjects,selectedProject}) =>{
 
@@ -25,7 +27,7 @@ const ProjectMenu = ({projects, getAllProjects,selectedProject}) =>{
       creador: ""
     });*/
     await getAllProjects(dataSource);
-    selectedProject(dataSource[0]);
+    selectedProject(dataSource[0].id);
   }, [getAllProjects,selectedProject]);
 
   useEffect(() => {
@@ -35,12 +37,8 @@ const ProjectMenu = ({projects, getAllProjects,selectedProject}) =>{
     //setLoading(false);
   }, [replenishTable]);
 
-
-
-
-
-  const handleClick = e => {
-    console.log('click ', e);
+  const handleClick = e => {    
+    selectedProject(e.key);
   };
   return (
     
