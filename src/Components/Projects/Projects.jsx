@@ -52,7 +52,7 @@ const Projects = ({ getAllTechs, selectedTech }) => {
       <Header />
 
       <ProjectMenu className="projectMenu"/>
-      <ProjectWorkspace></ProjectWorkspace>
+      <ProjectWorkspace/>
       
     </React.Fragment>
   );

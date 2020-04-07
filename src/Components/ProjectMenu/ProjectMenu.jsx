@@ -12,22 +12,19 @@ import {
 import "./ProjectMenu.css";
 
 
-const ProjectMenu = ({projects, getAllProjects,selectedProject}) =>{
-
+const ProjectMenu = ({project,projects, getAllProjects,selectedProject}) =>{
+  const [clicked, setClicked] = useState(2);
 
   const replenishTable = useCallback(async () => {
     const dataSource = await Http.get("/api/projects/findAllProjects");
     //console.log(dataSource);
-    /*dataSource.unshift({
+    dataSource.unshift({
       id: "add",
-      nombre: "Add",
-      logo: "js.png",
+      nombre: "Añadir proyecto",
       descripcion: "Añade technologia",
-      version: "",
-      creador: ""
-    });*/
+    });
     await getAllProjects(dataSource);
-    selectedProject(dataSource[0].id);
+    selectedProject(dataSource[1].id);
   }, [getAllProjects,selectedProject]);
 
   useEffect(() => {
@@ -38,19 +35,19 @@ const ProjectMenu = ({projects, getAllProjects,selectedProject}) =>{
   }, [replenishTable]);
 
   const handleClick = e => {    
-    selectedProject(e.key);
+    setClicked(e.key);
   };
   return (
     
       <Menu
         className="projectMenu"
-        onClick={handleClick}
         style={{ width: 200 }}
         mode="inline"
       >
         {projects.map(item =>{
           return(
-          <Menu.Item key={item.id}>
+          <Menu.Item key={item.id}
+        >
             {item.nombre}
           </Menu.Item>
           )
