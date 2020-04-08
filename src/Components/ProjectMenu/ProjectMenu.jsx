@@ -1,20 +1,22 @@
-import React,{useCallback,useEffect,useState} from 'react';
-import { Menu } from 'antd';
+import React, { useCallback, useEffect, useState } from "react";
+import { Menu } from "antd";
 
 import Http from "../../Helpers/Http";
 import { connect } from "react-redux";
 import { readAllProjects } from "../../Redux/Reducers/ProjectReducer";
 import {
   getAllProjects,
-  selectedProject
+  selectedProject,
 } from "../../Redux/Actions/ProjectActions";
 
 import "./ProjectMenu.css";
 
-
-const ProjectMenu = ({project,projects, getAllProjects,selectedProject}) =>{
-  const [clicked, setClicked] = useState(2);
-
+const ProjectMenu = ({
+  project,
+  projects,
+  getAllProjects,
+  selectedProject,
+}) => {
   const replenishTable = useCallback(async () => {
     const dataSource = await Http.get("/api/projects/findAllProjects");
     //console.log(dataSource);
@@ -25,7 +27,7 @@ const ProjectMenu = ({project,projects, getAllProjects,selectedProject}) =>{
     });
     await getAllProjects(dataSource);
     selectedProject(dataSource[1].id);
-  }, [getAllProjects,selectedProject]);
+  }, [getAllProjects, selectedProject]);
 
   useEffect(() => {
     // Wait for loading data user
@@ -34,35 +36,29 @@ const ProjectMenu = ({project,projects, getAllProjects,selectedProject}) =>{
     //setLoading(false);
   }, [replenishTable]);
 
-  const handleClick = e => {    
-    setClicked(e.key);
-  };
   return (
-    
-      <Menu
-        className="projectMenu"
-        style={{ width: 200 }}
-        mode="inline"
-      >
-        {projects.map(item =>{
-          return(
-          <Menu.Item key={item.id}
-        >
+    <Menu className="projectMenu" style={{ width: 200 }} mode="inline">
+      {projects.map((item) => {
+        return (
+          <Menu.Item
+            key={item.id}
+            onClick={() => {
+              selectedProject(item.id);
+            }}
+          >
             {item.nombre}
           </Menu.Item>
-          )
-        })}
-      </Menu>
-    );
-  
-}
+        );
+      })}
+    </Menu>
+  );
+};
 
-
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return { projects: readAllProjects(state) };
 };
 
 export default connect(mapStateToProps, {
   getAllProjects,
-  selectedProject
+  selectedProject,
 })(ProjectMenu);
