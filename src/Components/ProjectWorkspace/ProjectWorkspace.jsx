@@ -9,6 +9,7 @@ import "./ProjectWorkspace.css";
 import UserPopUpDetails from "../UserPopUpDetails/UserPopUpDetails";
 import PopUpList from "../PopUpList/PopUpList";
 
+import ProjectDescription from "../ProjectDescription/ProjectDescription";
 import { Tabs } from "antd";
 import { BarsOutlined, InsertRowAboveOutlined,StarOutlined } from "@ant-design/icons";
 
@@ -26,9 +27,7 @@ const ProjectWorkspace = ({ project }) => {
         }
         key="1"
       >
-        FILL THE GAPS
-
-        Detalles del Proyecto : {project.nombre}
+        <ProjectDescription/>
       </TabPane>
       <TabPane
         tab={
