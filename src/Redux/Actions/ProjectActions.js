@@ -20,5 +20,6 @@ export const projectEdit = id => {
 }
 
 export const editProject = project => {
+    console.log(project);
     return {type:"EDIT_PROJECT",project}
 }

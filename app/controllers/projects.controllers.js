@@ -53,7 +53,6 @@ exports.findAllProjects = async (req, res) => {
       usuarios:users
     }; 
   })).then(resp=>{
-    console.log(resp);
     connection.end();
     res.send(resp);
   });

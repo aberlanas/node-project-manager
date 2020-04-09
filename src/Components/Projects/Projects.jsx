@@ -11,24 +11,22 @@ import {
   getAllTechs,
   selectedTech
 } from "../../Redux/Actions/TechActions";
+
+import {
+  getAllUsers
+} from "../../Redux/Actions/UserActions";
+
 import ProjectMenu from "../ProjectMenu/ProjectMenu";
 import ProjectWorkspace from "../ProjectWorkspace/ProjectWorkspace";
 
 
 
-const Projects = ({ getAllTechs, selectedTech }) => {
+const Projects = ({ getAllTechs, getAllUsers }) => {
 
   const replenishTable = useCallback(async () => {
     const dataSource = await Http.get("/api/techs/findAllTechs");
-    dataSource.unshift({
-      id: "add",
-      nombre: "Add",
-      logo: "js.png",
-      descripcion: "Añade technologia",
-      version: "",
-      creador: ""
-    });
-
+    const dataUsers = await Http.get("/api/users/getAllUsers");
+    
     getAllTechs(
       dataSource.map(item => {
         item.key = item.id;
@@ -36,8 +34,14 @@ const Projects = ({ getAllTechs, selectedTech }) => {
         return item;
       })
     );
-    selectedTech(dataSource[1]);
-  }, [getAllTechs,selectedTech]);
+
+    getAllUsers(
+      dataUsers.map(usr => {
+        usr.key = usr.id;
+        return usr;
+      })
+    );
+  }, [getAllTechs,getAllUsers]);
 
   useEffect(() => {
     // Wait for loading data user
@@ -64,5 +68,5 @@ const mapStateToProps = state => {
 
 export default connect(mapStateToProps, {
   getAllTechs,
-  selectedTech
+  getAllUsers
 })(Projects);

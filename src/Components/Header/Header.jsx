@@ -11,7 +11,7 @@ const Header = () => {
       <div className="profileIcon">
         <img alt="" src={icon} />
       </div>
-      <div className="profileTitle">FCT Project Manager</div>
+      <div className="profileTitle">FCT Project Manager : Beta</div>
       <div className="profileHome">
         <Profile />
       </div>

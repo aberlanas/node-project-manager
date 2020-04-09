@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Menu, Descriptions, Popover, Avatar, Input, Button } from "antd";
+import { Menu, Descriptions, Popover, Avatar, Input, Button, Modal } from "antd";
 import { EditOutlined, SaveOutlined } from "@ant-design/icons";
 import Http from "../../Helpers/Http";
 import { connect } from "react-redux";
@@ -13,6 +13,9 @@ import {
 } from "../../Redux/Actions/ProjectActions";
 
 import "./ProjectDescription.css";
+
+import TransferForm from "../TransferForm/TransferForm";
+import TransferTechForm from "../TransferTechForm/TransferTechForm";
 
 const contentPopOverTechs = (tech) => {
   return (
@@ -36,6 +39,8 @@ const ProjectDescription = ({ project }) => {
   const [description, setDescription] = useState("");
   const [editName, setEditName] = useState(true);
   const [editDesc, setEditDesc] = useState(true);
+  const [showUserEditForm, setShowUserEditForm] = useState(false);
+  const [showTechForm, setShowTechForm] = useState(false);
 
   return (
     <div>
@@ -97,7 +102,27 @@ const ProjectDescription = ({ project }) => {
             />
           )}
         </Descriptions.Item>
-        <Descriptions.Item label="Usuarios">
+        <Descriptions.Item label={<span>Usuarios <EditOutlined
+          onClick={()=>{
+            setShowUserEditForm(!showUserEditForm);
+          }}/></span>}>
+          
+          <Modal
+            title="Editar usuarios"
+            visible={showUserEditForm}
+            destroyOnClose={true}
+            okText="Salir"
+            onOk={() => {
+              setEdited(true);
+              setShowUserEditForm(!showUserEditForm);
+            }}
+            cancelText="Cancelar"
+            onCancel={() => {
+              setShowUserEditForm(!showUserEditForm);
+            }}
+          >
+            <TransferForm/>
+          </Modal>
           {project.usuarios
             ? project.usuarios.map((usr) => {
                 usr.icon = require("../../img/" + usr.avatar);
@@ -109,7 +134,28 @@ const ProjectDescription = ({ project }) => {
               })
             : ""}
         </Descriptions.Item>
-        <Descriptions.Item label="Tecnologías">
+        <Descriptions.Item label={<span>Tecnologías <EditOutlined
+          onClick={()=>{
+            setShowTechForm(!showTechForm);
+          }}/></span>}>
+
+        <Modal
+            title="Editar usuarios"
+            visible={showTechForm}
+            destroyOnClose={true}
+            okText="Salir"
+            onOk={() => {
+              setEdited(true);
+              setShowTechForm(!showTechForm);
+            }}
+            cancelText="Cancelar"
+            onCancel={() => {
+              setShowTechForm(!showTechForm);
+            }}
+          >
+            <TransferTechForm/>
+          </Modal>
+
           {project.tecnologias
             ? project.tecnologias.map((tech) => {
                 tech.icon = require("../../img/techs/" + tech.logo);
@@ -120,6 +166,7 @@ const ProjectDescription = ({ project }) => {
                 );
               })
             : ""}
+
         </Descriptions.Item>
         <Descriptions.Item
           label={
