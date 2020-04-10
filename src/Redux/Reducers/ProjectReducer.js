@@ -1,4 +1,4 @@
-const initialState = {project:{nombre:""},projects:[],editProjectId:-1};
+const initialState = {project:{nombre:"",usuarios:{alumnos:"",profesores:""}},projects:[],editProjectId:-1};
 
 const reducer = (state=initialState,action) => {
     switch(action.type){

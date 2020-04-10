@@ -21,7 +21,9 @@ TRUNCATE TABLE PerfilesProyecto;
 --  ID PERFIL, ID USARIO , ID PROYECTO
 
 
+INSERT INTO PerfilesProyecto VALUES (3,2,4); 
 INSERT INTO PerfilesProyecto VALUES (3,3,4);
+INSERT INTO PerfilesProyecto VALUES (3,10,4);
 INSERT INTO PerfilesProyecto VALUES (4,2,4);
 
 INSERT INTO PerfilesProyecto VALUES (3,4,2);

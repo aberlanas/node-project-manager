@@ -82,7 +82,7 @@ const rightTableColumns = [
   },
 ];
 
-const TransferForm = ({ users, techs, project, editProject}) => {
+const TransferFormTeachers = ({ users, techs, project, editProject}) => {
   //const leftUsers = users.filter(user => {user.id project.users);
   //const rightUsers = users.filter(user => {user.id}); 
 
@@ -90,11 +90,11 @@ const TransferForm = ({ users, techs, project, editProject}) => {
   console.log("Usuarios ", project.usuarios);
 
   const leftUsers = users.filter(user => {
-    return !project.usuarios.map(up => {return up.id}).includes(user.id)
+    return !project.usuarios.profesores.map(up => {return up.id}).includes(user.id)
   });
 
   const rightUsers = users.filter(user => {
-    return project.usuarios.map(up => {return up.id}).includes(user.id)
+    return project.usuarios.profesores.map(up => {return up.id}).includes(user.id)
   });
 
   const rightUsersKey = rightUsers.map(user => {return user.key})
@@ -111,7 +111,7 @@ const TransferForm = ({ users, techs, project, editProject}) => {
   const onChanged = (nextTargetKeys) => {
     setState({ targetKeys: nextTargetKeys });
     console.log(nextTargetKeys);
-    project.usuarios=users.filter(user => {
+    project.usuarios.profesores=users.filter(user => {
       return nextTargetKeys.includes(user.id)
     });
     console.log(project.users);
@@ -142,4 +142,4 @@ const mapStateToProps = (state) => {
   return { users: readAllUsers(state), techs: readAllTechs(state), project: readProject(state) };
 };
 
-export default connect(mapStateToProps, {editProject})(TransferForm);
+export default connect(mapStateToProps, {editProject})(TransferFormTeachers);

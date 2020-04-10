@@ -33,6 +33,8 @@ router.get('/getAuth', passport.authenticate('jwt', { session: false }), (req, r
 router.get('/profile', (req, res) => {
 	passport.authenticate('jwt', { session: false }, (err, user, info) => {
 		if (err || !user) {
+			console.log(err);
+			console.log(user);
 			return res.status(401).send({ auth: false, message: 'No valid token' });
 		}
 		res.status(200).send({

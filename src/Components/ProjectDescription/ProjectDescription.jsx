@@ -10,11 +10,15 @@ import {
 import {
   getAllProjects,
   selectedProject,
+  editProject,
+  projectEdit,
 } from "../../Redux/Actions/ProjectActions";
 
 import "./ProjectDescription.css";
 
-import TransferForm from "../TransferForm/TransferForm";
+import TransferFormStudents from "../TransferForm/TransferFormStudents";
+import TransferFormTeachers from "../TransferForm/TransferFormTeachers";
+
 import TransferTechForm from "../TransferTechForm/TransferTechForm";
 
 const contentPopOverTechs = (tech) => {
@@ -34,13 +38,48 @@ const contentPopOverUsers = (user) => {
 };
 
 const ProjectDescription = ({ project }) => {
+
   const [edited, setEdited] = useState(false);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [editName, setEditName] = useState(true);
   const [editDesc, setEditDesc] = useState(true);
   const [showUserEditForm, setShowUserEditForm] = useState(false);
+  const [showTeacherForm, setShowTeacherForm] = useState(false);
+
   const [showTechForm, setShowTechForm] = useState(false);
+
+  const temporalName = project.nombre;
+
+  const saveProject = async () => {
+
+
+    project.nombre=name;
+    project.descripcion=description;
+    editProject(project);
+
+
+    const result = await Http.post(project,'/api/projects/updateProject/'+project.id);
+
+    setEdited(false);
+    setEditDesc(true);
+    setEditName(true);
+
+  }
+
+  useEffect(() => {
+    // Wait for loading data user
+    //setLoading(true);
+    /*
+    if (project.editandome === undefined) {
+      project.editandome = 1;
+      setEditDesc(true);
+      setEditName(true);
+    }*/
+    
+    //setLoading(false);
+  });
+
 
   return (
     <div>
@@ -54,16 +93,7 @@ const ProjectDescription = ({ project }) => {
                   type="primary"
                   shape="round"
                   icon={<SaveOutlined />}
-                  onClick={() => {
-                    if (!name) {
-                      setName(project.nombre);
-                    }
-                    if (!description) {
-                      setDescription(project.descripcion);
-                    }
-                    console.log(name);
-                    console.log(description);
-                  }}
+                  onClick={saveProject}
                 >
                   Guardar
                 </Button>
@@ -74,7 +104,7 @@ const ProjectDescription = ({ project }) => {
           </span>
         }
         bordered
-        column={{ xxl: 3, xl: 3, lg: 3, md: 3, sm: 2, xs: 2 }}
+        column={{ xxl: 4, xl: 4, lg: 3, md: 3, sm: 2, xs: 2 }}
       >
         <Descriptions.Item
           label={
@@ -83,7 +113,6 @@ const ProjectDescription = ({ project }) => {
               <EditOutlined
                 onClick={() => {
                   setEditName(!editName);
-                  setEdited(true);
                   setName("");
                 }}
               />
@@ -97,18 +126,21 @@ const ProjectDescription = ({ project }) => {
               defaultValue={project.nombre}
               onChange={(e) => {
                 setName(e.target.value);
+                
+                setEdited(true);
               }}
               size="small"
             />
           )}
         </Descriptions.Item>
-        <Descriptions.Item label={<span>Usuarios <EditOutlined
+        
+        <Descriptions.Item label={<span> Alumnos <EditOutlined
           onClick={()=>{
             setShowUserEditForm(!showUserEditForm);
           }}/></span>}>
           
           <Modal
-            title="Editar usuarios"
+            title="Editar Alumnos"
             visible={showUserEditForm}
             destroyOnClose={true}
             okText="Salir"
@@ -121,10 +153,10 @@ const ProjectDescription = ({ project }) => {
               setShowUserEditForm(!showUserEditForm);
             }}
           >
-            <TransferForm/>
+            <TransferFormStudents/>
           </Modal>
-          {project.usuarios
-            ? project.usuarios.map((usr) => {
+          {project.usuarios.alumnos
+            ? project.usuarios.alumnos.map((usr) => {
                 usr.icon = require("../../img/" + usr.avatar);
                 return (
                   <Popover content={contentPopOverUsers(usr)} key={usr.id}>
@@ -134,6 +166,43 @@ const ProjectDescription = ({ project }) => {
               })
             : ""}
         </Descriptions.Item>
+            
+        <Descriptions.Item label={<span>Profesores <EditOutlined
+          onClick={()=>{
+            setShowTeacherForm(!showTeacherForm);
+          }}/></span>}>
+          
+          <Modal
+            title="Editar Alumnos"
+            visible={showTeacherForm}
+            destroyOnClose={true}
+            okText="Salir"
+            onOk={() => {
+              setEdited(true);
+              setShowTeacherForm(!showTeacherForm);
+            }}
+            cancelText="Cancelar"
+            onCancel={() => {
+              setShowTeacherForm(!showTeacherForm);
+            }}
+          >
+            <TransferFormTeachers/>
+          </Modal>
+          {project.usuarios.profesores
+            ? project.usuarios.profesores.map((usr) => {
+                usr.icon = require("../../img/" + usr.avatar);
+                return (
+                  <Popover content={contentPopOverUsers(usr)} key={usr.id}>
+                    <Avatar src={usr.icon} /> &nbsp;
+                  </Popover>
+                );
+              })
+            : ""}
+        </Descriptions.Item>
+
+
+
+
         <Descriptions.Item label={<span>Tecnologías <EditOutlined
           onClick={()=>{
             setShowTechForm(!showTechForm);
@@ -175,7 +244,7 @@ const ProjectDescription = ({ project }) => {
               <EditOutlined
                 onClick={() => {
                   setEditDesc(!editDesc);
-                  setEdited(true);
+                 
                   setDescription();
                 }}
               />
@@ -188,7 +257,9 @@ const ProjectDescription = ({ project }) => {
             <Input.TextArea
               defaultValue={project.descripcion}
               onChange={(e) => {
+
                 setDescription(e.target.value);
+                setEdited(true);
               }}
               size="small"
             />
@@ -199,7 +270,8 @@ const ProjectDescription = ({ project }) => {
   );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state) => {  
+  delete state.ProjectReducer.project.editandome;
   return { project: readProject(state) };
 };
 

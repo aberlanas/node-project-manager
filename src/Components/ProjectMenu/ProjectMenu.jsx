@@ -19,7 +19,7 @@ const ProjectMenu = ({
 }) => {
   const replenishTable = useCallback(async () => {
     const dataSource = await Http.get("/api/projects/findAllProjects");
-    //console.log(dataSource);
+    console.log(dataSource);
     dataSource.unshift({
       id: "add",
       nombre: "Añadir proyecto",
