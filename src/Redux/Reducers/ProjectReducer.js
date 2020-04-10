@@ -15,7 +15,7 @@ const reducer = (state=initialState,action) => {
         case "SELECTED_PROJECT":
                     return {
                       ...state,
-                      project: state.projects.filter(project=>project.id==action.id)[0]
+                      project: state.projects.filter(project=>project.id===action.id)[0]
                     };
         case "REMOVE_PROJECT":
             return{
@@ -29,7 +29,7 @@ const reducer = (state=initialState,action) => {
                 editProjectId:action.id
             }
         case "EDIT_PROJECT":
-            //console.log(action)
+
             return{
                 ...state,
                 projects:state.projects.map( project =>{
@@ -49,7 +49,7 @@ export const readProject = (state) => {
 }
 
 export const readProjectUser = (state) => {
-    //console.log(state.ProjectReducer);
+
     return state.ProjectReducer.projects.filter(project=>project.id===state.UserReducer.user.id);
 }
 

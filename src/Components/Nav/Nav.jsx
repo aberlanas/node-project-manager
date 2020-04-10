@@ -2,7 +2,6 @@ import React from "react";
 import "./Nav.css";
 import { Menu } from "antd";
 import {
-  MailOutlined,
   AppstoreOutlined,
   SettingOutlined,
   UserOutlined,

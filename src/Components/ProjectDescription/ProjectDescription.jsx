@@ -1,17 +1,15 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { Menu, Descriptions, Popover, Avatar, Input, Button, Modal } from "antd";
+import React, { useState, useEffect } from "react";
+import { Descriptions, Popover, Avatar, Input, Button, Modal } from "antd";
 import { EditOutlined, SaveOutlined } from "@ant-design/icons";
 import Http from "../../Helpers/Http";
 import { connect } from "react-redux";
 import {
-  readAllProjects,
   readProject,
 } from "../../Redux/Reducers/ProjectReducer";
 import {
   getAllProjects,
   selectedProject,
   editProject,
-  projectEdit,
 } from "../../Redux/Actions/ProjectActions";
 
 import "./ProjectDescription.css";
@@ -40,46 +38,40 @@ const contentPopOverUsers = (user) => {
 const ProjectDescription = ({ project }) => {
 
   const [edited, setEdited] = useState(false);
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
+  const [name, setName] = useState(project.nombre);
+  const [description, setDescription] = useState(project.descripcion);
   const [editName, setEditName] = useState(true);
   const [editDesc, setEditDesc] = useState(true);
   const [showUserEditForm, setShowUserEditForm] = useState(false);
   const [showTeacherForm, setShowTeacherForm] = useState(false);
-
   const [showTechForm, setShowTechForm] = useState(false);
-
-  const temporalName = project.nombre;
+  const [showSaved, setShowSaved] = useState(true);
 
   const saveProject = async () => {
 
-
     project.nombre=name;
     project.descripcion=description;
-    editProject(project);
-
 
     const result = await Http.post(project,'/api/projects/updateProject/'+project.id);
+
 
     setEdited(false);
     setEditDesc(true);
     setEditName(true);
+    setShowSaved(true);
 
   }
 
+  //Cada vez que cambiamos de proyecto, seteamos las variables al valor de cada proyecto
   useEffect(() => {
-    // Wait for loading data user
-    //setLoading(true);
-    /*
-    if (project.editandome === undefined) {
-      project.editandome = 1;
-      setEditDesc(true);
-      setEditName(true);
-    }*/
     
-    //setLoading(false);
-  });
-
+    setEditName(true);
+    setEditDesc(true);
+    setShowSaved(false);
+    setName(project.nombre);
+    setDescription(project.descripcion);
+    
+  }, [project]);
 
   return (
     <div>
@@ -112,23 +104,23 @@ const ProjectDescription = ({ project }) => {
               Nombre Proyecto &nbsp;
               <EditOutlined
                 onClick={() => {
+                  project.seleccionado = "";
                   setEditName(!editName);
-                  setName("");
                 }}
               />
             </span>
           }
         >
           {editName ? (
-            <span>{project.nombre}</span>
+            <span onDoubleClick={()=>{project.seleccionado="";setEditName(!editName)}}>{project.nombre}</span>
           ) : (
             <Input
               defaultValue={project.nombre}
               onChange={(e) => {
                 setName(e.target.value);
-                
-                setEdited(true);
+                setEdited(!edited);
               }}
+              
               size="small"
             />
           )}
@@ -243,24 +235,23 @@ const ProjectDescription = ({ project }) => {
               Descripcion &nbsp;
               <EditOutlined
                 onClick={() => {
+                  project.seleccionado = "";
                   setEditDesc(!editDesc);
-                 
-                  setDescription();
                 }}
               />
             </span>
           }
         >
           {editDesc ? (
-            <span>{project.descripcion}</span>
+            <span onDoubleClick={()=>{project.seleccionado = ""; setEditDesc(!editDesc)}}>{project.descripcion}</span>
           ) : (
             <Input.TextArea
               defaultValue={project.descripcion}
               onChange={(e) => {
-
                 setDescription(e.target.value);
                 setEdited(true);
-              }}
+                }
+              }
               size="small"
             />
           )}
@@ -271,8 +262,9 @@ const ProjectDescription = ({ project }) => {
 };
 
 const mapStateToProps = (state) => {  
-  delete state.ProjectReducer.project.editandome;
+  
   return { project: readProject(state) };
+  
 };
 
 export default connect(mapStateToProps, {

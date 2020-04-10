@@ -1,5 +1,4 @@
 import React, { useEffect, useCallback } from "react";
-import TechDetails from "../TechDetails/TechDetails";
 import Header from "../Header/Header";
 
 import "./Projects.css";
@@ -8,8 +7,7 @@ import Http from "../../Helpers/Http";
 import { connect } from "react-redux";
 import { readAllTechs } from "../../Redux/Reducers/TechReducer";
 import {
-  getAllTechs,
-  selectedTech
+  getAllTechs
 } from "../../Redux/Actions/TechActions";
 
 import {
