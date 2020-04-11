@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Descriptions, Popover, Avatar, Input, Button, Modal } from "antd";
+import { Descriptions, Popover, Avatar, Input, Button, Modal, Alert } from "antd";
 import { EditOutlined, SaveOutlined } from "@ant-design/icons";
 import Http from "../../Helpers/Http";
 import { connect } from "react-redux";
@@ -9,7 +9,6 @@ import {
 import {
   getAllProjects,
   selectedProject,
-  editProject,
 } from "../../Redux/Actions/ProjectActions";
 
 import "./ProjectDescription.css";
@@ -46,6 +45,8 @@ const ProjectDescription = ({ project }) => {
   const [showTeacherForm, setShowTeacherForm] = useState(false);
   const [showTechForm, setShowTechForm] = useState(false);
   const [showSaved, setShowSaved] = useState(true);
+  const [alertMessage, setAlertMessage] = useState("");
+  const [typeMessage, setTypeMessage] = useState("");
 
   const saveProject = async () => {
 
@@ -53,12 +54,16 @@ const ProjectDescription = ({ project }) => {
     project.descripcion=description;
 
     const result = await Http.post(project,'/api/projects/updateProject/'+project.id);
-
+    
+    if(result){
+      setAlertMessage(result.message);
+      setTypeMessage(result.type);
+      setShowSaved(true);
+    }
 
     setEdited(false);
     setEditDesc(true);
     setEditName(true);
-    setShowSaved(true);
 
   }
 
@@ -70,15 +75,30 @@ const ProjectDescription = ({ project }) => {
     setShowSaved(false);
     setName(project.nombre);
     setDescription(project.descripcion);
+    setAlertMessage(" ");
+    setTypeMessage(" ");
     
   }, [project]);
 
   return (
-    <div>
-      <Descriptions
+    <div className="descripciones">
+      <Descriptions className="itemsDescripciones"
         title={
-          <span>
+          <span className="titulo">
             {project.nombre}
+            {showSaved ? <div> <Modal 
+                         title="Usuario editado"
+                         visible={showSaved}
+                         destroyOnClose={true}
+                         okText="Salir"
+                         onOk={() => {
+                           setShowSaved(!showSaved);
+                         }}
+                         cancelText="Cancelar"
+                         onCancel={() => {
+                           setShowSaved(!showSaved);
+                         }}
+            ><Alert className="alertaUpdate" message={alertMessage} type={typeMessage} /> </Modal></div>:""}
             {edited ? (
               <span className="botonsitoGuardar">
                 <Button
@@ -99,6 +119,7 @@ const ProjectDescription = ({ project }) => {
         column={{ xxl: 4, xl: 4, lg: 3, md: 3, sm: 2, xs: 2 }}
       >
         <Descriptions.Item
+        className="nombreProyecto"
           label={
             <span>
               Nombre Proyecto &nbsp;
@@ -118,7 +139,7 @@ const ProjectDescription = ({ project }) => {
               defaultValue={project.nombre}
               onChange={(e) => {
                 setName(e.target.value);
-                setEdited(!edited);
+                setEdited(true);
               }}
               
               size="small"
@@ -126,7 +147,7 @@ const ProjectDescription = ({ project }) => {
           )}
         </Descriptions.Item>
         
-        <Descriptions.Item label={<span> Alumnos <EditOutlined
+        <Descriptions.Item className="alumnos" label={<span> Alumnos <EditOutlined
           onClick={()=>{
             setShowUserEditForm(!showUserEditForm);
           }}/></span>}>
@@ -159,7 +180,7 @@ const ProjectDescription = ({ project }) => {
             : ""}
         </Descriptions.Item>
             
-        <Descriptions.Item label={<span>Profesores <EditOutlined
+        <Descriptions.Item className="profesores"label={<span>Profesores <EditOutlined
           onClick={()=>{
             setShowTeacherForm(!showTeacherForm);
           }}/></span>}>
@@ -195,7 +216,7 @@ const ProjectDescription = ({ project }) => {
 
 
 
-        <Descriptions.Item label={<span>Tecnologías <EditOutlined
+        <Descriptions.Item className="tecnologias" label={<span>Tecnologías <EditOutlined
           onClick={()=>{
             setShowTechForm(!showTechForm);
           }}/></span>}>
@@ -230,6 +251,7 @@ const ProjectDescription = ({ project }) => {
 
         </Descriptions.Item>
         <Descriptions.Item
+          className="descripciones"
           label={
             <span>
               Descripcion &nbsp;
