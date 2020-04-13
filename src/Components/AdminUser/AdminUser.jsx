@@ -26,7 +26,6 @@ const AdminUser = ({ users, getAllUsers, removeUser, userEdit }) => {
   const [showUserEditForm, setShowUserEditForm] = useState(false);
 
   const deleteUser = async id => {
-    console.log(id);
     const data = await Http.delete("/api/users/deleteUser/" + id);
     if (!data.msg) removeUser(id);
   };

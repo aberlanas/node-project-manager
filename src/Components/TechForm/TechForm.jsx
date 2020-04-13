@@ -67,8 +67,6 @@ const TechForm = ({createTech}) => {
         }
         setImgSrc(canvas.toDataURL('image/jpeg',1.0));
         blob.name = fileName;
-        
-        console.log(blob);
         window.URL.revokeObjectURL(previewUrl);
         setPreviewUrl(window.URL.createObjectURL(blob));
       }, 'image/jpeg');

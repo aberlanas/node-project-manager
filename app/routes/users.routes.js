@@ -42,7 +42,6 @@ router.get('/profile', (req, res) => {
 			id: user.id,
 		})
 		// TODO
-		// ESTO VALE LO MISMO QUE LA COOKIE
 		user.expireSession = new Date(Date.now() + 10000);
 		res.status(200).send({
 			auth: true,

@@ -11,7 +11,7 @@ import { readUserById } from "../../Redux/Reducers/UserReducer";
 const UserForm = ({editUser, user}) => {
 
   const onFinish = async (values) => {
-    console.log(user.id);
+  
       const result = await Http.put(values,'/api/users/updateUser/'+user.id);
       if(result){
         if(result.affectedRows===1){
@@ -81,7 +81,7 @@ const UserForm = ({editUser, user}) => {
             <Switch defaultChecked={user.admin}  />
           </Form.Item>
 
-          {console.log("patata",user)}
+        
           <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
             <Button type="primary" htmlType="submit">
               Editar
@@ -93,7 +93,7 @@ const UserForm = ({editUser, user}) => {
 };
 
 const mapStateToProps = state => {
-  console.log(readUserById(state));
+
   return { user: readUserById(state) };
 };
 

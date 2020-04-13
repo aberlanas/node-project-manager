@@ -3,7 +3,7 @@ const initialState = {tech:{nombre:"Loading",creador:1,user:{avatar:"icon.png"}}
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case "CREATE_TECH":
-      console.log(state.techs);
+    
       return {
         ...state,
         techs: [state.techs[0]].concat(action.tech).concat(state.techs.slice(1,state.techs.length))
@@ -30,7 +30,6 @@ const reducer = (state = initialState, action) => {
         editTechId: action.id
       };
     case "EDIT_TECH":
-      console.log(action);
       return {
         ...state,
         techs: state.techs.map(tech => {

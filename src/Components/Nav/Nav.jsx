@@ -17,7 +17,7 @@ const Nav = ({ user }) => {
     <Menu mode="horizontal" className="navUsers">
       <Menu.Item>
       <HomeOutlined />
-        <Link to="/">Inicio</Link>
+        <Link to="/Home">Inicio</Link>
       </Menu.Item>
       <Menu.Item key="app">
         <Link to="/Projects">

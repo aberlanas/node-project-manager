@@ -92,17 +92,17 @@ const TransferFormTeachers = ({ users, techs, project, editProject}) => {
     disabled: false,
     showSearch: false,
   });
-  console.log(state.targetKeys);
+  
   const { targetKeys } = state;
 
-  console.log(leftTableColumns);
+  
   const onChanged = (nextTargetKeys) => {
     setState({ targetKeys: nextTargetKeys });
-    console.log(nextTargetKeys);
+  
     project.usuarios.profesores=users.filter(user => {
       return nextTargetKeys.includes(user.id)
     });
-    console.log(project.users);
+  
     editProject(project);
   };
 

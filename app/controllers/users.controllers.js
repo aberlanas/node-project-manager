@@ -1,9 +1,9 @@
 const model = require("../model/pm_manager.model");
 
-exports.findByNickname = async nickname => {
+exports.findByNickname = async (nickname) => {
   const connection = await model.getConnection();
   const [
-    rows
+    rows,
   ] = await connection.execute(
     "SELECT * FROM `Usuarios` WHERE `nickname` = ?",
     [nickname]
@@ -16,9 +16,11 @@ exports.findByNickname = async nickname => {
   return false;
 };
 
-exports.findById = async id => {
+exports.findById = async (id) => {
   const connection = await model.getConnection();
-  const [rows] = await connection.execute("SELECT * FROM `Usuarios` WHERE `id` = ?", [id]);
+  const [
+    rows,
+  ] = await connection.execute("SELECT * FROM `Usuarios` WHERE `id` = ?", [id]);
   connection.end();
   if (rows.length) {
     const user = parseUser(rows[0]);
@@ -31,9 +33,20 @@ exports.findById = async id => {
 exports.createUser = async (req, res) => {
   const connection = await model.getConnection();
   const user = parseUser(req.body.user);
-  console.log(user)
-  const [rows] = await connection.execute("INSERT INTO `Usuarios` VALUES (NULL,?,?,?,?,?,?,?)",[user.nickname,user.password,user.email,user.nombre,user.apellidos,user.admin,"default.png"]);
-  console.log(rows);
+  const [
+    rows,
+  ] = await connection.execute(
+    "INSERT INTO `Usuarios` VALUES (NULL,?,?,?,?,?,?,?)",
+    [
+      user.nickname,
+      user.password,
+      user.email,
+      user.nombre,
+      user.apellidos,
+      user.admin,
+      "default.png",
+    ]
+  );
   connection.end();
   user.id = rows.insertId;
   delete user.password;
@@ -46,9 +59,8 @@ exports.deleteUser = async (req, res) => {
   const { id } = req.params;
   let rows = [];
   if (id != "1") {
-    console.log(id);
-      rows = await connection.execute("DELETE FROM `Usuarios` WHERE `id` =  ?", [
-      id
+    rows = await connection.execute("DELETE FROM `Usuarios` WHERE `id` =  ?", [
+      id,
     ]);
 
     connection.end();
@@ -59,30 +71,28 @@ exports.deleteUser = async (req, res) => {
   res.status(200).send(user);
 };
 
-exports.getUserById = async (req,res) => {
-  console.log("Aqui");
+exports.getUserById = async (req, res) => {
   const user = await this.findById(req.params.id);
   delete user.password;
-  console.log(user,"Devuelvo");
   res.status(200).send(user);
-
-}
+};
 
 exports.updateUser = async (req, res) => {
   const connection = await model.getConnection();
 
   let { id } = req.params;
-  console.log(id);
   let rows = [];
   const user = req.body.user;
   if (id != "1") {
-    rows = await connection.execute("UPDATE `Usuarios` set nickname =  ?, email = ?, nombre = ?, apellidos = ?, admin = ? WHERE `id` = ?",
-                                    [user.nickname,user.email,user.nombre,user.apellidos,user.admin,id]);
+    rows = await connection.execute(
+      "UPDATE `Usuarios` set nickname =  ?, email = ?, nombre = ?, apellidos = ?, admin = ? WHERE `id` = ?",
+      [user.nickname, user.email, user.nombre, user.apellidos, user.admin, id]
+    );
     connection.end();
   } else {
     res.status(200).send({ msg: "No tienes poder aqui" });
   }
-  res.status(200).send({affectedRows:rows[0].affectedRows});
+  res.status(200).send({ affectedRows: rows[0].affectedRows });
 };
 
 exports.findAllUsers = async (req, res) => {
@@ -91,14 +101,14 @@ exports.findAllUsers = async (req, res) => {
     "SELECT * FROM `Usuarios` ORDER BY id DESC"
   );
   connection.end();
-  const users = rows.map(row => ({
+  const users = rows.map((row) => ({
     id: row.id,
     nombre: row.nombre,
     apellidos: row.apellidos,
     nickname: row.nickname,
     email: row.email,
     avatar: row.avatar,
-    admin: Boolean(row.admin)
+    admin: Boolean(row.admin),
   }));
   res.send(users);
 };
@@ -108,11 +118,11 @@ exports.isValidToken = (req, res) => {
 
   res.send({
     auth: data !== undefined,
-    data
+    data,
   });
 };
 
-const parseUser = results => {
+const parseUser = (results) => {
   results.admin = results.admin ? true : false;
   return {
     id: results.id,
@@ -122,7 +132,7 @@ const parseUser = results => {
     password: results.password,
     avatar: results.avatar,
     email: results.email,
-    admin: Boolean(results.admin)
+    admin: Boolean(results.admin),
   };
 };
 

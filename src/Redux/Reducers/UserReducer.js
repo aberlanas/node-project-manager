@@ -34,7 +34,6 @@ const reducer = (state=initialState,action) => {
                 editUserId:action.id
             }
         case "EDIT_USER":
-            console.log(action)
             return{
                 ...state,
                 users:state.users.map( user =>{
@@ -54,7 +53,7 @@ export const readUser = (state) => {
 }
 
 export const readUserTech = (state) => {
-    console.log(state.UserReducer);
+
     return state.UserReducer.users.filter(user=>user.id===state.TechReducer.tech.creador);
 }
 
