@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Descriptions, Popover, Avatar, Input, Button, Modal, Alert } from "antd";
+import { Descriptions, Popover, Avatar, Input, Button, Modal, Alert, notification } from "antd";
 import { EditOutlined, SaveOutlined } from "@ant-design/icons";
 import Http from "../../Helpers/Http";
 import { connect } from "react-redux";
@@ -36,6 +36,8 @@ const contentPopOverUsers = (user) => {
 
 const ProjectDescription = ({ project }) => {
 
+
+
   const [edited, setEdited] = useState(false);
   const [name, setName] = useState(project.nombre);
   const [description, setDescription] = useState(project.descripcion);
@@ -48,6 +50,25 @@ const ProjectDescription = ({ project }) => {
   const [alertMessage, setAlertMessage] = useState("");
   const [typeMessage, setTypeMessage] = useState("");
 
+  const openNotification = result => {
+    // TODO : 
+    switch (result.type){
+      case "success":
+        notification.success({
+          message: `${result.message}`,
+          placement:'bottomRight'
+        });
+        break;
+      default:
+        notification.error({
+          message: `Something went wrong`,
+          placement:'bottomRight'
+        });
+    }
+  };
+
+
+
   const saveProject = async () => {
 
     project.nombre=name;
@@ -56,9 +77,7 @@ const ProjectDescription = ({ project }) => {
     const result = await Http.post(project,'/api/projects/updateProject/'+project.id);
     
     if(result){
-      setAlertMessage(result.message);
-      setTypeMessage(result.type);
-      setShowSaved(true);
+      openNotification(result);
     }
 
     setEdited(false);

@@ -32,7 +32,7 @@ exports.updateProject = async (req,res) => {
   const [projectoUpdated] = await connection.execute("UPDATE `Proyectos` SET nombre = ? , descripcion = ? WHERE id = ? ",[projecto.nombre, projecto.descripcion,projecto.id]);
 
 
-  alertMessage.message = "Usuario introducido correctamente";
+  alertMessage.message = "Proyecto actualizado correctamente";
   alertMessage.type = "success";
 
   connection.end();

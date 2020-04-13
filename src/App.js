@@ -20,11 +20,13 @@ import { logUser } from "./Redux/Actions/UserActions";
 
 function App({ user, logUser }) {
   const [loading, setLoading] = useState(true);
+  
 
   const replenishUser = useCallback (async () => {
     const data = await whoAmI();
     if (data.auth) {
       logUser(data.user);
+      //console.log(data.cookies.expires);
     }
     setLoading(false);
   },[logUser]);
@@ -35,7 +37,7 @@ function App({ user, logUser }) {
     replenishUser();
   },[replenishUser]);
 
-
+  
 
   return !loading ? (
     <Router>

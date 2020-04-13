@@ -14,10 +14,11 @@ const Login = ({logUser}) => {
     const [errorMsg, setErrorMsg] = useState(null);
 
     const handleSignIn = async () => {
-        const data = await logIn({ 
+        const data = await logIn({
             nickname: userName, 
             password: password
         });
+        console.log(data.cookies.expires);
 
         if (data.succes) {
             const data = await whoAmI();

@@ -21,7 +21,8 @@ router.post("/logIn", (req, res, next) => {
                 id: user.id,
             })
 			res.cookie("jwt", token, optsCookie);
-            res.status(200).send(info)
+			info.cookies = optsCookie;
+            res.status(200).send(info);
         })
     })(req, res, next)
 })
@@ -37,6 +38,12 @@ router.get('/profile', (req, res) => {
 			console.log(user);
 			return res.status(401).send({ auth: false, message: 'No valid token' });
 		}
+		const token = Model.createWebToken({
+			id: user.id,
+		})
+		// TODO
+		// ESTO VALE LO MISMO QUE LA COOKIE
+		user.expireSession = new Date(Date.now() + 10000);
 		res.status(200).send({
 			auth: true,
 			user
