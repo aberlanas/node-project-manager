@@ -3,6 +3,11 @@ const {findById, parseUserExported:parseUser} = require("./users.controllers");
 
 
 exports.updateProject = async (req,res) => {
+   
+  const alertMessage = {
+    message: "",
+    type:""
+  }
 
   const connection = await model.getConnection();
   
@@ -25,12 +30,13 @@ exports.updateProject = async (req,res) => {
 
   console.log(projecto);
   const [projectoUpdated] = await connection.execute("UPDATE `Proyectos` SET nombre = ? , descripcion = ? WHERE id = ? ",[projecto.nombre, projecto.descripcion,projecto.id]);
-  
 
+
+  alertMessage.message = "Usuario introducido correctamente";
+  alertMessage.type = "success";
 
   connection.end();
-  console.log(req.params.id);
-  res.status(200).send(req.params.id);
+  res.status(200).send(alertMessage);
 
 }
 

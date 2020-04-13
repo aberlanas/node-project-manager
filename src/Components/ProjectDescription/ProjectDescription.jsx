@@ -1,17 +1,14 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { Menu, Descriptions, Popover, Avatar, Input, Button, Modal } from "antd";
+import React, { useState, useEffect } from "react";
+import { Descriptions, Popover, Avatar, Input, Button, Modal, Alert } from "antd";
 import { EditOutlined, SaveOutlined } from "@ant-design/icons";
 import Http from "../../Helpers/Http";
 import { connect } from "react-redux";
 import {
-  readAllProjects,
   readProject,
 } from "../../Redux/Reducers/ProjectReducer";
 import {
   getAllProjects,
   selectedProject,
-  editProject,
-  projectEdit,
 } from "../../Redux/Actions/ProjectActions";
 
 import "./ProjectDescription.css";
@@ -40,26 +37,29 @@ const contentPopOverUsers = (user) => {
 const ProjectDescription = ({ project }) => {
 
   const [edited, setEdited] = useState(false);
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
+  const [name, setName] = useState(project.nombre);
+  const [description, setDescription] = useState(project.descripcion);
   const [editName, setEditName] = useState(true);
   const [editDesc, setEditDesc] = useState(true);
   const [showUserEditForm, setShowUserEditForm] = useState(false);
   const [showTeacherForm, setShowTeacherForm] = useState(false);
-
   const [showTechForm, setShowTechForm] = useState(false);
-
-  const temporalName = project.nombre;
+  const [showSaved, setShowSaved] = useState(true);
+  const [alertMessage, setAlertMessage] = useState("");
+  const [typeMessage, setTypeMessage] = useState("");
 
   const saveProject = async () => {
 
-
     project.nombre=name;
     project.descripcion=description;
-    editProject(project);
-
 
     const result = await Http.post(project,'/api/projects/updateProject/'+project.id);
+    
+    if(result){
+      setAlertMessage(result.message);
+      setTypeMessage(result.type);
+      setShowSaved(true);
+    }
 
     setEdited(false);
     setEditDesc(true);
@@ -67,26 +67,38 @@ const ProjectDescription = ({ project }) => {
 
   }
 
+  //Cada vez que cambiamos de proyecto, seteamos las variables al valor de cada proyecto
   useEffect(() => {
-    // Wait for loading data user
-    //setLoading(true);
-    /*
-    if (project.editandome === undefined) {
-      project.editandome = 1;
-      setEditDesc(true);
-      setEditName(true);
-    }*/
     
-    //setLoading(false);
-  });
-
+    setEditName(true);
+    setEditDesc(true);
+    setShowSaved(false);
+    setName(project.nombre);
+    setDescription(project.descripcion);
+    setAlertMessage(" ");
+    setTypeMessage(" ");
+    
+  }, [project]);
 
   return (
-    <div>
-      <Descriptions
+    <div className="descripciones">
+      <Descriptions className="itemsDescripciones"
         title={
-          <span>
+          <span className="titulo">
             {project.nombre}
+            {showSaved ? <div> <Modal 
+                         title="Usuario editado"
+                         visible={showSaved}
+                         destroyOnClose={true}
+                         okText="Salir"
+                         onOk={() => {
+                           setShowSaved(!showSaved);
+                         }}
+                         cancelText="Cancelar"
+                         onCancel={() => {
+                           setShowSaved(!showSaved);
+                         }}
+            ><Alert className="alertaUpdate" message={alertMessage} type={typeMessage} /> </Modal></div>:""}
             {edited ? (
               <span className="botonsitoGuardar">
                 <Button
@@ -107,34 +119,35 @@ const ProjectDescription = ({ project }) => {
         column={{ xxl: 4, xl: 4, lg: 3, md: 3, sm: 2, xs: 2 }}
       >
         <Descriptions.Item
+        className="nombreProyecto"
           label={
             <span>
               Nombre Proyecto &nbsp;
               <EditOutlined
                 onClick={() => {
+                  project.seleccionado = "";
                   setEditName(!editName);
-                  setName("");
                 }}
               />
             </span>
           }
         >
           {editName ? (
-            <span>{project.nombre}</span>
+            <span onDoubleClick={()=>{project.seleccionado="";setEditName(!editName)}}>{project.nombre}</span>
           ) : (
             <Input
               defaultValue={project.nombre}
               onChange={(e) => {
                 setName(e.target.value);
-                
                 setEdited(true);
               }}
+              
               size="small"
             />
           )}
         </Descriptions.Item>
         
-        <Descriptions.Item label={<span> Alumnos <EditOutlined
+        <Descriptions.Item className="alumnos" label={<span> Alumnos <EditOutlined
           onClick={()=>{
             setShowUserEditForm(!showUserEditForm);
           }}/></span>}>
@@ -167,7 +180,7 @@ const ProjectDescription = ({ project }) => {
             : ""}
         </Descriptions.Item>
             
-        <Descriptions.Item label={<span>Profesores <EditOutlined
+        <Descriptions.Item className="profesores"label={<span>Profesores <EditOutlined
           onClick={()=>{
             setShowTeacherForm(!showTeacherForm);
           }}/></span>}>
@@ -203,7 +216,7 @@ const ProjectDescription = ({ project }) => {
 
 
 
-        <Descriptions.Item label={<span>Tecnologías <EditOutlined
+        <Descriptions.Item className="tecnologias" label={<span>Tecnologías <EditOutlined
           onClick={()=>{
             setShowTechForm(!showTechForm);
           }}/></span>}>
@@ -238,29 +251,29 @@ const ProjectDescription = ({ project }) => {
 
         </Descriptions.Item>
         <Descriptions.Item
+          className="descripciones"
           label={
             <span>
               Descripcion &nbsp;
               <EditOutlined
                 onClick={() => {
+                  project.seleccionado = "";
                   setEditDesc(!editDesc);
-                 
-                  setDescription();
                 }}
               />
             </span>
           }
         >
           {editDesc ? (
-            <span>{project.descripcion}</span>
+            <span onDoubleClick={()=>{project.seleccionado = ""; setEditDesc(!editDesc)}}>{project.descripcion}</span>
           ) : (
             <Input.TextArea
               defaultValue={project.descripcion}
               onChange={(e) => {
-
                 setDescription(e.target.value);
                 setEdited(true);
-              }}
+                }
+              }
               size="small"
             />
           )}
@@ -271,8 +284,9 @@ const ProjectDescription = ({ project }) => {
 };
 
 const mapStateToProps = (state) => {  
-  delete state.ProjectReducer.project.editandome;
+  
   return { project: readProject(state) };
+  
 };
 
 export default connect(mapStateToProps, {

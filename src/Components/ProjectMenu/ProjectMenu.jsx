@@ -1,9 +1,9 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect } from "react";
 import { Menu } from "antd";
 
 import Http from "../../Helpers/Http";
 import { connect } from "react-redux";
-import { readAllProjects } from "../../Redux/Reducers/ProjectReducer";
+import { readAllProjects, readProject } from "../../Redux/Reducers/ProjectReducer";
 import {
   getAllProjects,
   selectedProject,
@@ -19,7 +19,7 @@ const ProjectMenu = ({
 }) => {
   const replenishTable = useCallback(async () => {
     const dataSource = await Http.get("/api/projects/findAllProjects");
-    console.log(dataSource);
+    
     dataSource.unshift({
       id: "add",
       nombre: "Añadir proyecto",
@@ -31,10 +31,10 @@ const ProjectMenu = ({
 
   useEffect(() => {
     // Wait for loading data user
-    //setLoading(true);
     replenishTable();
-    //setLoading(false);
+    
   }, [replenishTable]);
+  
 
   return (
     <Menu className="projectMenu" style={{ width: 200 }} mode="inline">
@@ -42,7 +42,7 @@ const ProjectMenu = ({
         return (
           <Menu.Item
             key={item.id}
-            onClick={() => {
+            onClick={(e) => {
               selectedProject(item.id);
             }}
           >
@@ -55,7 +55,7 @@ const ProjectMenu = ({
 };
 
 const mapStateToProps = (state) => {
-  return { projects: readAllProjects(state) };
+  return { projects: readAllProjects(state), project: readProject(state) };
 };
 
 export default connect(mapStateToProps, {

@@ -1,12 +1,9 @@
 //antd
-import { Transfer, Switch, Table, Tag } from "antd";
+import { Transfer, Table } from "antd";
 import difference from "lodash/difference";
 
 //React
-import React, { useEffect, useCallback, useState } from "react";
-
-//Helpers
-import Http from "../../Helpers/Http";
+import React, { useState } from "react";
 
 //Redux
 import { connect } from "react-redux";
@@ -83,15 +80,6 @@ const rightTableColumns = [
 ];
 
 const TransferFormStudents = ({ users, techs, project, editProject}) => {
-  //const leftUsers = users.filter(user => {user.id project.users);
-  //const rightUsers = users.filter(user => {user.id}); 
-
-  console.log("Tecnologías ", project.tecnologias);
-  console.log("Usuarios ", project.usuarios);
-
-  const leftUsers = users.filter(user => {
-    return !project.usuarios.alumnos.map(up => {return up.id}).includes(user.id)
-  });
 
   const rightUsers = users.filter(user => {
     return project.usuarios.alumnos.map(up => {return up.id}).includes(user.id)
@@ -105,7 +93,7 @@ const TransferFormStudents = ({ users, techs, project, editProject}) => {
     showSearch: false,
   });
   console.log(state.targetKeys);
-  const { targetKeys, disabled, showSearch } = state;
+  const { targetKeys } = state;
 
   console.log(leftTableColumns);
   const onChanged = (nextTargetKeys) => {

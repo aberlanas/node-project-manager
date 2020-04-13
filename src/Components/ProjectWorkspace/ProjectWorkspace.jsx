@@ -1,13 +1,9 @@
 import React from "react";
 import "antd/dist/antd.css";
-import { Card, Avatar } from "antd";
 import { connect } from "react-redux";
-import { readTech } from "../../Redux/Reducers/TechReducer";
 import { readProject } from "../../Redux/Reducers/ProjectReducer";
 
 import "./ProjectWorkspace.css";
-import UserPopUpDetails from "../UserPopUpDetails/UserPopUpDetails";
-import PopUpList from "../PopUpList/PopUpList";
 
 import ProjectDescription from "../ProjectDescription/ProjectDescription";
 import { Tabs } from "antd";

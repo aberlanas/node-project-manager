@@ -1,12 +1,9 @@
 //antd
-import { Transfer, Switch, Table, Tag } from "antd";
+import { Transfer, Table } from "antd";
 import difference from "lodash/difference";
 
 //React
-import React, { useEffect, useCallback, useState } from "react";
-
-//Helpers
-import Http from "../../Helpers/Http";
+import React, { useState } from "react";
 
 //Redux
 import { connect } from "react-redux";
@@ -83,12 +80,6 @@ const rightTableColumns = [
 ];
 
 const TransferTechForm = ({ users, techs, project, editProject}) => {
-  //const leftUsers = users.filter(user => {user.id project.users);
-  //const rightUsers = users.filter(user => {user.id}); 
-
-  const leftTechs = techs.filter(tech => {
-    return !project.tecnologias.map(tp => {return tp.id}).includes(tech.id)
-  });
 
   const rightTechs = techs.filter(tech => {
     return project.tecnologias.map(tp => {return tp.id}).includes(tech.id)
@@ -101,17 +92,15 @@ const TransferTechForm = ({ users, techs, project, editProject}) => {
     disabled: false,
     showSearch: false,
   });
-  console.log(state.targetKeys);
-  const { targetKeys, disabled, showSearch } = state;
+  const { targetKeys } = state;
 
-  console.log(leftTableColumns);
   const onChanged = (nextTargetKeys) => {
     setState({ targetKeys: nextTargetKeys });
-    console.log(nextTargetKeys);
+
     project.tecnologias=techs.filter(tech => {
       return nextTargetKeys.includes(tech.id)
     });
-    console.log(project.tecnologias);
+    
     editProject(project);
   };
 
