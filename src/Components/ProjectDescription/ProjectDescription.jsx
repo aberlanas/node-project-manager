@@ -284,7 +284,7 @@ const ProjectDescription = ({ project }) => {
           }
         >
           {editDesc ? (
-            <span onDoubleClick={()=>{project.seleccionado = ""; setEditDesc(!editDesc)}}>{project.descripcion}</span>
+            <pre onDoubleClick={()=>{project.seleccionado = ""; setEditDesc(!editDesc)}}>{project.descripcion}</pre>
           ) : (
             <Input.TextArea
               defaultValue={project.descripcion}

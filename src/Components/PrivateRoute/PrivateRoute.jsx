@@ -3,8 +3,8 @@
 
 // If they are: they proceed to the page
 // If not: they are redirected to the login page.
-import React from "react";
-import { logIn, whoAmI } from "../../Helpers/auth-helpers";
+import React, { useState } from "react";
+import { logIn, whoAmI, imLogged } from "../../Helpers/auth-helpers";
 import { Redirect, Route } from "react-router-dom";
 
 import { connect } from "react-redux";
@@ -12,19 +12,43 @@ import { connect } from "react-redux";
 import { readUser } from "../../Redux/Reducers/UserReducer";
 import { logOutUser } from "../../Redux/Actions/UserActions";
 import { logout as deleteCookie } from "../../Helpers/auth-helpers";
+import { useEffect } from "react";
 
-const PrivateRoute = ({ component: Component, user, ...rest }) => {
+const PrivateRoute = ({ component: Component, user, logOutUser,...rest }) => {
   // Add your own authentication on the below line.
-  const isLoggedIn = true;
 
-  if (!isLoggedIn) {
-    logOutUser();
-    deleteCookie();
-  }
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setLoading(true);
+    console.log(Component);
+    (async () => {
+      const authUser = await imLogged();
+      
+      console.log(authUser);
+      if (!authUser.auth) {
+        deleteCookie();
+        logOutUser();
+        console.log("user",user);
+        console.log("patata");
+      }
+      setIsLoggedIn(Boolean(authUser.auth));
+      console.log(isLoggedIn);
+      setLoading(false);
+      
+    })();
+    /*return () => { 
+      setIsLoggedIn(false);
+      //setLoading(true);
+    } */  
+  },[Component]);
+
   return (
     <Route
       {...rest}
       render={(props) =>
+        loading ? "": 
         isLoggedIn ? <Component {...props} /> : <Redirect to="/login" />
       }
     />

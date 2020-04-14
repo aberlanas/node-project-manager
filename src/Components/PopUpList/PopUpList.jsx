@@ -27,6 +27,7 @@ const PopUpList = ({ tech }) => {
 
     usersUseTechs();
     //setLoading(false);
+    return () => setUsers([]);  
   }, [usersUseTechs]);
   return (
     <div>

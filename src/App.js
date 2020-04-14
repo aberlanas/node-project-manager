@@ -28,6 +28,7 @@ import { logUser } from "./Redux/Actions/UserActions";
 
 function App({ user, logUser }) {
   const [loading, setLoading] = useState(true);
+  
   const replenishUser = useCallback (async () => {
     const data = await whoAmI();
     if (data.auth) {
@@ -48,24 +49,15 @@ function App({ user, logUser }) {
     <Router>
       <div className="App">
         <Switch>
-          <Route path="/login" exact>
-            {user ? <Redirect to="/" /> : <Login />}
+
+        <Route path="/login" exact>
+            {user ? <Redirect to="/Home" /> : <Login />}
           </Route>
-          
+
           <PrivateRoute path="/Home" component={Home} exact/>
-            {/*!user ? <Redirect to="/login" /> : <Home />*/}
-          <Route path="/" exact>
-            {!user ? <Redirect to="/login" /> : <Tecnologias />}
-          </Route>
-          <Route path="/Projects" exact>
-            {!user ? <Redirect to="/login" /> : <Projects />}
-          </Route>
-          <Route path="/Tecnologias" exact>
-            {!user ? <Redirect to="/login" /> : <Tecnologias />}
-          </Route>
-          <Route path="/AdminUser" exact>
-            {user && user.admin ? <AdminUser /> : <Redirect to="/login" />}
-          </Route>
+          <PrivateRoute path="/Projects" component={Projects} exact/>
+          <PrivateRoute path="/Tecnologias" component={Tecnologias} exact/>
+          <PrivateRoute path="/AdminUser" component={AdminUser} exact/>
         </Switch>
       </div>
     </Router>

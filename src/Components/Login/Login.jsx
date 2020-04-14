@@ -18,7 +18,6 @@ const Login = ({logUser}) => {
             nickname: userName, 
             password: password
         });
-        console.log(data.cookies.expires);
 
         if (data.succes) {
             const data = await whoAmI();

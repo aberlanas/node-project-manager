@@ -19,6 +19,14 @@ export async function logout() {
     );
 }
 
+
+export async function imLogged() {
+    return await Http.get(
+        '/api/users/imLogged'
+    );
+}
+
+
 /**
  * Tener esto separado ayuda a hacer cambios mucho mas rápidos.
  * Ej: Ahora no queremos que se almacene en Cookies sino que lo queremos tener en el LocalStorage
