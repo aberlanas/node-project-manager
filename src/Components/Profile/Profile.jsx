@@ -8,21 +8,31 @@ import { connect } from 'react-redux';
 import { readUser } from '../../Redux/Reducers/UserReducer';
 import { logOutUser} from '../../Redux/Actions/UserActions';
 import { logout as deleteCookie } from '../../Helpers/auth-helpers';
+import { useState } from "react";
+import { Redirect } from "react-router-dom";
 
 const Profile = ({ user, logOutUser }) => {
+
+    const [ logginOut, setLogginOut ] = useState(false);
+
     const { nombre, apellidos, nickname, avatar } = user;
+
     const data = [
         `${nombre} ${apellidos}`,
     ];
     const icon = require(`../../img/${avatar}`);
 
     const logOutUserAndRemoveCookie = () =>{
-        logOutUser();
         deleteCookie();
+        logOutUser();
+        setLogginOut(true);
     }
 
     return (
+        
+
         <div className="profile">
+            {(logginOut ) ? <Redirect to="/login"></Redirect> : null }
                 <Avatar src={icon} size="large" /> 
                 <div className="nickname">{nickname}</div>
                 <div className="nombreCompleto">{data} &nbsp;&nbsp;
@@ -36,6 +46,7 @@ const Profile = ({ user, logOutUser }) => {
                     />
                 </div>
         </div>
+        
     );
 };
 

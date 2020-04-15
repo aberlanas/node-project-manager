@@ -4,7 +4,7 @@
 // If they are: they proceed to the page
 // If not: they are redirected to the login page.
 import React, { useState } from "react";
-import { logIn, whoAmI, imLogged } from "../../Helpers/auth-helpers";
+import {imLogged } from "../../Helpers/auth-helpers";
 import { Redirect, Route } from "react-router-dom";
 
 import { connect } from "react-redux";
@@ -21,7 +21,7 @@ const PrivateRoute = ({ component: Component, user, logOutUser,...rest }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setLoading(true);
+    //setLoading(true);
     console.log(Component);
     (async () => {
       const authUser = await imLogged();
@@ -30,11 +30,8 @@ const PrivateRoute = ({ component: Component, user, logOutUser,...rest }) => {
       if (!authUser.auth) {
         deleteCookie();
         logOutUser();
-        console.log("user",user);
-        console.log("patata");
       }
       setIsLoggedIn(Boolean(authUser.auth));
-      console.log(isLoggedIn);
       setLoading(false);
       
     })();
@@ -48,8 +45,7 @@ const PrivateRoute = ({ component: Component, user, logOutUser,...rest }) => {
     <Route
       {...rest}
       render={(props) =>
-        loading ? "": 
-        isLoggedIn ? <Component {...props} /> : <Redirect to="/login" />
+        loading ? "": isLoggedIn ? <Component {...props} /> : <Redirect to="/login" />
       }
     />
   );

@@ -5,7 +5,8 @@ import {
   AppstoreOutlined,
   SettingOutlined,
   UserOutlined,
-  HomeOutlined
+  HomeOutlined,
+  MailOutlined
 } from "@ant-design/icons";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
@@ -35,6 +36,12 @@ const Nav = ({ user }) => {
         <Menu.Item>
           <UserOutlined />
           <Link to="/AdminUser">Usuarios</Link>
+        </Menu.Item>
+      ) : null}
+      {user.admin ? (
+        <Menu.Item>
+          <MailOutlined />
+          <Link to="/Informes">Informes</Link>
         </Menu.Item>
       ) : null}
     </Menu>

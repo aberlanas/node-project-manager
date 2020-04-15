@@ -13,6 +13,7 @@ import Home from "./Components/Home/Home";
 import AdminUser from "./Components/AdminUser/AdminUser";
 import Tecnologias from "./Components/Tecnologias/Tecnologias";
 import Projects from "./Components/Projects/Projects";
+import Reports from "./Components/Reports/Reports";
 import PrivateRoute from "./Components/PrivateRoute/PrivateRoute";
 
 // Css
@@ -48,9 +49,10 @@ function App({ user, logUser }) {
   return !loading ? (
     <Router>
       <div className="App">
+    
         <Switch>
 
-        <Route path="/login" exact>
+          <Route path="/login" exact>
             {user ? <Redirect to="/Home" /> : <Login />}
           </Route>
 
@@ -58,7 +60,10 @@ function App({ user, logUser }) {
           <PrivateRoute path="/Projects" component={Projects} exact/>
           <PrivateRoute path="/Tecnologias" component={Tecnologias} exact/>
           <PrivateRoute path="/AdminUser" component={AdminUser} exact/>
+          <PrivateRoute path="/Informes" component={Reports} exact/>
+          <Route path="/" ><Redirect to="/login" /></Route>
         </Switch>
+        
       </div>
     </Router>
   ) : (

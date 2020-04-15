@@ -39,6 +39,23 @@ export default class Http {
         return await res.json()
     }
 
+    static getFile = async url => {
+        const res = await fetch(`${HOST}${url}`, {
+            credentials: "include",
+        }).then(response => {
+            console.log(response);
+            response.blob().then(blob => {
+                let aurl = window.URL.createObjectURL(blob);
+                let a = document.createElement('a');
+                a.href = aurl;
+                a.download = 'report.pdf';
+                return a;
+            });
+        });
+        return await res;
+
+    }
+
     static delete = async url => {
         const res = await fetch(`${HOST}${url}`, {
             
