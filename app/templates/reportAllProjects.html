@@ -1,9 +1,56 @@
-<script id="entry-template" type="text/x-handlebars-template">
+<html>
+  <style>
+
+  @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap');
+
+    *{
+      font-family: 'Roboto', sans-serif;
+    }
+
+    table{
+      text-align: center;
+      border:1px solid black ;
+      border-collapse: collapse;
+      
+          }
+    td{
+      padding: 5px;
+      border: 1px solid darkgray; 
+    }
+    thead{
+      color:white;
+      background-color: black;
+    }
+
+  </style>
+<body>
+
+  
     <div class="entry">
-      <h1>{{title}}</h1>
+      <img src="https://www.ieslasenia.org/wp-content/uploads/2017/03/lasenia.png"></img>
+      <h1>FCT : INFORME de Proyectos </h1>
       <div class="body">
-        {{body}}
+        <div>
+          Listado de los Proyectos y Alumnos que lo defienden.
+        </div>
+        <div>
+          <table>
+            <thead> <td>Proyecto</td> <td>Alumnos</td></thead>
+
+        {{#each resp}}
+        <tr>
+
+        <td> {{this.nombre}} </td>
+        <td>
+        {{#each this.alumnos}}
+          <div> {{this.nombre}} {{this.apellidos}} </div>
+        {{/each}}
+        </td>
+        </tr>
+        {{/each}}
+      </table>  
+        </div>
       </div>
     </div>
-  </script>
-  
+</body>
+</html>

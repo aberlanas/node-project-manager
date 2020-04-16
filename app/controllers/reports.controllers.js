@@ -1,32 +1,78 @@
 const model = require("../model/pm_manager.model");
-const pdfkit = require("pdfkit");
 const moment = require('moment');
 const pdf = require('html-pdf');
+const handlebars = require('handlebars');
+const fs = require("fs");
 
 exports.reportAllProjectsHTML = async (req,res) =>{
 
-  console.log("Me han llamado");
-  res.send("<html><body><h1>ESTO ES EL TITULO</h1></body></html>");
+  const connection = await model.getConnection();
+  const [rows] = await connection.execute("SELECT Proyectos.id, Proyectos.nombre FROM `Proyectos`", []);
+  const techProjects = Promise.all(
+    rows.map(async (row) => {
+      const [
+        students,
+      ] = await connection.execute(
+        "SELECT * FROM `PerfilesProyecto` pProj INNER JOIN `Usuarios` usr ON usr.id = pProj.id_usuario WHERE pProj.id_proyecto = ? AND pProj.id_perfil=3",
+        [row.id]
+      );
+      const alumnos = students.map((user) => {
+        return {
+          id: user.id,
+          nombre: user.nombre,
+          apellidos: user.apellidos
+        };
+      });
+      return {
+        ...row,
+        alumnos : alumnos
+        //usuarios['profesores']= profesores}
+      };
+    })
 
+    ).then((resp) => {
+      connection.end();
+      console.log(resp);
+
+      var source = fs.readFileSync('./app/templates/reportAllProjects.html', 'utf-8');
+      var template = handlebars.compile(source);
+      var outhtml = template({resp:resp});
+  
+      return outhtml;
+    });
+  
+    return techProjects;
+
+  
 }
 
 
 exports.reportAllProjects = async (req, res) => {
 
-  const connection = await model.getConnection();
-  const [rows] = await connection.execute("SELECT * FROM `Usuarios`", []);
-  connection.end();
 
 
-  const fs = require("fs");
 
-  var html = fs.readFileSync('./test/businesscard.html', 'utf8');
+  let reportName = "FCT_Proyectos_ListadoTodos_"+"hoy"+".pdf"
+  var options = { format: 'Letter' };
+  let salida = await this.reportAllProjectsHTML();
 
+  console.log("salida",salida);
 
-  
-  let reportName = "FCT_Proyectos_ListadoTodos_"+today+".pdf"
+  pdf.create(salida, options).toFile("/tmp/"+reportName, function(err, resp) {
 
-  let fichero = fs.createWriteStream("/tmp/"+reportName);
+    if (err) return console.log(err);
+
+    console.log(resp); 
+    res.download("/tmp/"+reportName, function (err) {
+      if (err) {
+          console.log("Error");
+          console.log(err);
+      } else {
+          console.log("Success");
+      }
+    });
+    // { filename: '/app/businesscard.pdf' }
+  });
 
   /*
 
@@ -58,17 +104,6 @@ exports.reportAllProjects = async (req, res) => {
   doc.end();
 
   */
-  fichero.on('finish', function () {
-    res.download("/tmp/"+reportName, function (err) {
-      if (err) {
-          console.log("Error");
-          console.log(err);
-      } else {
-          console.log("Success");
-      }
-    });
-  });
-
   /*
       // DESDE AQUI
   
