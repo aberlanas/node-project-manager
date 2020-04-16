@@ -5,9 +5,11 @@
 
     *{
       font-family: 'Roboto', sans-serif;
+      font-size: medium;
     }
 
     table{
+      margin: 0 auto;
       text-align: center;
       border:1px solid black ;
       border-collapse: collapse;
@@ -22,15 +24,32 @@
       background-color: black;
     }
 
+    .header{
+      width: 400px;
+    }
+    h1{
+      text-align: center;
+    }
+    .firma{
+      text-align: center;
+    }
+
+    .descripcion{
+      text-align: center;
+      font-size: smaller;
+    }
+
   </style>
 <body>
 
   
     <div class="entry">
-      <img src="https://www.ieslasenia.org/wp-content/uploads/2017/03/lasenia.png"></img>
-      <h1>FCT : INFORME de Proyectos </h1>
+      <div class="header">
+      <img width="550px" src="./app/templates/header_europa.png"></img>
+    </div>
+      <h1>FCT : Listado de Proyectos </h1>
       <div class="body">
-        <div>
+        <div class="descripcion">
           Listado de los Proyectos y Alumnos que lo defienden.
         </div>
         <div>
@@ -52,5 +71,11 @@
         </div>
       </div>
     </div>
+    <div id="pageFooter">
+      <p class="Firma">
+      Paiporta - 16 de Abril de 2020 
+    </p>
+    </div>
+    
 </body>
 </html>
