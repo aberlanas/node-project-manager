@@ -33,7 +33,6 @@ exports.reportAllProjectsHTML = async (req,res) =>{
     ).then((resp) => {
       connection.end();
       console.log(resp);
-
       var source = fs.readFileSync('./app/templates/reportAllProjects.html', 'utf-8');
       var template = handlebars.compile(source);
       var outhtml = template({resp:resp});
