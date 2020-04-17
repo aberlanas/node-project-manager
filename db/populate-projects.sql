@@ -4,45 +4,53 @@ use pm_projects;
 -- jagaroc -> ancla
 
 TRUNCATE TABLE Cursos;
-INSERT INTO Cursos VALUES (NULL,"2 DAW - 2020 - COVID 19 Experience");
+INSERT INTO Cursos VALUES (NULL,"2 DAW - 2020");
 
 
 TRUNCATE TABLE Proyectos;
-INSERT INTO Proyectos VALUES (NULL,"Node Project Manager","Gestion de Proyectos de FCTs MyMyselfandI");
-INSERT INTO Proyectos VALUES (NULL,"Node Project Manager v2","Gestion de Proyectos de FCTs Again");
-INSERT INTO Proyectos VALUES (NULL,"Node Project Manager Reloaded","Gestion de Proyectos de FCTs Experienced Improvement");
-INSERT INTO Proyectos VALUES (NULL,"MySQL improvement","Gestor de MySQL");
-INSERT INTO Proyectos VALUES (NULL,"MySQL improvement 2","Gestor de MySQL 1");
-INSERT INTO Proyectos VALUES (NULL,"MySQL improvement 3","Gestor de MySQL 2");
-INSERT INTO Proyectos VALUES (NULL,"MySQL improvement 4","Gestor de MySQL 3");
-INSERT INTO Proyectos VALUES (NULL,"MySQL improvement 5","Gestor de MySQL 4");
+INSERT INTO Proyectos VALUES (NULL,"Run to Win","Red Social de Running.");
+INSERT INTO Proyectos VALUES (NULL,"El Baron de la Birra","Red Social de Cervezas Artesanas");
+INSERT INTO Proyectos VALUES (NULL,"Pintorrea","DiccioPinta online");
+INSERT INTO Proyectos VALUES (NULL,"Chess Tournament Generator","Gestor de Emparejamientos Suizos para Ajedrez");
+INSERT INTO Proyectos VALUES (NULL,"EuroStudents ","Gestor Becas Erasmus y Viajes");
+INSERT INTO Proyectos VALUES (NULL,"SportStore","Tienda de deportes");
+INSERT INTO Proyectos VALUES (NULL,"Ambient Music Generator","Creación de Música de Mobiliario");
+INSERT INTO Proyectos VALUES (NULL,"Paiporta Universalis 4","Juego de Gran Estrategia");
 
 TRUNCATE TABLE PerfilesProyecto;
 --  ID PERFIL, ID USARIO , ID PROYECTO
 
-
-INSERT INTO PerfilesProyecto VALUES (3,2,4); 
-INSERT INTO PerfilesProyecto VALUES (3,3,4);
-INSERT INTO PerfilesProyecto VALUES (3,10,4);
-INSERT INTO PerfilesProyecto VALUES (4,2,4);
-
-INSERT INTO PerfilesProyecto VALUES (3,4,2);
-INSERT INTO PerfilesProyecto VALUES (4,2,2);
-
-INSERT INTO PerfilesProyecto VALUES (3,5,1);
+-- Jagaroc Run to win
+INSERT INTO PerfilesProyecto VALUES (3,9,1);
 INSERT INTO PerfilesProyecto VALUES (4,2,1);
 
-INSERT INTO PerfilesProyecto VALUES (3,6,3);
+-- Carlos Baron de la birra
+INSERT INTO PerfilesProyecto VALUES (3,5,2);
+INSERT INTO PerfilesProyecto VALUES (4,2,2);
+
+-- Ruben Pintorrea
+INSERT INTO PerfilesProyecto VALUES (3,16,3);
 INSERT INTO PerfilesProyecto VALUES (4,2,3);
 
-INSERT INTO PerfilesProyecto VALUES (3,7,5);
+-- Raul - Chess
+INSERT INTO PerfilesProyecto VALUES (3,12,4); 
+INSERT INTO PerfilesProyecto VALUES (4,2,4);
+
+-- Brian - EuroStudents
+INSERT INTO PerfilesProyecto VALUES (3,10,5);
 INSERT INTO PerfilesProyecto VALUES (4,2,5);
 
-INSERT INTO PerfilesProyecto VALUES (3,8,6);
-INSERT INTO PerfilesProyecto VALUES (4,2,6);
+-- SportStore
+INSERT INTO PerfilesProyecto VALUES (3,15,6);
+INSERT INTO PerfilesProyecto VALUES (4,3,6);
 
-INSERT INTO PerfilesProyecto VALUES (3,9,7);
+-- Ambien music generator
+INSERT INTO PerfilesProyecto VALUES (3,4,7);
 INSERT INTO PerfilesProyecto VALUES (4,2,7);
+
+-- Paiporta Universalis
+INSERT INTO PerfilesProyecto VALUES (3,14,8);
+INSERT INTO PerfilesProyecto VALUES (4,2,8);
 
 TRUNCATE TABLE TecnologiasProyecto;
 

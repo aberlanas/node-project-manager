@@ -19,18 +19,12 @@
       padding: 5px;
       border: 1px solid darkgray; 
     }
+
     thead{
       color:white;
       background-color: black;
     }
 
-
-    img{
-      width: 595px;
-    }
-    .header{
-      width: 400px;
-    }
     h1{
       text-align: center;
     }
@@ -44,41 +38,52 @@
 
     }
 
+    .header-img{
+      text-align: center;
+      width: 550px;
+    }
+
   </style>
 <body>
 
-  
     <div class="entry">
       <div class="header">
-      <img width="550px" src="./app/templates/header_europa.png"></img>
-    </div>
-      <h1>FCT : Listado de Proyectos </h1>
+        <img class="header-img" src="./app/templates/headerEuropa.png"></img>
+        <h1>FCT : Listado de Proyectos </h1>
+      </div>
+
       <div class="body">
+
         <div class="descripcion">
           Listado de los Proyectos y Alumnos que lo defienden.
+          <br>
+          <br>
+          <br>
+          <br>
         </div>
+
         <div>
           <table>
             <thead> <td>Proyecto</td> <td>Alumnos</td></thead>
 
-        {{#each resp}}
-        <tr>
-
-        <td> {{this.nombre}} </td>
-        <td>
-        {{#each this.alumnos}}
-          <div> {{this.nombre}} {{this.apellidos}} </div>
-        {{/each}}
-        </td>
-        </tr>
-        {{/each}}
-      </table>  
+            {{#each resp}}
+            <tr>
+              <td> {{this.nombre}} </td>
+              <td>
+                {{#each this.alumnos}}
+                 <div> {{this.nombre}} {{this.apellidos}} </div>
+                {{/each}}
+              </td>
+            </tr>
+            {{/each}}
+          
+          </table>  
         </div>
       </div>
     </div>
     <div id="pageFooter">
       <p class="Firma">
-      Paiporta - 16 de Abril de 2020 
+      Paiporta - {{timeSignature}}
     </p>
     </div>
     

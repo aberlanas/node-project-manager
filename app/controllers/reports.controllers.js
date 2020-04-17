@@ -3,6 +3,7 @@ const moment = require('moment');
 const pdf = require('html-pdf');
 const handlebars = require('handlebars');
 const fs = require("fs");
+const path = require('path');
 
 exports.reportAllProjectsHTML = async (req,res) =>{
 
@@ -33,9 +34,14 @@ exports.reportAllProjectsHTML = async (req,res) =>{
     ).then((resp) => {
       connection.end();
       console.log(resp);
+      let timeSignature = moment().locale('es').format('D [de] MMMM [de] YYYY');
       var source = fs.readFileSync('./app/templates/reportAllProjects.html', 'utf-8');
       var template = handlebars.compile(source);
-      var outhtml = template({resp:resp});
+      resp.timeSignature= timeSignature;
+      var outhtml = template({
+                            resp:resp,
+                            timeSignature:timeSignature
+                          });
   
       return outhtml;
     });
@@ -48,23 +54,26 @@ exports.reportAllProjectsHTML = async (req,res) =>{
 
 exports.reportAllProjects = async (req, res) => {
 
+  // Some Options for this report
+  let timeStamp  = moment().format("YYYYMMDD");
+ 
+  let reportName = "FCT_Proyectos_ListadoTodos_"+timeStamp+".pdf";
 
+  let optsbase = "file://"+path.join(__dirname,"../../");
+  optsbase = "file:///home/aberlanas/GitHub/node-project-manager/";
+  let options = {
+    format:"A4",
+    base:optsbase
+  }
+  console.log(options.base);
 
+  let htmlFromReport = await this.reportAllProjectsHTML();
+  
 
-  let reportName = "FCT_Proyectos_ListadoTodos_"+"hoy"+".pdf"
-  var options = { 
-    format: 'A4',
-    base: "file:///home/aberlanas/GitHub/node-project-manager/"
-  };
-  let salida = await this.reportAllProjectsHTML();
-
-  console.log("salida",salida);
-
-  pdf.create(salida, options).toFile("/tmp/"+reportName, function(err, resp) {
+  pdf.create(htmlFromReport, options).toFile("/tmp/"+reportName, function(err, resp) {
 
     if (err) return console.log(err);
-
-    console.log(resp); 
+    
     res.download("/tmp/"+reportName, function (err) {
       if (err) {
           console.log("Error");
@@ -73,56 +82,9 @@ exports.reportAllProjects = async (req, res) => {
           console.log("Success");
       }
     });
-    // { filename: '/app/businesscard.pdf' }
   });
 
-  /*
 
-  // Create a document
-  const doc = new PDFDocument();
-
-  // Pipe its output somewhere, like to a file or HTTP response
-  // See below for browser usage
-  let today = moment().format('YYYYMMDD');
-
-  doc.pipe(fichero);
-
-  // Embed a font, set the font size, and render some text
-  doc.fontSize(25).text("FCT Proyect Manager", 100, 100);
-
-  // Add an image, constrain it to a given size, and center it vertically and horizontally
-
-  doc.image('src/img/dr-node.jpg', {
-    fit: [250, 300],
-    align: 'center',
-    valign: 'center'
-  });
-  // Finalize PDF file
-
-
-
-
-
-  doc.end();
-
-  */
-  /*
-      // DESDE AQUI
-  
-  console.log(data);
-  res.writeHead(200, {
-    "Content-Type": "application/pdf",
-    "Content-Disposition": "attachment; filename=output.pdf",
-    "Content-Length": data.length
-  });
-  */
- /*
- fs.readFile("/tmp/output2.pdf",function (err,data) {
-  res.contentType("application/pdf");
-  console.log(data);
-  res.send(data);
- });
-*/
 
 
 };
