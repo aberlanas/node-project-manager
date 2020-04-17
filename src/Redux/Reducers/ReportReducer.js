@@ -1,7 +1,11 @@
 const initialState = {report:{
     id:1,
-    nombre:"Informe de Proyectos por Curso"
-},reports:[]};
+    nombre:"Informe de Proyectos por Curso",
+    componentResolver : "BasicReport",
+    reportUrl : "api/reports/reportAllProjects",
+    reportData : {}
+    }
+    ,reports:[]};
 
 const reducer = (state=initialState,action) => {
     switch(action.type){
@@ -10,13 +14,17 @@ const reducer = (state=initialState,action) => {
                 return{
                     ...state,
                     reports:action.reports
-                }
+                };
+        case "EDIT_REPORT":
+            return {...state,
+                report:action.report
+            }
         case "SELECTED_REPORT":
+                    console.log(action.id);
                     return {
                       ...state,
-                      report: state.report
+                      report: state.reports.filter(repo => repo.id === action.id)[0]
                     };
-       
         default:
             return {
                 ...state

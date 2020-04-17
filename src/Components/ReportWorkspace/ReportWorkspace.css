@@ -1,0 +1,9 @@
+.reportWorkspace{
+    float: left;
+    margin-top: 15px;
+    padding: 15px;
+    /*TODO*/
+    width: 75%;
+    background-color: white;
+    color:black;
+}

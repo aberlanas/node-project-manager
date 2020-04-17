@@ -6,3 +6,7 @@ export const getAllReports = (reports) =>{
 export const selectedReport = (id) => {
     return {type:"SELECTED_REPORT",id}
 }
+
+export const editReport = (report) => {
+    return {type:"EDIT_REPORT",report}
+}

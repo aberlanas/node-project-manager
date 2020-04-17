@@ -1,24 +1,38 @@
 import React from "react";
 import { Menu } from "antd";
 
+import {connect} from 'react-redux';
 import Http from "../../Helpers/Http";
+import { readAllReports,readReport } from "../../Redux/Reducers/ReportReducer";
+import { getAllReports, selectedReport } from "../../Redux/Actions/ReportActions";
 
-const ReportsMenu = () => {
+const ReportsMenu = ({selectedReport,reports}) => {
 
   return (
     <Menu className="projectMenu" style={{ width: 250 }} mode="inline">
-          <Menu.Item
-            key="1"
+         {
+          reports.map((item) => {
+            return (
+            <Menu.Item
+            key={item.id}
             onClick={async (e) => {
-               console.log("eeee");
-               window.location=("http://localhost:3000/api/reports/reportAllProjects");
-               
+              selectedReport(parseInt(e.key));
               }}
           >
-            Listado de Proyectos por Curso
+            {item.name}
           </Menu.Item>
+            )})}
     </Menu>
   );
 };
 
-export default ReportsMenu;
+const mapStateToProps = (state) => {
+  return { reports: readAllReports(state), report: readReport(state) };
+};
+
+export default connect(mapStateToProps, {
+  readReport,
+  readAllReports,
+  selectedReport
+})(ReportsMenu);
+

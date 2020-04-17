@@ -5,7 +5,7 @@ const handlebars = require('handlebars');
 const fs = require("fs");
 const path = require('path');
 
-exports.reportAllProjectsHTML = async (req,res) =>{
+exports.reportAllProjectsHTML = async (fecha,req,res) =>{
 
   const connection = await model.getConnection();
   const [rows] = await connection.execute("SELECT Proyectos.id, Proyectos.nombre FROM `Proyectos`", []);
@@ -33,8 +33,8 @@ exports.reportAllProjectsHTML = async (req,res) =>{
 
     ).then((resp) => {
       connection.end();
-      console.log(resp);
-      let timeSignature = moment().locale('es').format('D [de] MMMM [de] YYYY');
+
+      let timeSignature = moment(fecha.date).locale('es').format('D [de] MMMM [de] YYYY');
       var source = fs.readFileSync('./app/templates/reportAllProjects.html', 'utf-8');
       var template = handlebars.compile(source);
       resp.timeSignature= timeSignature;
@@ -55,6 +55,8 @@ exports.reportAllProjectsHTML = async (req,res) =>{
 exports.reportAllProjects = async (req, res) => {
 
   // Some Options for this report
+  
+  
   let timeStamp  = moment().format("YYYYMMDD");
  
   let reportName = "FCT_Proyectos_ListadoTodos_"+timeStamp+".pdf";
@@ -66,8 +68,8 @@ exports.reportAllProjects = async (req, res) => {
     base:optsbase
   }
   console.log(options.base);
-
-  let htmlFromReport = await this.reportAllProjectsHTML();
+  let fecha = req.body.reportData;
+  let htmlFromReport = await this.reportAllProjectsHTML(fecha);
   
 
   pdf.create(htmlFromReport, options).toFile("/tmp/"+reportName, function(err, resp) {

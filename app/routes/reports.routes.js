@@ -4,7 +4,7 @@ const passport = require("passport")
 
 const {reportAllProjects} = require("../controllers/reports.controllers");
 
-router.get('/reportAllProjects',passport.authenticate('jwt', { session: false }), reportAllProjects);
+router.post('/reportAllProjects',passport.authenticate('jwt', { session: false }), reportAllProjects);
 //router.get('/reportAllProjectsHTML',reportAllProjectsHTML);
 //router.get('/reportAllProjects', reportAllProjects);
 

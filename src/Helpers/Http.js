@@ -25,6 +25,16 @@ export default class Http {
         return await res.json()
     }
 
+
+    static postPDF = async (body, url) => {
+        const request = this.getRequest(body, url, "POST")
+        const res = await fetch(request)
+        if (res.status !== 200){
+            return ({message:"DB Problem: No puedes pasar!"});
+        }
+        return await res.blob();
+    }
+
     static put = async (body, url) => {
         const request = this.getRequest(body, url, "PUT")
         const res = await fetch(request)
@@ -37,23 +47,6 @@ export default class Http {
             credentials: "include",
         })
         return await res.json()
-    }
-
-    static getFile = async url => {
-        const res = await fetch(`${HOST}${url}`, {
-            credentials: "include",
-        }).then(response => {
-            console.log(response);
-            response.blob().then(blob => {
-                let aurl = window.URL.createObjectURL(blob);
-                let a = document.createElement('a');
-                a.href = aurl;
-                a.download = 'report.pdf';
-                return a;
-            });
-        });
-        return await res;
-
     }
 
     static delete = async url => {
