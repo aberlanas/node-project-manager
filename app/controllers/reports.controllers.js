@@ -52,7 +52,10 @@ exports.reportAllProjects = async (req, res) => {
 
 
   let reportName = "FCT_Proyectos_ListadoTodos_"+"hoy"+".pdf"
-  var options = { format: 'Letter' };
+  var options = { 
+    format: 'A4',
+    base: "file:///home/aberlanas/GitHub/node-project-manager/"
+  };
   let salida = await this.reportAllProjectsHTML();
 
   console.log("salida",salida);
