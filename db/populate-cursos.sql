@@ -1,0 +1,29 @@
+use pm_projects;
+
+TRUNCATE Cursos;
+
+INSERT INTO Cursos VALUES (NULL,"GA 2","2019-2020");
+INSERT INTO Cursos VALUES (NULL,"SMX 2","2019-2020");
+INSERT INTO Cursos VALUES (NULL,"AFI 2","2019-2020");
+INSERT INTO Cursos VALUES (NULL,"DAW 2","2019-2020");
+
+
+
+INSERT INTO UsuariosCurso VALUES (4,1);
+INSERT INTO UsuariosCurso VALUES (5,1);
+INSERT INTO UsuariosCurso VALUES (6,1);
+INSERT INTO UsuariosCurso VALUES (7,2);
+INSERT INTO UsuariosCurso VALUES (8,2);
+INSERT INTO UsuariosCurso VALUES (9,2);
+INSERT INTO UsuariosCurso VALUES (10,3);
+INSERT INTO UsuariosCurso VALUES (11,3);
+INSERT INTO UsuariosCurso VALUES (12,3);
+INSERT INTO UsuariosCurso VALUES (13,4);
+INSERT INTO UsuariosCurso VALUES (14,4);
+INSERT INTO UsuariosCurso VALUES (15,4);
+INSERT INTO UsuariosCurso VALUES (16,4);
+
+
+
+
+
