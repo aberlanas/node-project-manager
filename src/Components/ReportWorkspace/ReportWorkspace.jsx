@@ -31,7 +31,7 @@ const ReportWorkspace = ({ component: Component, report,...rest }) => {
                   const url = URL.createObjectURL(pdfBlob);
                   window.open(url,'_blank');
                 }}
-            >Dale</Button>
+            >Generar Informe</Button>
             </div>  
           }
         />

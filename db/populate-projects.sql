@@ -3,10 +3,6 @@ use pm_projects;
 -- admin -> admin
 -- jagaroc -> ancla
 
-TRUNCATE TABLE Cursos;
-INSERT INTO Cursos VALUES (NULL,"2 DAW - 2020");
-
-
 TRUNCATE TABLE Proyectos;
 INSERT INTO Proyectos VALUES (NULL,"Run to Win","Red Social de Running.");
 INSERT INTO Proyectos VALUES (NULL,"El Baron de la Birra","Red Social de Cervezas Artesanas");

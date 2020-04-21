@@ -17,11 +17,12 @@ create-db:
 
 populate-db:
 	@echo " * [ DB ] : Populate Users "
-	sudo mysql -u root -p < db/populate-usuarios.sql 
-	sudo mysql -u root -p < db/populate-permisos.sql 
-	sudo mysql -u root -p < db/populate-tecnologias.sql 
-	sudo mysql -u root -p < db/populate-projects.sql 
-	
+	sudo mysql -u root -pninguna < db/populate-usuarios.sql 
+	sudo mysql -u root -pninguna < db/populate-permisos.sql 
+	sudo mysql -u root -pninguna < db/populate-tecnologias.sql 
+	sudo mysql -u root -pninguna < db/populate-projects.sql 
+	sudo mysql -u root -pninguna < db/populate-cursos.sql 
+	sudo mysql -u root -pninguna < db/populate-calificaciones.sql 
 
 install-dep: 
 	@echo " * NPM Installing dependence "

@@ -36,6 +36,7 @@ app.use("/api/users", require("./app/routes/users.routes.js"));
 app.use("/api/techs", require("./app/routes/techs.routes.js"));
 app.use("/api/projects", require("./app/routes/projects.routes.js"));
 app.use("/api/reports", require("./app/routes/reports.routes.js"));
+app.use("/api/courses", require("./app/routes/courses.routes"));
 
 
 app.listen(3000, () => {

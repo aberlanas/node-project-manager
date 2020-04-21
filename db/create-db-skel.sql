@@ -33,6 +33,11 @@ Create table Usuarios (
 	avatar VARCHAR(255) DEFAULT "default.png"
 );
 
+CREATE TABLE UsuariosCurso(
+	id_usuario INT NOT NULL,
+	id_curso INT NOT NULL,
+	PRIMARY KEY (id_usuario , id_curso)
+);
 
 CREATE TABLE Perfiles (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -48,13 +53,15 @@ CREATE TABLE PerfilesProyecto(
 	id_perfil INT NOT NULL,
 	id_usuario INT NOT NULL,
 	id_proyecto INT NOT NULL,
-	
+
 	PRIMARY KEY (id_perfil , id_usuario,id_proyecto)
 );
 
+
 CREATE TABLE  Cursos ( 
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	nombre VARCHAR(255)
+	nombre VARCHAR(255),
+	periodo VARCHAR(255)
 );
 
 
@@ -62,6 +69,17 @@ CREATE TABLE  Proyectos (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	nombre VARCHAR(255),
     descripcion TEXT
+);
+
+
+CREATE TABLE CalificacionesProyectos (
+	id_proyecto INT NOT NULL,
+	id_usuario INT NOT NULL,
+	nota INT NULL,
+	fecha DATE,
+	convocatoria VARCHAR(255),
+
+	PRIMARY KEY (id_proyecto , id_usuario)
 );
 
 

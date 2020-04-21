@@ -14,27 +14,36 @@ import ReportWorkspace from "../ReportWorkspace/ReportWorkspace";
 
 import BasicReport from "./Library/BasicReport";
 import BasicReportDate from "./Library/BasicReportDate";
+import CourseReport from "./Library/CourseReport";
 
 
 const currentReports = [
     {
         id : 1,
-        name : "Listado de Proyectos por Curso ",
+        name : "Listado BASICO",
         componentResolver : "BasicReport",
         reportUrl : "/api/reports/reportAllProjects"
         } ,
     
-     { 
-      id : 2,
-      name : "Listado de Tecnologias por Curso ",
-      componentResolver : "BasicReportDate",
-      reportUrl : "http://www.google.es"
-      } 
+      {
+        id : 2,
+        name : "Listado de Proyectos por Curso ",
+        componentResolver : "CourseReport",
+        reportUrl : "/api/reports/reportAllProjects"
+        },
+        { 
+          id : 3,
+          name : "Listado de Tecnologias por Curso ",
+          componentResolver : "BasicReportDate",
+          reportUrl : "http://www.google.es"
+          } ,
+        
 ]
 
 const MapComponents = {
     "BasicReport": BasicReport,
-    "BasicReportDate": BasicReportDate
+    "BasicReportDate": BasicReportDate,
+    "CourseReport" : CourseReport
 }
 
 const Reports = ({report,reports, getAllReports, selectedReport}) => {

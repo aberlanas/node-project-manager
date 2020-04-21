@@ -14,7 +14,7 @@ exports.reportAllProjectsHTML = async (fecha,req,res) =>{
       const [
         students,
       ] = await connection.execute(
-        "SELECT * FROM `PerfilesProyecto` pProj INNER JOIN `Usuarios` usr ON usr.id = pProj.id_usuario WHERE pProj.id_proyecto = ? AND pProj.id_perfil=3",
+        "SELECT * FROM `PerfilesProyecto` pProj INNER JOIN `Usuarios` usr ON usr.id = pProj.id_usuario WHERE pProj.id_proyecto = ? AND pProj.id_perfil=3 AND usr.id IN (SELE),
         [row.id]
       );
       const alumnos = students.map((user) => {
@@ -67,11 +67,13 @@ exports.reportAllProjects = async (req, res) => {
     format:"A4",
     base:optsbase
   }
-  console.log(options.base);
-  let fecha = req.body.reportData;
+  
+  // If not date selected, use today.
+  let fecha = moment().format("YYYYMMDD");
+  if (req.body.reportData)fecha = req.body.reportData;
+
   let htmlFromReport = await this.reportAllProjectsHTML(fecha);
   
-
   pdf.create(htmlFromReport, options).toFile("/tmp/"+reportName, function(err, resp) {
 
     if (err) return console.log(err);

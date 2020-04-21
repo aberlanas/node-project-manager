@@ -20,7 +20,6 @@ const reducer = (state=initialState,action) => {
                 report:action.report
             }
         case "SELECTED_REPORT":
-                    console.log(action.id);
                     return {
                       ...state,
                       report: state.reports.filter(repo => repo.id === action.id)[0]
