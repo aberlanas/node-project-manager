@@ -29,7 +29,7 @@ const currentReports = [
         id : 2,
         name : "Listado de Proyectos por Curso ",
         componentResolver : "CourseReport",
-        reportUrl : "/api/reports/reportAllProjects"
+        reportUrl : "/api/reports/reportProjectsFromStudent"
         },
         { 
           id : 3,
