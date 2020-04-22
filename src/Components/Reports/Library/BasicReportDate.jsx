@@ -7,7 +7,7 @@ import React from "react";
 
 
 
-const BasicReportDate = ({}) => {
+const BasicReportDate = ({report,editReport}) => {
 
     return (
        <div>Habemus Papa con Fecha</div> 

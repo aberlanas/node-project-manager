@@ -3,7 +3,7 @@
 
 // If they are: they proceed to the page
 // If not: they are redirected to the login page.
-import React, { useEffect, useCallback, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Http from "../../../Helpers/Http";
 import { connect } from "react-redux";
 import { DatePicker, Select } from "antd";
@@ -16,13 +16,10 @@ const CourseReport = ({ report, editReport }) => {
   const { Option } = Select;
   //const CheckboxGroup = Checkbox.Group;
 
-  let plainOptions = ["Apple", "Pear", "Orange"];
-  const defaultCheckedList = ["Apple", "Orange"];
-
   const [courseSource, setCourseSource] = useState([]);
   const [course, setCourse] = useState("");
   const [projectsSource, setProjectsSource] = useState([]);
-  const [announcement, setAnnouncement] = useState("Ordinaria");
+  const [announcement, setAnnouncement ] = useState("Ordinaria");
 
   function onChangeDate(date, dateString) {
     report.reportData = {...report.reportData, date: date };
@@ -37,6 +34,7 @@ const CourseReport = ({ report, editReport }) => {
 
   function handleChangeAnnouncement(value) {
     console.log(`selected ${value}`);
+    setAnnouncement(value);
   }
 
   const replenishTableCourses = async () => {
@@ -64,15 +62,16 @@ const CourseReport = ({ report, editReport }) => {
     console.log("Busca usuarios");
   };
 
-  const storeUser = (e) => {
-    if (e.target.checked){
-      console.log(e.target)
-      report.reportData.users.push(e.target.id);
+  const storeUser = (ev) => {
+    let e = (ev.target) ? ev.target: ev;
+    if (e.checked){
+      console.log(e)
+      report.reportData.users.push(e.id);
       console.log(report);
     }else{
-      console.log(e.target.id)
+      console.log(e.id)
       console.log("Nani");
-      report.reportData.users.splice(report.reportData.users.indexOf(e.target.id),1);
+      report.reportData.users.splice(report.reportData.users.indexOf(e.id),1);
     }
   }
 
@@ -84,8 +83,19 @@ const CourseReport = ({ report, editReport }) => {
     replenishTableProjects();
   }, [course]);
 
+  // RAUL O RUBEN SI LEES ESTO AVISANOS
+  //           |
+  //           |
+  //           |
+  //           |
+  //          \/
   useEffect(() => {
-    
+      document.querySelectorAll('input[type]').forEach((e)=>{
+        storeUser(e);
+      });
+  },[projectsSource]);
+
+  useEffect(() => {
     replenishTableCourses();
   }, []);
 
@@ -118,8 +128,8 @@ const CourseReport = ({ report, editReport }) => {
       <br />
 
       <div>
-        {projectsSource.map((user) => {
-          return (
+         {projectsSource.map((user) => {
+            return(
             <label key={user.id}>
               <input
                 className="cb_users"
@@ -127,11 +137,13 @@ const CourseReport = ({ report, editReport }) => {
                 id={user.id}
                 value={user.id}
                 onChange={storeUser}
+                defaultChecked={(announcement == "Ordinaria") ? true: ""}
               />
               {user.nombre} {user.apellidos}
             </label>
           );
         })}
+        
       </div>
 
       <div>

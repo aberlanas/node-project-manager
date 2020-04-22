@@ -7,17 +7,12 @@ const {
 
 exports.findAllProjectsByCourse = async (req,res) => {
   const connection = await model.getConnection();
-
-  console.log(req.params.id);
   const { id } = req.params;
 
   const [
     rows,
   ] = await connection.execute("SELECT * FROM Usuarios WHERE id IN (SELECT id_usuario FROM `UsuariosCurso` WHERE `id_curso` = ?)", [id]);
   connection.end();
-  
-
-  console.log(rows);
   res.send(JSON.stringify(rows));
 
 };

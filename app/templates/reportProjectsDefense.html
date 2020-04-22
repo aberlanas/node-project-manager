@@ -38,6 +38,10 @@
 
     }
 
+    .adviceDate{
+      border: 1px solid red;
+    }
+
     .header-img{
       text-align: center;
       width: 550px;
@@ -48,7 +52,7 @@
 
     <div class="entry">
       <div class="header">
-        <img class="header-img" src="http://localhost:3000/img/headerEuropa.png"></img>
+        <img class="header-img" src="./app/templates/headerEuropa.png"></img>
         <h1>FCT : Listado de Proyectos </h1>
       </div>
 
@@ -62,11 +66,18 @@
           <br>
         </div>
 
+        
+        {{#with params.fechaDefensa}}
+          <div class="adviceDate">
+          La defensa será el dia {{fechaDefensa}}. Convocatoria única a primera hora.
+         </div>
+        {{/with }}
+
         <div>
           <table>
             <thead> <td>Proyecto</td> <td>Alumnos</td></thead>
 
-            {{#each resp}}
+            {{#each projects}}
             <tr>
               <td> {{this.nombre}} </td>
               <td>

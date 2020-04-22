@@ -3,7 +3,7 @@
 
 // If they are: they proceed to the page
 // If not: they are redirected to the login page.
-import React, { useState } from "react";
+import React from "react";
 import { Button } from "antd";
 import Http from "../../Helpers/Http";
 

@@ -1,9 +1,6 @@
 import React, { useEffect, useCallback } from "react";
-import { Button } from "antd";
 
 import Header from "../Header/Header";
-
-import Http from "../../Helpers/Http";
 
 import { connect } from "react-redux";
 import { readAllReports,readReport } from "../../Redux/Reducers/ReportReducer";
@@ -11,12 +8,12 @@ import { getAllReports, selectedReport } from "../../Redux/Actions/ReportActions
 import ReportsMenu from "../ReportsMenu/ReportsMenu";
 import ReportWorkspace from "../ReportWorkspace/ReportWorkspace";
 
-
+// Reports
 import BasicReport from "./Library/BasicReport";
 import BasicReportDate from "./Library/BasicReportDate";
 import CourseReport from "./Library/CourseReport";
 
-
+// TODO
 const currentReports = [
     {
         id : 1,
@@ -30,14 +27,7 @@ const currentReports = [
         name : "Listado de Proyectos por Curso ",
         componentResolver : "CourseReport",
         reportUrl : "/api/reports/reportProjectsFromStudent"
-        },
-        { 
-          id : 3,
-          name : "Listado de Tecnologias por Curso ",
-          componentResolver : "BasicReportDate",
-          reportUrl : "http://www.google.es"
-          } ,
-        
+        }
 ]
 
 const MapComponents = {

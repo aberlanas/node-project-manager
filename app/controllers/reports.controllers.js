@@ -7,18 +7,14 @@ const path = require('path');
 
 
 
-exports.reportAllProjectsHTML = async (fecha,params,req,res) =>{
-  console.log(params);
- 
+exports.reportProjectsDefense = async (params,req,res) =>{
 
-      let timeSignature = moment(fecha.date).locale('es').format('D [de] MMMM [de] YYYY');
-      var source = fs.readFileSync('./app/templates/reportAllProjects.html', 'utf-8');
+
+      let timeSignature = moment(params.timeSignature).locale('es').format('D [de] MMMM [de] YYYY');
+      var source = fs.readFileSync('./app/templates/reportProjectsDefense.html', 'utf-8');
       var template = handlebars.compile(source);
       params.timeSignature= timeSignature;
-      var outhtml = template({
-                            resp:params,
-                            timeSignature:timeSignature
-                          });
+      var outhtml = template(params);
   
     return outhtml;
 
@@ -28,21 +24,21 @@ exports.reportAllProjectsHTML = async (fecha,params,req,res) =>{
 exports.reportProjectsFromStudent = async (req,res) =>{
   // Some Options for this report
   
-  
-  let timeStamp  = moment().format("YYYYMMDD");
+  let timeSignature = moment().format("YYYYMMDD");
  
-  let reportName = "FCT_Proyectos_ListadoTodos_"+timeStamp+".pdf";
+  let reportName = "FCT_Proyectos_ListadoTodos_"+timeSignature+".pdf";
 
   let optsbase = "file://"+path.join(__dirname,"../../");
-  optsbase = "file:///home/aberlanas/GitHub/node-project-manager/";
+
   let options = {
     format:"A4",
     base:optsbase
   }
-  
+
   // If not date selected, use today.
-  let fecha = moment().format("YYYYMMDD");
-  if (req.body.reportData)fecha = req.body.reportData;
+  if (req.body.reportData.date) {
+    timeSignature = req.body.reportData.date;
+  }
 
   const connection = await model.getConnection();
   const [rows] = await connection.query("SELECT proj.id, proj.nombre FROM `Proyectos` proj INNER JOIN `PerfilesProyecto` pProj ON proj.id = pProj.id_proyecto WHERE pProj.id_usuario IN ("+req.body.reportData.users+")");
@@ -69,13 +65,16 @@ exports.reportProjectsFromStudent = async (req,res) =>{
     })
 
     ).then((resp) => {
-
       connection.end();
       return resp;
     
     });
 
-    let htmlFromReport = await this.reportAllProjectsHTML(fecha, await techProjects);
+    const params = { projects:await techProjects,
+      timeSignature : timeSignature
+     }
+
+    let htmlFromReport = await this.reportProjectsDefense(params);
     
     pdf.create(htmlFromReport, options).toFile("/tmp/"+reportName, function(err, resp) {
 
@@ -85,8 +84,6 @@ exports.reportProjectsFromStudent = async (req,res) =>{
         if (err) {
             console.log("Error");
             console.log(err);
-        } else {
-            console.log("Success");
         }
       });
     });
@@ -97,20 +94,22 @@ exports.reportAllProjects = async (req, res) => {
   // Some Options for this report
   
   
-  let timeStamp  = moment().format("YYYYMMDD");
+  let timeSignature  = moment().format("YYYYMMDD");
  
-  let reportName = "FCT_Proyectos_ListadoTodos_"+timeStamp+".pdf";
+  let reportName = "FCT_Proyectos_ListadoTodos_"+timeSignature+".pdf";
 
   let optsbase = "file://"+path.join(__dirname,"../../");
-  optsbase = "file:///home/aberlanas/GitHub/node-project-manager/";
+
   let options = {
     format:"A4",
     base:optsbase
   }
   
   // If not date selected, use today.
-  let fecha = moment().format("YYYYMMDD");
-  if (req.body.reportData)fecha = req.body.reportData;
+
+  if (req.body.reportData){
+    timeSignature = req.body.reportData.date;
+  }
 
 
   const connection = await model.getConnection();
@@ -139,13 +138,15 @@ exports.reportAllProjects = async (req, res) => {
     })
 
     ).then((resp) => {
-
+      // Adding Common  parameters and cleaning Stuffs
       connection.end();
       return resp;
-    
     });
 
-    let htmlFromReport = await this.reportAllProjectsHTML(fecha, await techProjects);
+    const params = { projects:await techProjects,
+      timeSignature : timeSignature
+     }
+    let htmlFromReport = await this.reportProjectsDefense(params);
     
     pdf.create(htmlFromReport, options).toFile("/tmp/"+reportName, function(err, resp) {
 
@@ -155,8 +156,6 @@ exports.reportAllProjects = async (req, res) => {
         if (err) {
             console.log("Error");
             console.log(err);
-        } else {
-            console.log("Success");
         }
       });
     });
