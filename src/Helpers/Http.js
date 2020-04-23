@@ -30,7 +30,8 @@ export default class Http {
         const request = this.getRequest(body, url, "POST")
         const res = await fetch(request)
         if (res.status !== 200){
-            return ({message:"DB Problem: No puedes pasar!"});
+            const resp = await res.json();
+            return ({message:resp.message,type:resp.type});
         }
         return await res.blob();
     }

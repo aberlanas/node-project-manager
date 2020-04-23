@@ -21,7 +21,6 @@ const currentReports = [
         componentResolver : "BasicReport",
         reportUrl : "/api/reports/reportAllProjects"
         } ,
-    
       {
         id : 2,
         name : "Listado de Proyectos por Curso ",

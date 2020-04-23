@@ -22,6 +22,14 @@ exports.reportProjectsDefense = async (params,req,res) =>{
 }
 
 exports.reportProjectsFromStudent = async (req,res) =>{
+
+
+  // Sanity Checks
+  if (!req.body.reportData.users.length){
+    return res.status(411).send({message:"No hay usuarios seleccionados",type:"error"})
+  }
+
+
   // Some Options for this report
   
   let timeSignature = moment().format("YYYYMMDD");

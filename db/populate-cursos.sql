@@ -12,6 +12,17 @@ INSERT INTO Cursos VALUES (NULL,"DAW 2","2019-2020");
 INSERT INTO UsuariosCurso VALUES (4,1);
 INSERT INTO UsuariosCurso VALUES (5,1);
 INSERT INTO UsuariosCurso VALUES (6,1);
+INSERT INTO UsuariosCurso VALUES (7,1);
+INSERT INTO UsuariosCurso VALUES (8,1);
+INSERT INTO UsuariosCurso VALUES (9,1);
+INSERT INTO UsuariosCurso VALUES (10,1);
+INSERT INTO UsuariosCurso VALUES (11,1);
+INSERT INTO UsuariosCurso VALUES (12,1);
+
+
+
+
+
 INSERT INTO UsuariosCurso VALUES (7,2);
 INSERT INTO UsuariosCurso VALUES (8,2);
 INSERT INTO UsuariosCurso VALUES (9,2);

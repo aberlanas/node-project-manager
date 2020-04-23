@@ -8,6 +8,8 @@ import Http from "../../../Helpers/Http";
 import { connect } from "react-redux";
 import { DatePicker, Select } from "antd";
 
+import "./CourseReport.css";
+
 import { readReport } from "../../../Redux/Reducers/ReportReducer";
 import { editReport } from "../../../Redux/Actions/ReportActions";
 import moment from "moment";
@@ -19,22 +21,29 @@ const CourseReport = ({ report, editReport }) => {
   const [courseSource, setCourseSource] = useState([]);
   const [course, setCourse] = useState("");
   const [projectsSource, setProjectsSource] = useState([]);
-  const [announcement, setAnnouncement ] = useState("Ordinaria");
+  const [announcement, setAnnouncement] = useState("Ordinaria");
 
   function onChangeDate(date, dateString) {
-    report.reportData = {...report.reportData, date: date };
+    report.reportData = { ...report.reportData, date: date };
     editReport(report);
   }
 
   const handleChangeCourse = (value) => {
     console.log(`Curso seleccionado ${value}`);
-    report.reportData = {users:[],date:""};
+    report.reportData = { users: [], date: "" };
     setCourse(value);
   };
 
   function handleChangeAnnouncement(value) {
     console.log(`selected ${value}`);
     setAnnouncement(value);
+
+    const mustBeChecked = value !== "Extraordinaria";
+
+    document.querySelectorAll("input[type]").forEach((e) => {
+      e.checked = mustBeChecked;
+      storeUser(e);
+    });
   }
 
   const replenishTableCourses = async () => {
@@ -63,37 +72,22 @@ const CourseReport = ({ report, editReport }) => {
   };
 
   const storeUser = (ev) => {
-    let e = (ev.target) ? ev.target: ev;
-    if (e.checked){
-      console.log(e)
+    let e = ev.target ? ev.target : ev;
+    if (e.checked) {
       report.reportData.users.push(e.id);
-      console.log(report);
-    }else{
-      console.log(e.id)
-      console.log("Nani");
-      report.reportData.users.splice(report.reportData.users.indexOf(e.id),1);
+    } else {
+      report.reportData.users.splice(report.reportData.users.indexOf(e.id), 1);
     }
-  }
+  };
 
   useEffect(() => {
     replenishTableUsersProject();
+    document.querySelectorAll("input[type]").forEach((e) => storeUser(e));
   }, [projectsSource]);
 
   useEffect(() => {
     replenishTableProjects();
   }, [course]);
-
-  // RAUL O RUBEN SI LEES ESTO AVISANOS
-  //           |
-  //           |
-  //           |
-  //           |
-  //          \/
-  useEffect(() => {
-      document.querySelectorAll('input[type]').forEach((e)=>{
-        storeUser(e);
-      });
-  },[projectsSource]);
 
   useEffect(() => {
     replenishTableCourses();
@@ -101,55 +95,62 @@ const CourseReport = ({ report, editReport }) => {
 
   return (
     <div>
+      <div className="titleReport">Informe de Proyectos por Curso</div>
       <div>
-        Selecciona curso :
-        <Select style={{ width: 120 }} onChange={handleChangeCourse}>
-          {courseSource.map((course) => {
+        <div className="paramsReport">
+          <div>Curso</div>
+          <div>
+            <Select style={{ width: 120 }} onChange={handleChangeCourse}>
+              {courseSource.map((course) => {
+                return (
+                  <Option key={course.id} value={course.id}>
+                    {course.nombre}
+                  </Option>
+                );
+              })}
+            </Select>
+          </div>
+
+          <div>Convocatoria</div>
+
+          <div>
+            <Select
+              style={{ width: 120 }}
+              defaultValue="Ordinaria"
+              onChange={handleChangeAnnouncement}
+            >
+              <Option value="Ordinaria">Ordinaria</Option>
+              <Option value="Extraordinaria">Extraordinaria</Option>
+            </Select>
+          </div>
+
+          <div>Fecha</div>
+          <div>
+            <DatePicker onChange={onChangeDate} defaultValue={moment()} />
+          </div>
+        </div>
+        
+        <div className="usersFromCourseTitle">
+          {(projectsSource.length) ? "Alumnado del Curso " : ""}  
+        </div>
+        
+        <div className="usersFromCourse">
+          {projectsSource.map((user) => {
             return (
-              <Option key={course.id} value={course.id}>
-                {course.nombre}
-              </Option>
+              <label key={user.id}>
+                <input
+                  className="cb_users"
+                  type="checkbox"
+                  id={user.id}
+                  value={user.id}
+                  onChange={storeUser}
+                  defaultChecked={announcement == "Ordinaria" ? true : ""}
+                />
+                {user.nombre} {user.apellidos}
+              </label>
             );
           })}
-        </Select>
-      </div>
-      <br />
-      <div>
-        Convocatoria :
-        <Select
-          style={{ width: 120 }}
-          defaultValue="Ordinaria"
-          onChange={handleChangeAnnouncement}
-        >
-          <Option value="Ordinaria">Ordinaria</Option>
-          <Option value="Extraordinaria">Extraordinaria</Option>
-        </Select>
-      </div>
-      <br />
-
-      <div>
-         {projectsSource.map((user) => {
-            return(
-            <label key={user.id}>
-              <input
-                className="cb_users"
-                type="checkbox"
-                id={user.id}
-                value={user.id}
-                onChange={storeUser}
-                defaultChecked={(announcement == "Ordinaria") ? true: ""}
-              />
-              {user.nombre} {user.apellidos}
-            </label>
-          );
-        })}
-        
-      </div>
-
-      <div>
-        Selecciona fecha para el Informe : &nbsp;&nbsp;
-        <DatePicker onChange={onChangeDate} defaultValue={moment()} />
-        <br />
+        </div>
       </div>
     </div>
   );

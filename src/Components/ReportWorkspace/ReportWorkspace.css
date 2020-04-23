@@ -7,3 +7,15 @@
     background-color: white;
     color:black;
 }
+
+.buttonReport{
+    font-size: large;
+    text-align: center;
+    vertical-align: center;
+}
+
+.buttonEra{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+}

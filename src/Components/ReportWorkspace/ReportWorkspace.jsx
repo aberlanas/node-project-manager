@@ -4,7 +4,8 @@
 // If they are: they proceed to the page
 // If not: they are redirected to the login page.
 import React from "react";
-import { Button } from "antd";
+import { Button, notification } from "antd";
+import { FilePdfOutlined } from "@ant-design/icons";
 import Http from "../../Helpers/Http";
 
 import {  Route } from "react-router-dom";
@@ -14,7 +15,30 @@ import { readAllReports,readReport } from "../../Redux/Reducers/ReportReducer";
 
 import "./ReportWorkspace.css"
 
+
+
+
 const ReportWorkspace = ({ component: Component, report,...rest }) => {
+
+  const openNotification = result => {
+    // TODO : 
+    switch (result.type){
+      case "success":
+        notification.success({
+          message: `${result.message}`,
+          placement:'bottomRight'
+        });
+        break;
+      default:
+        notification.error({
+          message: result.message,
+          placement:'bottomRight'
+        });
+    }
+  };
+
+
+
 
     return (
 
@@ -24,14 +48,25 @@ const ReportWorkspace = ({ component: Component, report,...rest }) => {
             <div className="reportWorkspace">
             <Component {...props} />
             <hr/>
+            <div className="buttonEra">
+
             <Button
+                className="buttonReport"
+                ghost={false}
+                type="default" 
+                icon={<FilePdfOutlined />}
                 onClick={async ()=>{
-                  console.log(report.reportData);
                   const pdfBlob = await Http.postPDF(report,report.reportUrl);
-                  const url = URL.createObjectURL(pdfBlob);
-                  window.open(url,'_blank');
+                  if (pdfBlob.message){
+                    openNotification(pdfBlob);
+                  }else{
+                    const url = URL.createObjectURL(pdfBlob);
+                    window.open(url,'_blank');
+                }
                 }}
             >Generar Informe</Button>
+            </div>
+            
             </div>  
           }
         />
