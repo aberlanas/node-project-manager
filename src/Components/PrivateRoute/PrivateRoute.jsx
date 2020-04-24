@@ -21,12 +21,10 @@ const PrivateRoute = ({ component: Component, user, logOutUser,...rest }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    //setLoading(true);
-    console.log(Component);
     (async () => {
       const authUser = await imLogged();
       
-      console.log(authUser);
+      
       if (!authUser.auth) {
         deleteCookie();
         logOutUser();
@@ -35,11 +33,7 @@ const PrivateRoute = ({ component: Component, user, logOutUser,...rest }) => {
       setLoading(false);
       
     })();
-    /*return () => { 
-      setIsLoggedIn(false);
-      //setLoading(true);
-    } */  
-  },[Component]);
+  },[Component,logOutUser]);
 
   return (
     <Route

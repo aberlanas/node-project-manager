@@ -7,6 +7,7 @@ const cookieParser = require('cookie-parser');
 
 const app = express();
 
+
 // Middleware for passport
 require('./config/passport');
 
@@ -38,6 +39,7 @@ app.use("/api/projects", require("./app/routes/projects.routes.js"));
 app.use("/api/reports", require("./app/routes/reports.routes.js"));
 app.use("/api/courses", require("./app/routes/courses.routes"));
 
+app.domainAngel ="http://localhost:3000/";
 
 app.listen(3000, () => {
     console.log(" * Miniserver UP and Running en http://localhost:3000");

@@ -10,3 +10,11 @@ export const selectedReport = (id) => {
 export const editReport = (report) => {
     return {type:"EDIT_REPORT",report}
 }
+
+export const addUserReport = (userId) => {
+    return {type:"ADD_USER_REPORT",userId}
+}
+
+export const removeUserReport = (userId) => {
+    return {type:"REMOVE_USER_REPORT",userId}
+}

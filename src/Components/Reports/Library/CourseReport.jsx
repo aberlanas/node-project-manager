@@ -3,7 +3,7 @@
 
 // If they are: they proceed to the page
 // If not: they are redirected to the login page.
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import Http from "../../../Helpers/Http";
 import { connect } from "react-redux";
 import { DatePicker, Select } from "antd";
@@ -57,33 +57,33 @@ const CourseReport = ({ report, editReport }) => {
     );
   };
 
-  const replenishTableProjects = async () => {
+  const replenishTableProjects = useCallback( async () => {
     if (!course) return;
 
     const data = await Http.get(
       "/api/projects/findAllProjectsByCourse/" + course
     );
     setProjectsSource(data);
-  };
+  },[course]);
 
-  const replenishTableUsersProject = async () => {
+  const replenishTableUsersProject = useCallback( async () => {
     if (!projectsSource) return;
     console.log("Busca usuarios");
-  };
+  },[projectsSource]);
 
-  const storeUser = (ev) => {
+  const storeUser = useCallback((ev) => {
     let e = ev.target ? ev.target : ev;
     if (e.checked) {
       report.reportData.users.push(e.id);
     } else {
       report.reportData.users.splice(report.reportData.users.indexOf(e.id), 1);
     }
-  };
+  },[]);
 
   useEffect(() => {
     replenishTableUsersProject();
     document.querySelectorAll("input[type]").forEach((e) => storeUser(e));
-  }, [projectsSource]);
+  }, [replenishTableUsersProject]);
 
   useEffect(() => {
     replenishTableProjects();
@@ -144,7 +144,7 @@ const CourseReport = ({ report, editReport }) => {
                   id={user.id}
                   value={user.id}
                   onChange={storeUser}
-                  defaultChecked={announcement == "Ordinaria" ? true : ""}
+                  defaultChecked={announcement === "Ordinaria" ? true : ""}
                 />
                 {user.nombre} {user.apellidos}
               </label>

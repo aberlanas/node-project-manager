@@ -5,9 +5,18 @@ const handlebars = require('handlebars');
 const fs = require("fs");
 const path = require('path');
 
+const fetch = require('node-fetch');
 
 
 exports.reportProjectsDefense = async (params,req,res) =>{
+
+  
+console.log(this.domainAngel);
+  const hola = fetch(this.domainAngel+"./api/projects/findAllProjects").then((res) => {
+    return res.json()
+  }).then( (resp) => {
+    console.log(resp);
+  });
 
 
       let timeSignature = moment(params.timeSignature).locale('es').format('D [de] MMMM [de] YYYY');
