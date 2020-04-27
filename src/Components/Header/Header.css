@@ -3,13 +3,18 @@
     color: white;
 }
 
-.profileIcon img {
-    height: 150px;
+.iconTitle{
+    margin: auto;
+    margin-left: 25px;
+    height: 70px;
+    width: auto;
+    border-radius: 10px;
+    box-shadow: 4px 4px 10px rgba(0,0,0,0.75);
 }
 
 .homeTitle {
     width: 100%;
-    height: 150px;
+    height: 110px;
     display: flex;
     justify-content: space-between;
     align-items: center;
