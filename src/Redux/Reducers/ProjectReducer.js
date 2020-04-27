@@ -29,7 +29,6 @@ const reducer = (state=initialState,action) => {
                 editProjectId:action.id
             }
         case "EDIT_PROJECT":
-
             return{
                 ...state,
                 projects:state.projects.map( project =>{

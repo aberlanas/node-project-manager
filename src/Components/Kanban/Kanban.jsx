@@ -1,52 +1,50 @@
 import React from "react";
-import Board from "@lourenci/react-kanban";
+import Board, {moveCard} from "@lourenci/react-kanban";
 
 import Http from "../../Helpers/Http";
 import { connect } from "react-redux";
 import { readProject } from "../../Redux/Reducers/ProjectReducer";
 import {
+  editProject,
   getAllProjects,
   selectedProject,
 } from "../../Redux/Actions/ProjectActions";
 import { useEffect, useState } from "react";
 
-const Kanban = ({ project }) => {
+const Kanban = ({ project, editProject}) => {
 
-  const [board, setBoard] = useState({
-    columns: [
-      {
-        id: 1,
-        title: "Backlog 2",
-        cards: [
-          {
-            id: 1,
-            title: "Add card",
-            description: "Add capability to add a card in a column",
-          },
-        ],
-      },
-      {
-        id: 2,
-        title: "Doing",
-        cards: [
-          {
-            id: 2,
-            title: "Drag-n-drop support",
-            description: "Move a card between the columns",
-          },
-        ],
-      },
-    ],
-  });
+  const [board, setBoard] = useState(project.tablero);
 
-  useEffect(() => {
+  function handleCardMove(_card, source, destination) {
+    const updatedBoard = moveCard(board, source, destination);
+    setBoard(updatedBoard);
+  }
+  useEffect(()=>{
+    console.log(board);
+    project.tablero = board;
+    editProject(project);
+  },[board]);
+
+  useEffect(()=>{
     setBoard(project.tablero);
-    console.log(project.tablero);
-  },[]);
-
-  return <Board>
-      {board}
-  </Board>;
+  },[project])
+  return (
+    <Board
+    onCardDragEnd={handleCardMove}
+    allowRemoveLane
+    allowRenameColumn
+    allowRemoveCard
+    onLaneRemove={console.log}
+    onCardRemove={console.log}
+    onLaneRename={console.log}
+    allowAddCard={{on:"top"}}
+    onNewCardConfirm={draftCard => ({
+      id: new Date().getTime(),
+      ...draftCard
+    })}
+    onCardNew={console.log}
+  >{board}</Board>
+  );
 };
 
 /*
@@ -62,4 +60,5 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, {
   getAllProjects,
   selectedProject,
+  editProject
 })(Kanban);
