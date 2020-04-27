@@ -68,7 +68,8 @@ CREATE TABLE  Cursos (
 CREATE TABLE  Proyectos ( 
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	nombre VARCHAR(255),
-    descripcion TEXT
+    descripcion TEXT,
+	tablero JSON
 );
 
 

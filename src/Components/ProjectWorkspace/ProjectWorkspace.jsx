@@ -8,6 +8,7 @@ import "./ProjectWorkspace.css";
 import ProjectDescription from "../ProjectDescription/ProjectDescription";
 import { Tabs } from "antd";
 import { BarsOutlined, InsertRowAboveOutlined,StarOutlined } from "@ant-design/icons";
+import Kanban from "../Kanban/Kanban";
 
 const { TabPane } = Tabs;
 
@@ -34,7 +35,7 @@ const ProjectWorkspace = ({ project }) => {
         }
         key="2"
       >
-        Kanban and chorris
+        <Kanban/>
       </TabPane>
       <TabPane
         tab={
