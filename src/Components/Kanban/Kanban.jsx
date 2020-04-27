@@ -1,5 +1,5 @@
 import React from "react";
-import Board, {moveCard} from "@lourenci/react-kanban";
+import Board, {moveCard,removeCard,moveColumn} from "@lourenci/react-kanban";
 
 import Http from "../../Helpers/Http";
 import { connect } from "react-redux";
@@ -13,45 +13,48 @@ import { useEffect, useState } from "react";
 
 const Kanban = ({ project, editProject}) => {
 
+  const saveProject = async () => {
+
+    const result = await Http.post(project,'/api/projects/updateKanbanProject/'+project.id);
+
+  }
+
   const [board, setBoard] = useState(project.tablero);
 
-  function handleCardMove(_card, source, destination) {
-    const updatedBoard = moveCard(board, source, destination);
-    setBoard(updatedBoard);
-  }
   useEffect(()=>{
-    console.log(board);
     project.tablero = board;
     editProject(project);
+    saveProject();
   },[board]);
 
   useEffect(()=>{
+    console.log(project);
     setBoard(project.tablero);
   },[project])
-  return (
-    <Board
-    onCardDragEnd={handleCardMove}
-    allowRemoveLane
-    allowRenameColumn
-    allowRemoveCard
-    onLaneRemove={console.log}
-    onCardRemove={console.log}
-    onLaneRename={console.log}
-    allowAddCard={{on:"top"}}
-    onNewCardConfirm={draftCard => ({
-      id: new Date().getTime(),
-      ...draftCard
-    })}
-    onCardNew={console.log}
-  >{board}</Board>
-  );
-};
 
-/*
-const mapStateToProps = (state) =>{
-    return {user:readUser(state)};
-}
-*/
+  function ReplenishBoard(){ 
+    return(   
+      <Board
+        onCardDragEnd={(card)=>{setBoard(card)}}
+        onColumnDragEnd={(column)=>{setBoard(column)}}
+        allowRenameColumn
+        allowRemoveCard
+        initialBoard={board}
+        onCardRemove={(resultBoard,source)=>{removeCard(board,source,resultBoard); setBoard(resultBoard);}}
+        onLaneRename={console.log}
+        allowAddCard={{on:"top"}}
+        onNewCardConfirm={draftCard => ({
+          id: new Date().getTime(),
+          ...draftCard
+        })}
+        onCardNew={(card)=>{setBoard(card)}}
+      />)};
+
+  return (<div>
+     <ReplenishBoard/>
+    </div>
+     );
+};
 
 const mapStateToProps = (state) => {
   return { project: readProject(state) };
