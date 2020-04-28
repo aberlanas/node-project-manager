@@ -1,19 +1,52 @@
 import React from "react";
 import "antd/dist/antd.css";
 import { connect } from "react-redux";
-import { readProject } from "../../Redux/Reducers/ProjectReducer";
+import { readProject,createProject,readAllProjects } from "../../Redux/Reducers/ProjectReducer";
+import { selectedProject}  from "../../Redux/Actions/ProjectActions";
 
 import "./ProjectWorkspace.css";
 
 import ProjectDescription from "../ProjectDescription/ProjectDescription";
-import { Tabs } from "antd";
+import { Tabs, Modal, Button } from "antd";
 import { BarsOutlined, InsertRowAboveOutlined,StarOutlined } from "@ant-design/icons";
 import Kanban from "../Kanban/Kanban";
+import { useState } from "react";
+import { useEffect } from "react";
 
 const { TabPane } = Tabs;
 
-const ProjectWorkspace = ({ project }) => {
+const ProjectWorkspace = ({ project,projects,selectedProject,createProject }) => {
+
+  const addProject = () => {
+    createProject({})
+  }
+
+  const [ showNewProject, setShowNewProject ] = useState(true);
+
+  function ModalNewProject(){
+    return(
+      <Modal
+    visible={showNewProject}
+    title="Crear Proyecto"
+    destroyOnClose={true}
+    onCancel={()=> {setShowNewProject(!showNewProject);selectedProject(projects[1].id)}}
+    okText="Salir"
+    cancelText="Cancelar"
+          >
+            <Button/>
+          </Modal>
+    );
+  }
+
+  useEffect(()=> {
+    setShowNewProject(true);
+  },[project]);
+
+
   return (
+
+    (project.id === "add") ? <ModalNewProject/>
+  : 
     <Tabs defaultActiveKey="1" className="projectWorkspace">
       <TabPane
         tab={
@@ -55,7 +88,9 @@ const ProjectWorkspace = ({ project }) => {
 };
 
 const mapStateToProps = (state) => {
-  return { project: readProject(state) };
+  return { project: readProject(state),
+          projects: readAllProjects(state)
+  };
 };
 
-export default connect(mapStateToProps)(ProjectWorkspace);
+export default connect(mapStateToProps,{selectedProject})(ProjectWorkspace);
