@@ -25,7 +25,8 @@ exports.updateKanbanProject = async (req,res)=>{
   
   const { tablero } = proyecto;
   console.log(tablero);
-  const [projectUpdated] = await connection.query("SELECT JSON_SET(tablero,'columns',"+tablero+") FROM `Proyectos` WHERE id = "+proyecto.id);
+  console.log("SELECT JSON_SET(tablero,"+JSON.stringify(tablero)+") FROM `Proyectos` WHERE id = "+proyecto.id);
+  const [projectUpdated] = await connection.query("UPDATE Proyectos set tablero = '"+JSON.stringify(tablero)+"' WHERE id = "+proyecto.id);
 
   connection.end();
 

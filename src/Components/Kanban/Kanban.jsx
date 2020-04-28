@@ -36,9 +36,8 @@ const Kanban = ({ project, editProject}) => {
     return(   
       <Board
         onCardDragEnd={(card)=>{setBoard(card)}}
-        onColumnDragEnd={(column)=>{setBoard(column)}}
-        allowRenameColumn
         allowRemoveCard
+        disableColumnDrag
         initialBoard={board}
         onCardRemove={(resultBoard,source)=>{removeCard(board,source,resultBoard); setBoard(resultBoard);}}
         onLaneRename={console.log}
