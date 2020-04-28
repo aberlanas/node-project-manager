@@ -7,9 +7,10 @@ import { selectedProject}  from "../../Redux/Actions/ProjectActions";
 import "./ProjectWorkspace.css";
 
 import ProjectDescription from "../ProjectDescription/ProjectDescription";
-import { Tabs, Modal, Button } from "antd";
+import { Tabs, Modal, Button, Form, Input } from "antd";
 import { BarsOutlined, InsertRowAboveOutlined,StarOutlined } from "@ant-design/icons";
 import Kanban from "../Kanban/Kanban";
+import Http from "../../Helpers/Http";
 import { useState } from "react";
 import { useEffect } from "react";
 
@@ -17,26 +18,18 @@ const { TabPane } = Tabs;
 
 const ProjectWorkspace = ({ project,projects,selectedProject,createProject }) => {
 
-  const addProject = () => {
-    createProject({})
-  }
-
   const [ showNewProject, setShowNewProject ] = useState(true);
+  const [ newProjectName, setNewProjectName ] = useState("");
 
-  function ModalNewProject(){
-    return(
-      <Modal
-    visible={showNewProject}
-    title="Crear Proyecto"
-    destroyOnClose={true}
-    onCancel={()=> {setShowNewProject(!showNewProject);selectedProject(projects[1].id)}}
-    okText="Salir"
-    cancelText="Cancelar"
-          >
-            <Button/>
-          </Modal>
-    );
-  }
+
+  const addProject = async (values) => {
+    const result = await Http.post(values,'/api/projects/createProject');
+    if(result){
+      result.key=result.id;
+      ///TODO
+      //createUser(result);
+    }   
+}  
 
   useEffect(()=> {
     setShowNewProject(true);
@@ -45,7 +38,25 @@ const ProjectWorkspace = ({ project,projects,selectedProject,createProject }) =>
 
   return (
 
-    (project.id === "add") ? <ModalNewProject/>
+    (project.id === "add") ?    <Modal
+    visible={showNewProject}
+    title="Crear Proyecto"
+    destroyOnClose={true}
+    onCancel={()=> {setShowNewProject(!showNewProject);selectedProject(projects[1].id)}}
+    onOk={()=>{console.log(newProjectName)}}
+    okText="Nuevo Proyecto"
+    cancelText="Cancelar"
+          >
+      <Form>
+      <Form.Item
+        label="Nombre del Proyecto"
+        name="name"
+          rules={[{ required: true, message: 'Pon un nombre al proyecto' }]}
+        >
+        <Input onChange={(e)=>{setNewProjectName(e.target.value)}}/>
+      </Form.Item>
+      </Form>
+    </Modal>
   : 
     <Tabs defaultActiveKey="1" className="projectWorkspace">
       <TabPane
