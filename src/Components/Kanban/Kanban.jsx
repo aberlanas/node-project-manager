@@ -1,59 +1,60 @@
 import React from "react";
-import Board from "@lourenci/react-kanban";
+import Board, {moveCard,removeCard,moveColumn} from "@lourenci/react-kanban";
 
 import Http from "../../Helpers/Http";
 import { connect } from "react-redux";
 import { readProject } from "../../Redux/Reducers/ProjectReducer";
 import {
+  editProject,
   getAllProjects,
   selectedProject,
 } from "../../Redux/Actions/ProjectActions";
 import { useEffect, useState } from "react";
 
-const Kanban = ({ project }) => {
+const Kanban = ({ project, editProject}) => {
 
-  const [board, setBoard] = useState({
-    columns: [
-      {
-        id: 1,
-        title: "Backlog 2",
-        cards: [
-          {
-            id: 1,
-            title: "Add card",
-            description: "Add capability to add a card in a column",
-          },
-        ],
-      },
-      {
-        id: 2,
-        title: "Doing",
-        cards: [
-          {
-            id: 2,
-            title: "Drag-n-drop support",
-            description: "Move a card between the columns",
-          },
-        ],
-      },
-    ],
-  });
+  const saveProject = async () => {
 
-  useEffect(() => {
+    const result = await Http.post(project,'/api/projects/updateKanbanProject/'+project.id);
+
+  }
+
+  const [board, setBoard] = useState(project.tablero);
+
+  useEffect(()=>{
+    project.tablero = board;
+    editProject(project);
+    saveProject();
+  },[board]);
+
+  useEffect(()=>{
+    console.log(project);
     setBoard(project.tablero);
-    console.log(project.tablero);
-  },[]);
+  },[project])
 
-  return <Board>
-      {board}
-  </Board>;
+  function ReplenishBoard(){ 
+    return(   
+      <Board
+        onCardDragEnd={(card)=>{setBoard(card)}}
+        onColumnDragEnd={(column)=>{setBoard(column)}}
+        allowRenameColumn
+        allowRemoveCard
+        initialBoard={board}
+        onCardRemove={(resultBoard,source)=>{removeCard(board,source,resultBoard); setBoard(resultBoard);}}
+        onLaneRename={console.log}
+        allowAddCard={{on:"top"}}
+        onNewCardConfirm={draftCard => ({
+          id: new Date().getTime(),
+          ...draftCard
+        })}
+        onCardNew={(card)=>{setBoard(card)}}
+      />)};
+
+  return (<div>
+     <ReplenishBoard/>
+    </div>
+     );
 };
-
-/*
-const mapStateToProps = (state) =>{
-    return {user:readUser(state)};
-}
-*/
 
 const mapStateToProps = (state) => {
   return { project: readProject(state) };
@@ -62,4 +63,5 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, {
   getAllProjects,
   selectedProject,
+  editProject
 })(Kanban);

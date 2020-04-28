@@ -13,7 +13,7 @@ run-react:
 
 create-db:
 	@echo " * Create the Database "
-	sudo mysql -u root -p < db/create-db-skel.sql 
+	sudo mysql -u root -pninguna < db/create-db-skel.sql 
 
 populate-db:
 	@echo " * [ DB ] : Populate Users "

@@ -17,6 +17,22 @@ exports.findAllProjectsByCourse = async (req,res) => {
 
 };
 
+exports.updateKanbanProject = async (req,res)=>{
+
+  const connection = await model.getConnection();
+
+  let proyecto = req.body;
+  
+  const { tablero } = proyecto;
+  console.log(tablero);
+  const [projectUpdated] = await connection.query("SELECT JSON_SET(tablero,'columns',"+tablero+") FROM `Proyectos` WHERE id = "+proyecto.id);
+
+  connection.end();
+
+  res.send({message:"ok"});
+
+}
+
 exports.updateProject = async (req, res) => {
   const alertMessage = {
     message: "",

@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from "react";
+import React, { useEffect, useCallback, useState } from "react";
 import Header from "../Header/Header";
 
 import "./Projects.css";
@@ -16,14 +16,16 @@ import {
 
 import ProjectMenu from "../ProjectMenu/ProjectMenu";
 import ProjectWorkspace from "../ProjectWorkspace/ProjectWorkspace";
+import { readProject } from "../../Redux/Reducers/ProjectReducer";
 
 
 
-const Projects = ({ getAllTechs, getAllUsers }) => {
+const Projects = ({ getAllTechs, getAllUsers, project }) => {
 
+  const [loading,setLoading] = useState(true);
   const replenishTable = useCallback(async () => {
-    const dataSource = await Http.get("/api/techs/findAllTechs");
-    const dataUsers = await Http.get("/api/users/getAllUsers");
+  const dataSource = await Http.get("/api/techs/findAllTechs");
+  const dataUsers = await Http.get("/api/users/getAllUsers");
     
     getAllTechs(
       dataSource.map(item => {
@@ -49,6 +51,8 @@ const Projects = ({ getAllTechs, getAllUsers }) => {
     //setLoading(false);
   }, [replenishTable]);
 
+
+
   return (
     <React.Fragment>
       <Header />
@@ -56,12 +60,13 @@ const Projects = ({ getAllTechs, getAllUsers }) => {
       <ProjectMenu className="projectMenu"/>
       <ProjectWorkspace/>
       
+      
     </React.Fragment>
   );
 };
 
 const mapStateToProps = state => {
-  return { techs: readAllTechs(state) };
+  return { techs: readAllTechs(state), project: readProject(state) };
 };
 
 export default connect(mapStateToProps, {
