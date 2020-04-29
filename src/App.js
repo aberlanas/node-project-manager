@@ -51,7 +51,6 @@ function App({ user, logUser }) {
       <div className="App">
     
         <Switch>
-
           <Route path="/login" exact>
             {user ? <Redirect to="/Home" /> : <Login />}
           </Route>
