@@ -11,9 +11,8 @@ body, #root {
     background-color: rgba(179, 169, 243) ;
 }
 
-
 .Spin{
-    height: 100vh;
+    height: 100%;
     position: absolute;
     left: 50%;
     top:50%;

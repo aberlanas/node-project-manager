@@ -6,3 +6,8 @@
 .titulo{
     height: 200px;
 }
+
+.projectActions{
+    float:right;
+    margin-right: 10px;
+}

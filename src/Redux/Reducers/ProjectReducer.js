@@ -5,7 +5,7 @@ const reducer = (state=initialState,action) => {
         case "CREATE_PROJECT":
                 return{
                     ...state,
-                    projects:[action.project].concat(state.projects)
+                    projects:state.projects.concat(action.project)
                 }
         case "GET_ALL_PROJECTS":
                 return{

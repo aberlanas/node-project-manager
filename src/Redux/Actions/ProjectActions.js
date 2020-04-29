@@ -10,7 +10,6 @@ export const selectedProject = (id) => {
     return {type:"SELECTED_PROJECT",id}
 }
 
-
 export const removeProject = (id) =>{
     return {type:"REMOVE_PROJECT",id}
 }

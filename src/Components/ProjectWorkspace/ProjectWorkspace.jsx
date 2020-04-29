@@ -1,13 +1,13 @@
 import React from "react";
 import "antd/dist/antd.css";
 import { connect } from "react-redux";
-import { readProject,createProject,readAllProjects } from "../../Redux/Reducers/ProjectReducer";
-import { selectedProject}  from "../../Redux/Actions/ProjectActions";
+import { readProject,readAllProjects } from "../../Redux/Reducers/ProjectReducer";
+import { selectedProject,createProject}  from "../../Redux/Actions/ProjectActions";
 
 import "./ProjectWorkspace.css";
 
 import ProjectDescription from "../ProjectDescription/ProjectDescription";
-import { Tabs, Modal, Button, Form, Input } from "antd";
+import { Tabs, Modal, Button, Form, Input, Checkbox } from "antd";
 import { BarsOutlined, InsertRowAboveOutlined,StarOutlined } from "@ant-design/icons";
 import Kanban from "../Kanban/Kanban";
 import Http from "../../Helpers/Http";
@@ -19,13 +19,14 @@ const { TabPane } = Tabs;
 const ProjectWorkspace = ({ project,projects,selectedProject,createProject }) => {
 
   const [ showNewProject, setShowNewProject ] = useState(true);
-  const [ newProjectName, setNewProjectName ] = useState("");
-
+  const [ newProject, setNewProject ] = useState({name:"",user:""});
 
   const addProject = async (values) => {
     const result = await Http.post(values,'/api/projects/createProject');
     if(result){
-      result.key=result.id;
+      console.log(result);
+      createProject(result);
+      selectedProject(result.id);
       ///TODO
       //createUser(result);
     }   
@@ -43,18 +44,30 @@ const ProjectWorkspace = ({ project,projects,selectedProject,createProject }) =>
     title="Crear Proyecto"
     destroyOnClose={true}
     onCancel={()=> {setShowNewProject(!showNewProject);selectedProject(projects[1].id)}}
-    onOk={()=>{console.log(newProjectName)}}
+    onOk={()=>{addProject(newProject)}}
     okText="Nuevo Proyecto"
     cancelText="Cancelar"
           >
       <Form>
+
       <Form.Item
         label="Nombre del Proyecto"
         name="name"
           rules={[{ required: true, message: 'Pon un nombre al proyecto' }]}
         >
-        <Input onChange={(e)=>{setNewProjectName(e.target.value)}}/>
+        <Input onChange={(e)=>{
+          setNewProject({...newProject,[e.target.id]:e.target.value})          
+          }}/>
       </Form.Item>
+
+      <Form.Item
+        label="Creador como alumno del proyecto"
+        name="user"
+          rules={[{ message: 'Usuario de la sesión asignado al proyecto' }]}
+        >
+        <Checkbox onChange={(e)=>{setNewProject({...newProject,[e.target.id]:(e.target.checked)?true:false})}}/>
+      </Form.Item>
+  
       </Form>
     </Modal>
   : 
@@ -104,4 +117,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps,{selectedProject})(ProjectWorkspace);
+export default connect(mapStateToProps,{selectedProject,createProject})(ProjectWorkspace);

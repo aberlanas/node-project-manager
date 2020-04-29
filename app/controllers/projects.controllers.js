@@ -34,6 +34,40 @@ exports.updateKanbanProject = async (req,res)=>{
 
 }
 
+
+exports.deleteProject = async (req,res) => {
+  const connection = await model.getConnection();
+  const [
+    rows,
+  ] = await connection.query(`DELETE FROM Proyectos WHERE id = ${req.params.id}`);
+
+  connection.end();
+  res.send({message:"Proyecto Borrado"});
+}
+
+
+
+exports.createProject = async (req,res) => {
+  const connection = await model.getConnection();
+  const [
+    rows,
+  ] = await connection.query(`INSERT INTO Proyectos VALUES (NULL,"${req.body.name}","Not null",'{"columns": [{"id": 1, "cards": [{"id": 1588063054071, "title": "Definir Persistencia", "description": "Define como se van a almacenar tus datos."}, {"id": 1588062943368, "title": "Presentar Mockup", "description": "Realiza un prototipo de tu proyecto y preséntalo al tutor"}, {"id": 1588062909503, "title": "Definir tecnologías", "description": "Define las tecnologías de tu proyecto"}], "title": "Backlog"}, {"id": 2, "cards": [], "title": "En proceso"}, {"id": 3, "cards": [], "title": "Revisión"}, {"id": 4, "cards": [], "title": "Terminado"}]}')`);
+
+  const [ auxRows ] = await connection.query(`INSERT INTO PerfilesProyecto VALUES (3,${req.user.id},${rows.insertId});`);
+  const [respProject] = await connection.query(`SELECT * FROM Proyectos WHERE id=${rows.insertId}`);
+  
+  connection.end();
+
+  respProject[0].tecnologias=[];
+  respProject[0].usuarios={
+      alumnos:[req.user],
+      profesores:[]
+  }
+
+  res.send(respProject[0]);
+}
+
+
 exports.updateProject = async (req, res) => {
   const alertMessage = {
     message: "",

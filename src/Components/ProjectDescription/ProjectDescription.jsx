@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { Descriptions, Popover, Avatar, Input, Button, Modal, Alert, notification } from "antd";
-import { EditOutlined, SaveOutlined } from "@ant-design/icons";
+import { EditOutlined, SaveOutlined, DeleteOutlined } from "@ant-design/icons";
 import Http from "../../Helpers/Http";
 import { connect } from "react-redux";
 import {
-  readProject,
+  readProject, 
+  readAllProjects,
 } from "../../Redux/Reducers/ProjectReducer";
 import {
   getAllProjects,
   selectedProject,
+  removeProject
 } from "../../Redux/Actions/ProjectActions";
 
 import "./ProjectDescription.css";
@@ -34,9 +36,7 @@ const contentPopOverUsers = (user) => {
   );
 };
 
-const ProjectDescription = ({ project }) => {
-
-
+const ProjectDescription = ({ project,projects,removeProject,selectedProject}) => {
 
   const [edited, setEdited] = useState(false);
   const [name, setName] = useState(project.nombre);
@@ -86,6 +86,17 @@ const ProjectDescription = ({ project }) => {
 
   }
 
+  const deleteProject = async() =>{
+
+      const result = await Http.get('/api/projects/deleteProject/'+project.id);
+      if(result){
+        console.log(result);
+        selectedProject(projects[1]);
+        removeProject(project.id);
+      }  
+  }
+
+
   //Cada vez que cambiamos de proyecto, seteamos las variables al valor de cada proyecto
   useEffect(() => {
     
@@ -105,6 +116,13 @@ const ProjectDescription = ({ project }) => {
         title={
           <span className="titulo">
             {project.nombre}
+            <div className="projectActions">
+              <Button
+              type="danger"
+              onClick={deleteProject}
+              >
+               <DeleteOutlined /> Borrar</Button>
+            </div>
             {showSaved ? <div> <Modal 
                          title="Usuario editado"
                          visible={showSaved}
@@ -304,11 +322,15 @@ const ProjectDescription = ({ project }) => {
 
 const mapStateToProps = (state) => {  
   
-  return { project: readProject(state) };
+  return { project: readProject(state),
+           projects: readAllProjects(state)
+  };
+
   
 };
 
 export default connect(mapStateToProps, {
   getAllProjects,
   selectedProject,
+  removeProject
 })(ProjectDescription);

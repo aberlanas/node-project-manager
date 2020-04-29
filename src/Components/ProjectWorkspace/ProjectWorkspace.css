@@ -4,3 +4,10 @@
     margin-right: 15px;
     padding-left: 10px;
 }
+
+.formNewProject{
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    gap:5px;
+}
