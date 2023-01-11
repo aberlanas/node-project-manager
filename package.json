@@ -36,7 +36,7 @@
     "handlebars": "^4.7.6",
     "html-pdf": "^2.2.0",
     "js-cookie": "^2.2.1",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "moment": "^2.24.0",
     "mysql2": "^2.1.0",
     "node-fetch": "^2.6.0",
